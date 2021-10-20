@@ -1,0 +1,11 @@
+<section class="UserList">
+  <ul class="UserList__container">
+    <li class="li" *ngFor="let user  of this.userList|keyvalue">
+      <img class="UserList__img" [src]="user.value.imgUrl">
+      <div class="column-left">
+        <p class="UserList__name">{{user.value.name}}</p>
+        <p class="UserList__summary">{{user.value.summary}}</p>
+      </div>
+    </li>
+  </ul>
+</section>

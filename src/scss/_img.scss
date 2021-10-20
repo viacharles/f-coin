@@ -1,0 +1,19 @@
+
+// for Icon & BackgroundImage
+
+
+.icon {
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+  &[block] {
+    display: block;
+  }
+  &_logo {
+    width: 24px;
+    height: 24px;
+    background-image: url('../assets/img/logo.png');
+    };
+}
+
+

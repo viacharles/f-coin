@@ -1,0 +1,32 @@
+.MainMenu {
+  position: fixed;
+  top: 0;
+  width: 100vw;
+  height: 80px;
+  color: rgb(242, 243, 246);
+  background: linear-gradient(45deg,rgb(79, 58, 99),rgb(49, 60, 107) );
+  &__leftColumn {
+    color: white;
+    line-height: 80px;
+    padding-left: 4%;
+    & > h1 {
+      margin: 0;
+      font-weight: 400;
+      font-size: 19px;
+    }
+  }
+  &__rightColumn {
+    padding-right: 8%;
+  }
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.TRNBackground {
+  background: transparent;
+  border-bottom: 1px solid rgba(255, 255, 255,.2);
+}

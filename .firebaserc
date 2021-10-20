@@ -1,0 +1,11 @@
+{
+  "targets": {
+    "f-coin-1bf5f": {
+      "hosting": {
+        "f-coin": [
+          "f-coin-1bf5f"
+        ]
+      }
+    }
+  }
+}

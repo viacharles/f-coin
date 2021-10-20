@@ -1,0 +1,8 @@
+<section class="FCoin column-center">
+  <div class="FCoin__container">
+    <h2 class="FCoin__status">{{this.status||'未啟動...'}}</h2>
+    <p class="FCoin__text">目前上線人數 {{this.peopleOnlineNumber||'--'}} 人</p>
+    <p class="FCoin__text">績效 {{this.coiningPerSec||'--'}} 顆/秒</p>
+    <button class="FCoin__btn" (click)="this.coiningSwitch()">{{this.buttonText}}</button>
+  </div>
+</section>
