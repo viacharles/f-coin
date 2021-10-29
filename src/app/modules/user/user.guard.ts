@@ -23,9 +23,7 @@ export class UserGuard extends UnSubOnDestroy implements CanActivate {
     return new Promise<boolean>((resolve) => {
       this.$user.friends$
         .pipe(takeUntil(this.onDestroy$))
-        .subscribe((friends) =>
-          friends ? resolve(true) : this.$user.fetchFirendList()
-        );
+        .subscribe((friends) => resolve(true));
     });
   }
 }

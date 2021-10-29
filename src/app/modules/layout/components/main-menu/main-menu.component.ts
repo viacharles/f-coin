@@ -18,7 +18,11 @@ export class MainMenuComponent implements OnInit {
   }
 
   get isCoiningPage(): boolean {
-    return this.pageName === getPageMap(Module.User).get(Page.FCoin)?.name;
+    return this.pageName === getPageMap(Module.Business).get(Page.FCoin)?.name;
+  }
+
+  public toChatRoomPage() {
+
   }
 
 }

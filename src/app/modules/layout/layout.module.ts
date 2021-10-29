@@ -11,7 +11,7 @@ import { MainFooterComponent } from './components/main-footer/main-footer.compon
   declarations: [LayoutComponent, MainMenuComponent, MainFooterComponent],
   imports: [
     CommonModule,
-    AppRoutingModule
+    AppRoutingModule,
   ],
   exports: [LayoutComponent]
 })

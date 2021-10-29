@@ -48,7 +48,7 @@ export class MainFooterComponent implements OnInit {
   ngOnInit(): void {}
 
   get isCoiningPage(): boolean {
-    return this.pageName === getPageMap(Module.User).get(Page.FCoin)?.name;
+    return this.pageName === getPageMap(Module.Business).get(Page.FCoin)?.name;
   }
 
   public getClassImgUrl(index: number): string {

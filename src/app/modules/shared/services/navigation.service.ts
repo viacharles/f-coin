@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Event, NavigationEnd, NavigationStart, Router } from '@angular/router';
+import { ActivatedRoute, Event, NavigationEnd, NavigationStart, Router, RouterEvent } from '@angular/router';
 import { getPageMap } from '@utility/map/router.map';
 import { Subject } from 'rxjs';
 import { filter, take } from 'rxjs/operators';
@@ -18,10 +18,11 @@ export class NavigationService {
       )
       .subscribe((event) => this.handleRouterEvent(event));
   }
-  /**
-   * 頁面標題名稱
-   */
+
   private pageName = new Subject<string>();
+  /**
+   * @description 頁面標題名稱
+   */
   public pageName$ = this.pageName.asObservable();
 
   private handleRouterEvent(event: Event): void {
@@ -39,3 +40,5 @@ export class NavigationService {
     this.pageName.next(getPageMap(ModuleName).get(PageName)?.name);
   }
 }
+
+

@@ -5,6 +5,12 @@
 
   &__container {
   color: aliceblue;
+
+  & > div {
+    height: 50px;
+    padding: 5px 0;
+    border: 1px solid black;
+  }
   }
 
   &__btn {
@@ -16,6 +22,11 @@
     border-radius: 5px;
     border:none;
     background: rgb(59, 137, 182);
+  }
+
+  &__text {
+    line-height: 40px;
+    vertical-align: baseline;
   }
 }
 

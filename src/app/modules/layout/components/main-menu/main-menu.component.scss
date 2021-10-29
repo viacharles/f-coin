@@ -20,7 +20,7 @@
   }
 }
 
-.row {
+.flex-direction {
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -29,4 +29,67 @@
 .TRNBackground {
   background: transparent;
   border-bottom: 1px solid rgba(255, 255, 255,.2);
+}
+
+.web-Icon-func {
+  display: none;
+}
+
+.icon-func {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  width: 40px;
+  height: 40px;
+  margin: 10px;
+  font-size: 14px;
+  text-align: center;
+  color: rgb(31, 43, 110);
+  background: yellow;
+  border-radius: 50%;
+}
+
+@media only screen and (min-width: 376px)  {
+
+.MainMenu {
+  top: 0;
+  left: -30;
+  width: 65px;
+  height: 100%;
+  animation: growWidth .2s ease-out;
+
+  &__leftColumn {
+    height: 50%;
+  }
+  &__rightColumn {
+    height: 50%;
+  }
+}
+
+.flex-direction {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.title {
+  opacity: 0;
+}
+
+.web-Icon-func {
+  display: flex
+}
+
+}
+
+@keyframes growWidth {
+  from {
+    opacity: .8;
+    width: 45px;
+  }
+  to {
+    opacity: 1;
+    width: 65px;
+  }
 }

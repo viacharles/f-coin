@@ -1,9 +1,10 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { Module } from '@utility/enum/route.enum';
+import { Module, Page } from '@utility/enum/route.enum';
 
-const routes: Routes = [{
-  path: '',
+const routes: Routes = [
+  {path: '', pathMatch: 'full', redirectTo: `${Module.User}/${Page.Chat}`},
+  {path: '',
   children: [
     {
       path: Module.Business,

@@ -1,8 +1,12 @@
 <section class="MainMenu" [class.TRNBackground]='this.isCoiningPage'>
-    <div class="MainMenu__leftColumn row">
-      <h1>{{this.pageName}}</h1>
+    <div class="MainMenu__leftColumn flex-direction">
+      <h1 class="title">{{this.pageName}}</h1>
+      <div class="web-Icon-func flex-direction">
+        <a  class="icon-func" (click)="this.toChatRoomPage()">聊天</a>
+        <a  class="icon-func">挖礦</a>
+      </div>
     </div>
-    <div class="MainMenu__rightColumn">
-      <i class="fa fa-ellipsis-v"></i>
+    <div class="MainMenu__rightColumn ">
+
     </div>
 </section>

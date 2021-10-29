@@ -1,10 +1,10 @@
-<section class="UserList">
+<section *ngIf="this.friends$ | async as friends" class="UserList">
   <ul class="UserList__container">
-    <li class="li" *ngFor="let user  of this.userList|keyvalue">
-      <img class="UserList__img" [src]="user.value.imgUrl">
+    <li class="li" *ngFor="let friend  of friends">
+      <img class="UserList__img">
       <div class="column-left">
-        <p class="UserList__name">{{user.value.name}}</p>
-        <p class="UserList__summary">{{user.value.summary}}</p>
+        <p class="UserList__name">{{friend.name}}</p>
+        <p class="UserList__summary">{{friend.id}}</p>
       </div>
     </li>
   </ul>

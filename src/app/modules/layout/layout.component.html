@@ -1,5 +1,5 @@
 <section *ngIf="this.$navigation.pageName$ | async as name" class="Layout">
-  <app-main-menu [pageName] = "name"></app-main-menu>
+  <app-main-menu  [pageName] = "name"></app-main-menu>
   <div class="Layout__main">
     <router-outlet></router-outlet>
   </div>
