@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
-import { ActivatedRoute, Event, NavigationEnd, NavigationStart, Router, RouterEvent } from '@angular/router';
+import { Event, NavigationEnd, NavigationStart, Router } from '@angular/router';
+import { Module, Page } from '@utility/enum/route.enum';
 import { getPageMap } from '@utility/map/router.map';
-import { Subject } from 'rxjs';
-import { filter, take } from 'rxjs/operators';
+import { BehaviorSubject, Subject } from 'rxjs';
+import { filter } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
@@ -19,11 +20,13 @@ export class NavigationService {
       .subscribe((event) => this.handleRouterEvent(event));
   }
 
+  private defaultPagePath = `${Module.User}/${Page.Chat}`;
+
   private pageName = new Subject<string>();
-  /**
-   * @description 頁面標題名稱
-   */
   public pageName$ = this.pageName.asObservable();
+
+  private currentPagePath = new BehaviorSubject<string>(this.defaultPagePath);
+  public currentPagePath$ = this.currentPagePath.asObservable();
 
   private handleRouterEvent(event: Event): void {
     if (event instanceof NavigationStart) {
@@ -38,6 +41,7 @@ export class NavigationService {
     const ModuleName = event.url.split('/')[1];
     const PageName = event.url.split('/')[2];
     this.pageName.next(getPageMap(ModuleName).get(PageName)?.name);
+    this.currentPagePath.next(event.url);
   }
 }
 

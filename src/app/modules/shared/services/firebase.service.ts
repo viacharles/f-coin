@@ -8,6 +8,9 @@ import {
   providedIn: 'root',
 })
 export class FirebaseService {
+  tap(arg0: (_: any) => void) {
+    throw new Error('Method not implemented.');
+  }
   constructor(private $store: AngularFirestore) {}
 
   public request = (collection: string) => ({
@@ -20,7 +23,7 @@ export class FirebaseService {
     update: (target: any, doc: string) =>
       this.getDoc(collection, doc).update(target),
     delete: (doc: string) => this.getDoc(collection, doc).delete(),
-  });
+  })
 
   public watch = (collection: string) => ({
     onChanges$: () => this.$store.collection(collection).valueChanges(),
@@ -28,7 +31,7 @@ export class FirebaseService {
       onChanges$: () =>
         this.$store.collection(collection).doc(doc).valueChanges(),
     }),
-  });
+  })
 
   private readDocument(collection: string, doc: string): Promise<any> {
     return new Promise<any>((resolve) => {

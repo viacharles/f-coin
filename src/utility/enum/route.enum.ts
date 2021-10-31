@@ -1,6 +1,8 @@
 
 /**
- * for router combinations
+ * @description for Module path
+ * @param Business  'business'
+ * @param User  'user'
  */
 export enum Module {
   Business = 'business',
@@ -8,7 +10,9 @@ export enum Module {
 }
 
 /**
- * Module.Coin = 'coining'
+ * @description for Page path
+ * @param FCoin 'f-coin'
+ * @param Chat 'chat'
  */
 export enum Page {
   FCoin = 'f-coin',

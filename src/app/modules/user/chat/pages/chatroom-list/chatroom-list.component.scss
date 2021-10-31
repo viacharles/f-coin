@@ -1,8 +1,8 @@
 .UserList {
   overflow-y: auto;
   width: 100%;
-  height: calc(100% - 160px);
-  margin: 80px 0;
+  height: calc(100% - 30px);
+  margin: 15px 0;
   & > ul {
     overflow-y: auto;
     width: 100%;
@@ -12,8 +12,8 @@
     padding-inline-start:0;
   }
   &__img {
-    width: 60px;
-    height: 60px;
+    min-width: 42px;
+    height: 42px;
     margin: 0 5px 0 0;
     background-color: rgb(149, 255, 237);
     border-radius: 50%;
@@ -34,8 +34,8 @@
   display: flex;
   flex-direction: row;
   align-items: flex-start;
-  width: calc(100% - 40px);
-  padding: 7px 20px;
+  width: calc(100% - 36px);
+  padding: 7px 18px;
 }
 
 .column-left {
@@ -46,12 +46,6 @@
 }
 
 @media only screen and (min-width: 376px)  {
-
-.UserList {
-  height: 100%;
-  width: calc(100% - 65px) !important;
-  margin: 0 0 0 65px;
-}
 
 .li {
   width: calc(100%-55px);

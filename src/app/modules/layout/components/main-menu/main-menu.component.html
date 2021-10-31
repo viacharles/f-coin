@@ -1,12 +1,20 @@
-<section class="MainMenu" [class.TRNBackground]='this.isCoiningPage'>
-    <div class="MainMenu__leftColumn flex-direction">
-      <h1 class="title">{{this.pageName}}</h1>
-      <div class="web-Icon-func flex-direction">
-        <a  class="icon-func" (click)="this.toChatRoomPage()">聊天</a>
-        <a  class="icon-func">挖礦</a>
-      </div>
+<section class="MainMenu">
+  <div class="MainMenu__leftColumn flex-direction">
+    <h1 class="title">{{this.pageName}}</h1>
+    <div class="web-Icon-func flex-direction">
+      <a class="icon-func-button"
+        [class.icon-func-button-active]="this.isThisPage(this.EModule.User, this.EPage.Chat)"
+        (click)="this.toFuncPage(this.EModule.User, this.EPage.Chat)">
+        <span class="material-icons">3p</span>
+      </a>
+      <a class="icon-func-button"
+        [class.icon-func-button-active]="this.isThisPage(this.EModule.Business, this.EPage.FCoin)"
+        (click)="this.toFuncPage(this.EModule.Business, this.EPage.FCoin)">
+        <span class="material-icons">trending_up</span>
+      </a>
     </div>
-    <div class="MainMenu__rightColumn ">
+  </div>
+  <div class="MainMenu__rightColumn ">
 
-    </div>
+  </div>
 </section>

@@ -1,6 +1,4 @@
 .MainMenu {
-  position: fixed;
-  top: 0;
   width: 100vw;
   height: 80px;
   color: rgb(242, 243, 246);
@@ -8,7 +6,7 @@
   &__leftColumn {
     color: white;
     line-height: 80px;
-    padding-left: 4%;
+    padding-left: 20px;
     & > h1 {
       margin: 0;
       font-weight: 400;
@@ -35,32 +33,36 @@
   display: none;
 }
 
-.icon-func {
+.icon-func-button {
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
   width: 40px;
   height: 40px;
-  margin: 10px;
+  margin: 3px 0;
   font-size: 14px;
   text-align: center;
-  color: rgb(31, 43, 110);
-  background: yellow;
-  border-radius: 50%;
+  color: var(--Iconwhite);
+  opacity: .6;
+  cursor: default;
+  &-active {
+    opacity: 1;
+  }
 }
 
 @media only screen and (min-width: 376px)  {
 
 .MainMenu {
-  top: 0;
-  left: -30;
-  width: 65px;
+
+  width: 50px;
   height: 100%;
   animation: growWidth .2s ease-out;
 
   &__leftColumn {
     height: 50%;
+    padding: 20px 0 0 0;
+    line-height: 0;
   }
   &__rightColumn {
     height: 50%;
@@ -78,18 +80,29 @@
 }
 
 .web-Icon-func {
-  display: flex
+  display: flex;
+  animation: Looming 1s;
 }
 
 }
 
 @keyframes growWidth {
-  from {
-    opacity: .8;
-    width: 45px;
+  0% {
+    width: 0;
   }
-  to {
+  50% {
+    width: 40px;
+  }
+  100% {
+    width: 50px;
+  }
+}
+
+@keyframes Looming {
+  0% {
+    opacity: 0;
+  }
+  100% {
     opacity: 1;
-    width: 65px;
   }
 }
