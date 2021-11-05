@@ -3,7 +3,8 @@ import { Event, NavigationEnd, NavigationStart, Router } from '@angular/router';
 import { Module, Page } from '@utility/enum/route.enum';
 import { getPageMap } from '@utility/map/router.map';
 import { BehaviorSubject, Subject } from 'rxjs';
-import { filter } from 'rxjs/operators';
+import { filter, tap } from 'rxjs/operators';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root',
@@ -20,13 +21,8 @@ export class NavigationService {
       .subscribe((event) => this.handleRouterEvent(event));
   }
 
-  private defaultPagePath = `${Module.User}/${Page.Chat}`;
-
-  private pageName = new Subject<string>();
-  public pageName$ = this.pageName.asObservable();
-
-  private currentPagePath = new BehaviorSubject<string>(this.defaultPagePath);
-  public currentPagePath$ = this.currentPagePath.asObservable();
+  private pageName = new BehaviorSubject<string | undefined>(undefined);
+  public pageName$ = this.pageName.asObservable().pipe(filter((name) => !!name));
 
   private handleRouterEvent(event: Event): void {
     if (event instanceof NavigationStart) {
@@ -38,11 +34,12 @@ export class NavigationService {
   }
 
   private onNavigationEnd(event: NavigationEnd): void {
-    const ModuleName = event.url.split('/')[1];
-    const PageName = event.url.split('/')[2];
-    this.pageName.next(getPageMap(ModuleName).get(PageName)?.name);
-    this.currentPagePath.next(event.url);
+    if (event.url === '/') {
+      this.router.navigateByUrl(environment.defaultUrl);
+    } else {
+      const ModuleName = event.url.split('/')[1];
+      const PageName = event.url.split('/')[2];
+      this.pageName.next(getPageMap(ModuleName).get(PageName)?.name);
+    }
   }
 }
-
-

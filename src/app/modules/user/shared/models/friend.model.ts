@@ -3,20 +3,15 @@ import { IFriend } from '@utility/interface/user.inteface';
 
 export class Friend implements IFriend {
   public id: string;
-  public name: string = '';
-  constructor(id: string, private $firebase: FirebaseService) {
+  public name: string;
+  public latestSentence: string;
+  public lastSendTime: string;
+  public top = false;
+  constructor({ id, name, latestSentence, lastSendTime, top }: IFriend) {
     this.id = id;
-  }
-
-  public initial(): Promise<boolean> {
-    return new Promise<boolean>((resolve) =>
-      this.$firebase
-        .request('user')
-        .read(this.id)
-        .then(({ name }) => {
-          this.name = name;
-          resolve(true);
-        })
-    );
+    this.name = name;
+    this.lastSendTime = lastSendTime;
+    this.latestSentence = latestSentence;
+    this.top = top;
   }
 }

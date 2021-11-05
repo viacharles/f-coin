@@ -43,5 +43,9 @@ const users = [
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
-  constructor(private $store: FirebaseService, private fb: AngularFirestore) {}
+  constructor(private $store: FirebaseService, private fb: AngularFirestore) {
+  }
+
+
+
 }

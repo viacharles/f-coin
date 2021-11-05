@@ -1,20 +1,59 @@
-<section class="MainMenu">
-  <div class="MainMenu__leftColumn flex-direction">
-    <h1 class="title">{{this.pageName}}</h1>
-    <div class="web-Icon-func flex-direction">
-      <a class="icon-func-button"
-        [class.icon-func-button-active]="this.isThisPage(this.EModule.User, this.EPage.Chat)"
-        (click)="this.toFuncPage(this.EModule.User, this.EPage.Chat)">
-        <span class="material-icons">3p</span>
-      </a>
-      <a class="icon-func-button"
-        [class.icon-func-button-active]="this.isThisPage(this.EModule.Business, this.EPage.FCoin)"
-        (click)="this.toFuncPage(this.EModule.Business, this.EPage.FCoin)">
-        <span class="material-icons">trending_up</span>
-      </a>
-    </div>
-  </div>
-  <div class="MainMenu__rightColumn ">
+<aside class="Menu">
+  <h1 class="Menu__Title">{{this.pageName}}</h1>
+  <ul>
+    <li *ngFor="let items of (this.userMenu | keyvalue)">
+      <ng-template
+        [ngTemplateOutlet]="tMenuItem"
+        [ngTemplateOutletContext]="{
+                                    module: this.module.User,
+                                    page: items.key,
+                                    config: items.value
+                                    }">
+      </ng-template>
+    </li>
+    <li *ngFor="let items of (this.businessMenu | keyvalue)">
+      <ng-template
+        [ngTemplateOutlet]="tMenuItem"
+        [ngTemplateOutletContext]="{
+                                      module: this.module.Business,
+                                      page: items.key,
+                                      config: items.value
+                                    }">
+      </ng-template>
+    </li>
+  </ul>
+</aside>
 
-  </div>
-</section>
+<ng-template #tMenuItem
+  let-module = "module"
+  let-page = "page"
+  let-config = "config">
+  <input class="Menu__Checkbox" type="radio"
+  [id]="'menu-item'+module+'-'+page"
+  [checked]="this.router.url === '/'+module+'/'+page"
+  (change)="this.router.navigateByUrl(module+'/'+page)">
+  <label class="Menu__Icons material-icons"
+    [for]="'menu-item'+module+'-'+page">
+    {{config.icon}}
+  </label>
+</ng-template>
+
+
+
+<!-- <li *ngFor="let menu of (this.userMenu | keyvalue)">
+  <ng-template [ngTemplateOutlet]="tMenuItem"
+    [ngTemplateOutletContext]="{page: menu.key,config: menu.value, module: this.module.User}">
+  </ng-template>
+</li>
+<li *ngFor="let menu of (this.businessMenu | keyvalue)">
+  <ng-template [ngTemplateOutlet]="tMenuItem"
+    [ngTemplateOutletContext]="{page: menu.key,config: menu.value, module: this.module.Business}">
+  </ng-template>
+</li>
+<ng-template #tMenuItem let-config="config" let-page="page" let-module="module">
+  <input [checked]="this.router.url === '/' + module + '/'+ page" [id]="'menu-item-' + module + '-' + page" type="radio"
+    name="menu-item" (change)="this.router.navigateByUrl(module + '/'+ page)">
+  <label [for]="'menu-item-' + module + '-' + page" class="material-icons " ngClass='Menu__icons '>
+    {{config.icon}}
+  </label>
+</ng-template> -->

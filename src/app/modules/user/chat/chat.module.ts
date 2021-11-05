@@ -9,7 +9,7 @@ import { ChatroomListComponent } from './pages/chatroom-list/chatroom-list.compo
   declarations: [ChatroomListComponent],
   imports: [
     CommonModule,
-    ChatRoutingModule
+    ChatRoutingModule,
   ]
 })
 export class ChatModule { }

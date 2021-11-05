@@ -1,7 +1,16 @@
 <section *ngIf="this.$navigation.pageName$ | async as name" class="Layout">
-  <app-main-menu  [pageName] = "name"></app-main-menu>
-  <div class="Layout__main">
-    <router-outlet></router-outlet>
+  <aside class="Layout__Aside">
+    <app-main-menu></app-main-menu>
+  </aside>
+  <div class="Layout__Main">
+    <header>
+      <app-header></app-header>
+    </header>
+    <main>
+      <router-outlet></router-outlet>
+    </main>
+    <footer>
+      <app-main-footer></app-main-footer>
+    </footer>
   </div>
-  <app-main-footer [pageName] = "name"></app-main-footer>
 </section>

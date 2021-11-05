@@ -1,88 +1,38 @@
-.MainMenu {
-  width: 100vw;
-  height: 80px;
-  color: rgb(242, 243, 246);
-  background: linear-gradient(45deg,rgb(79, 58, 99),rgb(49, 60, 107) );
-  &__leftColumn {
-    color: white;
-    line-height: 80px;
-    padding-left: 20px;
-    & > h1 {
-      margin: 0;
-      font-weight: 400;
-      font-size: 19px;
-    }
-  }
-  &__rightColumn {
-    padding-right: 8%;
-  }
-}
-
-.flex-direction {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-}
-
-.TRNBackground {
-  background: transparent;
-  border-bottom: 1px solid rgba(255, 255, 255,.2);
-}
-
-.web-Icon-func {
-  display: none;
-}
-
-.icon-func-button {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  width: 40px;
-  height: 40px;
-  margin: 3px 0;
-  font-size: 14px;
-  text-align: center;
-  color: var(--Iconwhite);
-  opacity: .6;
-  cursor: default;
-  &-active {
-    opacity: 1;
-  }
-}
-
-@media only screen and (min-width: 376px)  {
-
-.MainMenu {
-
-  width: 50px;
-  height: 100%;
-  animation: growWidth .2s ease-out;
-
-  &__leftColumn {
-    height: 50%;
-    padding: 20px 0 0 0;
-    line-height: 0;
-  }
-  &__rightColumn {
-    height: 50%;
-  }
-}
-
-.flex-direction {
+.Menu {
   display: flex;
   flex-direction: column;
   align-items: center;
+
+  height: 100%;
+  background: linear-gradient(190deg, rgb(68, 53, 95), rgb(29, 44, 73));
+
+  & > ul {
+    display: none;
+    flex-direction: column;
+    padding: 30px 0 0 0;
+  }
 }
 
-.title {
-  opacity: 0;
-}
 
-.web-Icon-func {
-  display: flex;
-  animation: Looming 1s;
-}
+@media screen and (min-width: 370px) {
+  .Menu {
+    animation: growWidth .3s forwards;
+    & > ul {
+      display: flex;
+    }
+    &__Checkbox {
+      display: none;
+      &:checked +label {
+        opacity: 1;
+      }
+    }
+    &__Icons {
+      padding: 5px 0;
+      color: var(--IconWhite);
+      opacity: .5;
+      animation: Looming .8s ;
+    }
+  }
 
 }
 
@@ -103,6 +53,6 @@
     opacity: 0;
   }
   100% {
-    opacity: 1;
+    opacity: .5;
   }
 }

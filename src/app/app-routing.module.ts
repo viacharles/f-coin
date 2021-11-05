@@ -3,7 +3,6 @@ import { Routes, RouterModule } from '@angular/router';
 import { Module, Page } from '@utility/enum/route.enum';
 
 const routes: Routes = [
-  {path: '', pathMatch: 'full', redirectTo: `${Module.User}/${Page.Chat}`},
   {path: '',
   children: [
     {

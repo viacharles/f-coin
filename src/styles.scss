@@ -1,5 +1,5 @@
-@import 'img.scss';
-
+@import "reset.scss";
+@import "img.scss";
 
 body {
   width: 100vw;
@@ -7,13 +7,8 @@ body {
   padding: 0;
 }
 
-
 p {
   margin-block-start: 0 !important;
   margin-block-end: 0 !important;
 }
 
-:root {
-  //color
-  --IconWhite: rgb(245, 244, 244);
-}

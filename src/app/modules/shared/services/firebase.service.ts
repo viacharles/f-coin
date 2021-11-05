@@ -1,17 +1,19 @@
 import { Injectable } from '@angular/core';
+import { FirebaseApp } from '@angular/fire';
 import {
   AngularFirestore,
   AngularFirestoreDocument,
 } from '@angular/fire/firestore';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
 })
 export class FirebaseService {
-  tap(arg0: (_: any) => void) {
-    throw new Error('Method not implemented.');
-  }
-  constructor(private $store: AngularFirestore) {}
+  constructor(
+    private $store: AngularFirestore,
+    private $storage: FirebaseApp
+  ) {}
 
   public request = (collection: string) => ({
     create: (target: any, doc: string) =>
@@ -20,10 +22,26 @@ export class FirebaseService {
       doc
         ? this.readDocument(collection, doc)
         : this.readCollection(collection),
+    read$: (doc?: string) =>
+      doc
+        ? this.getDoc(collection, doc)
+            .get()
+            .pipe(map((res) => res.data()))
+        : this.$store
+            .collection(collection)
+            .get()
+            .pipe(
+              map((res) =>
+                res.docs.map((resDoc) => ({
+                  key: resDoc.id,
+                  value: resDoc.data(),
+                }))
+              )
+            ),
     update: (target: any, doc: string) =>
       this.getDoc(collection, doc).update(target),
     delete: (doc: string) => this.getDoc(collection, doc).delete(),
-  })
+  });
 
   public watch = (collection: string) => ({
     onChanges$: () => this.$store.collection(collection).valueChanges(),
@@ -31,7 +49,7 @@ export class FirebaseService {
       onChanges$: () =>
         this.$store.collection(collection).doc(doc).valueChanges(),
     }),
-  })
+  });
 
   private readDocument(collection: string, doc: string): Promise<any> {
     return new Promise<any>((resolve) => {

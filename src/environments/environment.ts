@@ -2,8 +2,11 @@
 // `ng build --prod` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
 
+import { Module, Page } from '@utility/enum/route.enum';
+
 export const environment = {
   production: false,
+  defaultUrl: `${Module.User}/${Page.Chat}`,
   firebaseConfig: {
     apiKey: 'AIzaSyAJ-b0JwMjkqFkOTEQxBdKBCZFXCbzkf_Q',
     authDomain: 'f-coin-1bf5f.firebaseapp.com',
@@ -11,8 +14,8 @@ export const environment = {
     storageBucket: 'f-coin-1bf5f.appspot.com',
     messagingSenderId: '516639164071',
     appId: '1:516639164071:web:c7326f2d951b027c86fd82',
-    measurementId: 'G-RY2EQ8FL6X'
-  }
+    measurementId: 'G-RY2EQ8FL6X',
+  },
 };
 
 /*

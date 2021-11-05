@@ -1,44 +1,26 @@
-import { Component, Input, OnInit, Renderer2 } from '@angular/core';
+import { Component, Input} from '@angular/core';
 import { Router } from '@angular/router';
-import { NavigationService } from '@shared/services/navigation.service';
-import { Module, Page } from '@utility/enum/route.enum';
+import { Module } from '@utility/enum/route.enum';
 import { getPageMap } from '@utility/map/router.map';
 
 @Component({
   selector: 'app-main-menu',
   templateUrl: './main-menu.component.html',
-  styleUrls: ['./main-menu.component.scss']
+  styleUrls: ['./main-menu.component.scss'],
 })
-export class MainMenuComponent implements OnInit {
-
+export class MainMenuComponent {
   @Input() pageName = '';
 
-  constructor(private router: Router, private render: Renderer2, private $navigation: NavigationService) {  }
-
-private currentPagePath = '';
-
-  ngOnInit(): void {
-    this.$navigation.currentPagePath$.subscribe(path => this.currentPagePath = path);
+  constructor(
+    public router: Router,
+  ) {
+    console.log('MainMenu', this.router.url)
   }
 
-  get EModule(): typeof Module {
+  get module(): typeof Module {
     return Module;
   }
 
-  get EPage(): typeof Page {
-    return Page;
-  }
-
-  get isCoiningPage(): boolean {
-    return this.pageName === getPageMap(Module.Business).get(Page.FCoin)?.name;
-  }
-
-  public isThisPage(module: Module, page: Page): boolean {
-     return `/${module}/${page}` === this.currentPagePath;
-  }
-
-  public toFuncPage(module: Module, page: Page): void {
-    this.router.navigateByUrl(`${module}/${page}`);
-  }
-
+  public businessMenu = getPageMap(Module.Business);
+  public userMenu = getPageMap(Module.User);
 }
