@@ -11,8 +11,7 @@ import { map } from 'rxjs/operators';
 })
 export class FirebaseService {
   constructor(
-    private $store: AngularFirestore,
-    private $storage: FirebaseApp
+    private $store: AngularFirestore
   ) {}
 
   public request = (collection: string) => ({

@@ -21,8 +21,11 @@ export class NavigationService {
       .subscribe((event) => this.handleRouterEvent(event));
   }
 
-  private pageName = new BehaviorSubject<string | undefined>(undefined);
-  public pageName$ = this.pageName.asObservable().pipe(filter((name) => !!name));
+  get currentPageName() {
+    return getPageMap(this.router.url.split('/')[0]).get(
+      this.router.url.split('/')[1]
+    )?.name;
+  }
 
   private handleRouterEvent(event: Event): void {
     if (event instanceof NavigationStart) {
@@ -36,10 +39,6 @@ export class NavigationService {
   private onNavigationEnd(event: NavigationEnd): void {
     if (event.url === '/') {
       this.router.navigateByUrl(environment.defaultUrl);
-    } else {
-      const ModuleName = event.url.split('/')[1];
-      const PageName = event.url.split('/')[2];
-      this.pageName.next(getPageMap(ModuleName).get(PageName)?.name);
     }
   }
 }

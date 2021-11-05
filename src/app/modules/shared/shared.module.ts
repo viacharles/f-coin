@@ -1,14 +1,11 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { LoadingComponent } from './components/loading/loading.component';
 import { FullScreenOverlayOutletComponent } from './components/full-screen-overlay-outlet/full-screen-overlay-outlet.component';
-
-
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [FullScreenOverlayOutletComponent],
-  imports: [
-    CommonModule
-  ]
+  imports: [CommonModule, FormsModule, ReactiveFormsModule],
+  exports: [FormsModule, ReactiveFormsModule],
 })
-export class SharedModule { }
+export class SharedModule {}

@@ -5,15 +5,18 @@ import { MainMenuComponent } from './components/main-menu/main-menu.component';
 import { AppRoutingModule } from 'src/app/app-routing.module';
 import { MainFooterComponent } from './components/main-footer/main-footer.component';
 import { HeaderComponent } from './components/header/header.component';
-
-
+import { LandingPageComponent } from './pages/landing-page/landing-page.component';
+import { SharedModule } from '@shared/shared.module';
 
 @NgModule({
-  declarations: [LayoutComponent, MainMenuComponent, MainFooterComponent, HeaderComponent],
-  imports: [
-    CommonModule,
-    AppRoutingModule,
+  declarations: [
+    LayoutComponent,
+    MainMenuComponent,
+    MainFooterComponent,
+    HeaderComponent,
+    LandingPageComponent,
   ],
-  exports: [LayoutComponent]
+  imports: [CommonModule, AppRoutingModule, SharedModule],
+  exports: [LayoutComponent],
 })
-export class LayoutModule { }
+export class LayoutModule {}

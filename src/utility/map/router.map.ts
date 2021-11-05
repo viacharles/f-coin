@@ -9,6 +9,8 @@ export const UserPageMap = new Map<string, IRouteConfig>([
   [Page.Chat, { name: '聊天', icon: '3p' }],
 ]);
 
+export const IndividualPageQueue = new Set<Page>([Page.Landing]);
+
 export function getPageMap(module: string): Map<string, IRouteConfig> {
   switch (module) {
     case Module.Business:

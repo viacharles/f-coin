@@ -3,6 +3,7 @@ import { BehaviorSubject, forkJoin, Observable } from 'rxjs';
 import { Friend } from '@user/shared/models/friend.model';
 import { FirebaseService } from '@shared/services/firebase.service';
 import { map, switchMap } from 'rxjs/operators';
+import { AuthService } from 'src/auth/auth.service';
 
 @Injectable({
   providedIn: 'root',
@@ -11,7 +12,7 @@ export class UserService {
   constructor(private $firebase: FirebaseService) {
     this.$firebase
       .watch('user')
-      .doc('n6KZ8iX44MMlbPgWtt5pzB7tb4D2')
+      .doc(sessionStorage.getItem('id') as string)
       .onChanges$()
       .pipe(
         map((res: any) => res.friends),

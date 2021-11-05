@@ -16,6 +16,7 @@ export enum Module {
  */
 export enum Page {
   FCoin = 'f-coin',
-  Chat = 'chat'
+  Chat = 'chat',
+  Landing = 'landing'
 }
 

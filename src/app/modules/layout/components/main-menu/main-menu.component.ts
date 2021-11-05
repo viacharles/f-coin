@@ -2,6 +2,7 @@ import { Component, Input} from '@angular/core';
 import { Router } from '@angular/router';
 import { Module } from '@utility/enum/route.enum';
 import { getPageMap } from '@utility/map/router.map';
+import { AuthService } from 'src/auth/auth.service';
 
 @Component({
   selector: 'app-main-menu',
@@ -13,6 +14,7 @@ export class MainMenuComponent {
 
   constructor(
     public router: Router,
+    public $auth: AuthService
   ) {
     console.log('MainMenu', this.router.url)
   }
