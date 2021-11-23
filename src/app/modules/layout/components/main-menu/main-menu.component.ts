@@ -1,7 +1,7 @@
 import { Component, Input} from '@angular/core';
 import { Router } from '@angular/router';
 import { Module } from '@utility/enum/route.enum';
-import { getPageMap } from '@utility/map/router.map';
+import { getPageMap, IndividualPageQueue } from '@utility/map/router.map';
 import { AuthService } from 'src/auth/auth.service';
 
 @Component({
@@ -25,4 +25,5 @@ export class MainMenuComponent {
 
   public businessMenu = getPageMap(Module.Business);
   public userMenu = getPageMap(Module.User);
+  public individulPageMenu = IndividualPageQueue;
 }

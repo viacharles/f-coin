@@ -1,8 +1,79 @@
-form {
+.Landing {
   display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  input {
-    max-width: 225px;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  width: 100%;
+  background: linear-gradient(180deg, rgb(72, 145, 241) 0% , rgb(48, 90, 228) 50% ,rgb(72, 145, 241) 100%) ;
+  background-size: 100% 400%;
+  animation: verticalCycle 10s infinite;
+  &__Container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 255px;
+    height: 316px;
+    backdrop-filter: blur(5px);
+    // background: rgba($color: #49a7ff, $alpha: .7);
+    box-shadow: 12px 27px 40px 8px rgba(225, 236, 255, 0.2) inset;
+    border-radius: 7px;
+    border-top: 1px solid rgba($color: #e9e9e9, $alpha: .4);
+    border-left: 1px solid rgba($color: #e9e9e9, $alpha: .4);
+    &:hover {
+      transition: .2s;
+      transform: translateY(1px);
+      background: rgba($color: #49a7ff, $alpha: .6);
+      box-shadow: 12px 27px 25px 8px rgba(225, 236, 255, 0.2) inset,
+      12px 27px 30px 8px rgba(225, 236, 255, .1);
+    }
+    & > h2 {
+      font-size: 23px;
+      font-weight: 600;
+      color: white;
+    }
+  }
+  
+  &__Form {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    & > input {
+      width: 145px;
+      height: 36px;
+      border: none;
+      padding-left: 40px;
+      border-radius: 3px;
+      margin-top: 10px;
+      &:focus {
+        outline-style: none;
+      }
+    }
+    & > button {
+      width: 88px;
+      height: 40px;
+      border: none;
+      border-radius: 4px;
+      margin-top: 10px;
+      color: white;
+      background: rgb(83, 156, 240);
+      &:hover {
+        transition: .2s;
+        background: rgb(70, 177, 248);
+      }
+      &:active {
+        background: rgb(156, 215, 255);
+        transform: translateY(-1px);
+      }
+    }
+  }
+}
+
+@keyframes verticalCycle {
+  from {
+    background-position: 0 -200%;
+  }
+  to {
+    background-position: 0 200%;
   }
 }

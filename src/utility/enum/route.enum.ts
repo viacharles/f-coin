@@ -7,12 +7,14 @@
 export enum Module {
   Business = 'business',
   User = 'user',
+  Landing = 'landing'
 }
 
 /**
  * @description for Page path
  * @param FCoin 'f-coin'
  * @param Chat 'chat'
+ * @param Landing 'landing'
  */
 export enum Page {
   FCoin = 'f-coin',

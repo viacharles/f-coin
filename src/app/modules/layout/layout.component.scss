@@ -24,8 +24,14 @@
   .Layout {
     display: flex;
     flex-direction: row;
+
+    &__Contennt {
+      width: 100%;
+      height: 100%;
+    }
   }
 
+  footer,
   app-header,
   app-main-footer {
     display: none;

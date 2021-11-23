@@ -7,6 +7,7 @@ import { MainFooterComponent } from './components/main-footer/main-footer.compon
 import { HeaderComponent } from './components/header/header.component';
 import { LandingPageComponent } from './pages/landing-page/landing-page.component';
 import { SharedModule } from '@shared/shared.module';
+import { MainContentComponent } from './components/main-content/main-content.component';
 
 @NgModule({
   declarations: [
@@ -15,6 +16,7 @@ import { SharedModule } from '@shared/shared.module';
     MainFooterComponent,
     HeaderComponent,
     LandingPageComponent,
+    MainContentComponent,
   ],
   imports: [CommonModule, AppRoutingModule, SharedModule],
   exports: [LayoutComponent],

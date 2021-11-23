@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { LoadingComponent } from './loading.component';
+import { FullScreenLoaderComponent } from './full-screen-loader.component';
 
-describe('LoadingComponent', () => {
-  let component: LoadingComponent;
-  let fixture: ComponentFixture<LoadingComponent>;
+describe('FullScreenLoaderComponent', () => {
+  let component: FullScreenLoaderComponent;
+  let fixture: ComponentFixture<FullScreenLoaderComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ LoadingComponent ]
+      declarations: [ FullScreenLoaderComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(LoadingComponent);
+    fixture = TestBed.createComponent(FullScreenLoaderComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
