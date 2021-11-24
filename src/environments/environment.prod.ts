@@ -1,8 +1,7 @@
-import { Module, Page } from '@utility/enum/route.enum';
 
 export const environment = {
   production: true,
-  defaultUrl: `${Module.User}/${Page.Chat}`,
+  // defaultUrl: `${Module.User}/${Page.Chat}`,
   firebaseConfig: {
     apiKey: 'AIzaSyAJ-b0JwMjkqFkOTEQxBdKBCZFXCbzkf_Q',
     authDomain: 'f-coin-1bf5f.firebaseapp.com',

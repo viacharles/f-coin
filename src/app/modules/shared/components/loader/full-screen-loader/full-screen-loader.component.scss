@@ -1,0 +1,19 @@
+.FullScreenLoader {
+  position: fixed;
+  z-index: 50;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(45deg, rgba(96, 58, 144, .5), rgba(40, 54, 134, .9));
+  animation: circle 3s infinite ;
+}
+
+@keyframes circle {
+  from {
+    background-position: -500px 0;
+  }
+  to {
+    background-position: 500px 0;
+  }
+}

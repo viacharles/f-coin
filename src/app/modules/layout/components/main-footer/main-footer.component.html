@@ -1,9 +1,0 @@
-<section class="MainFooter" [class.TRNBackground]='this.isCoiningPage'>
-  <ul>
-    <li class="MainFooter__li row" *ngFor="let func of this.footerFuncs; let index = index"
-      (click)="this.toFuncPage(func.module,func.pageUrl)">
-      <em class="icon icon-button" [ngClass]="this.getClassImgUrl(index)"></em>
-      {{func.name}}
-    </li>
-  </ul>
-</section>

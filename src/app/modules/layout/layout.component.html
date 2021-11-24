@@ -1,15 +1,15 @@
-<section class="Layout">
-  <aside class="Layout__Aside">
-    <app-main-menu></app-main-menu>
-  </aside>
-  <div class="Layout__Main">
-    <header>
-      <app-header></app-header>
-    </header>
-    <main class="d-flex flex-row align-itmes-center">
-      <router-outlet></router-outlet>
-    </main>
-  </div>
-</section>
-
+<aside>
+  <app-menu></app-menu>
+</aside>
+<div class="w-100 h-100">
+  <header class="w-100">
+    <app-header></app-header>
+  </header>
+  <main class="d-flex flex-row align-itmes-center w-100 h-100">
+    <nav>
+      <app-chat-list></app-chat-list>
+    </nav>
+    <!-- <router-outlet></router-outlet> -->
+  </main>
+</div>
 <!-- <app-full-screen-loader #loader></app-full-screen-loader> -->

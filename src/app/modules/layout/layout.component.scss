@@ -1,37 +1,18 @@
-.Layout {
+:host {
   width: 100vw;
   height: 100vh;
-  &__Main {
-    height: 100%;
-    width: 100%;
-    header {
-      display: none;
-      width: 100%;
-      height: 80px;
-    }
-    main {
-      height: 100%;
-      width: 100%;
-    }
-    footer {
-      height: 80px;
-      width: 100%;
-    }
-  }
+  display: flex;
+  flex-direction: row;
 }
 
-@media only screen and (min-width: 376px) {
-  .Layout {
-    display: flex;
-    flex-direction: row;
-  }
+aside {
+  width: 50px;
+}
 
-  app-header,
-  app-main-footer {
-    display: none;
-  }
+header {
+  height: 55px;
+}
 
-  main {
-    margin: 0;
-  }
+nav {
+  width: 350px;
 }

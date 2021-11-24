@@ -1,7 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 import { Router } from '@angular/router';
-import { Page } from '@utility/enum/route.enum';
+import { FirebaseService } from '@shared/services/firebase.service';
+import { EIndividualPage } from '@utility/enum/route.enum';
 import { IndividualPageQueue } from '@utility/map/router.map';
 
 @Component({
@@ -9,10 +10,12 @@ import { IndividualPageQueue } from '@utility/map/router.map';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })
-export class AppComponent {
-  constructor(private router: Router) {}
+export class AppComponent implements OnInit {
+  constructor(private router: Router, private $firebase: FirebaseService) {}
+
+  ngOnInit(): void {}
 
   public isIndividualPage(): boolean {
-    return IndividualPageQueue.has(this.router.url.split('/')[1] as Page);
+    return IndividualPageQueue.has(this.router.url.split('/')[1] as EIndividualPage);
   }
 }

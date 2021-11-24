@@ -1,8 +1,5 @@
 import { Injectable } from '@angular/core';
 import { Event, NavigationEnd, NavigationStart, Router } from '@angular/router';
-import { Module, Page } from '@utility/enum/route.enum';
-import { getPageMap } from '@utility/map/router.map';
-import { BehaviorSubject, Subject } from 'rxjs';
 import { filter, tap } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 
@@ -21,12 +18,6 @@ export class NavigationService {
       .subscribe((event) => this.handleRouterEvent(event));
   }
 
-  get currentPageName() {
-    return getPageMap(this.router.url.split('/')[0]).get(
-      this.router.url.split('/')[1]
-    )?.name;
-  }
-
   private handleRouterEvent(event: Event): void {
     if (event instanceof NavigationStart) {
     }
@@ -38,7 +29,7 @@ export class NavigationService {
 
   private onNavigationEnd(event: NavigationEnd): void {
     if (event.url === '/') {
-      this.router.navigateByUrl(environment.defaultUrl);
+      // this.router.navigateByUrl(environment.defaultUrl);
     }
   }
 }

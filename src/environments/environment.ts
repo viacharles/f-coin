@@ -2,11 +2,9 @@
 // `ng build --prod` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
 
-import { Module, Page } from '@utility/enum/route.enum';
-
 export const environment = {
   production: false,
-  defaultUrl: `${Module.User}/${Page.Chat}`,
+  // defaultUrl: `${Module.User}/${Page.Chat}`,÷
   firebaseConfig: {
     apiKey: 'AIzaSyAJ-b0JwMjkqFkOTEQxBdKBCZFXCbzkf_Q',
     authDomain: 'f-coin-1bf5f.firebaseapp.com',

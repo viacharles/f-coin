@@ -1,15 +1,10 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { ChatroomListComponent } from './pages/chatroom-list/chatroom-list.component';
 
-const routes: Routes = [
-  {
-    path: '', component: ChatroomListComponent
-  }
-];
+const routes: Routes = [];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class ChatRoutingModule { }
+export class ChatRoutingModule {}
