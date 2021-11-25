@@ -29,7 +29,7 @@ export class NavigationService {
 
   private onNavigationEnd(event: NavigationEnd): void {
     if (event.url === '/') {
-      // this.router.navigateByUrl(environment.defaultUrl);
+      this.router.navigateByUrl(environment.defaultUrl as string);
     }
   }
 }

@@ -4,8 +4,8 @@ export enum EModule {
 }
 
 
-export enum EPage {
-  
+export enum EUserPage {
+  Chat = 'chat'
 }
 
 export enum EIndividualPage {

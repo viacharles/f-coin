@@ -1,7 +1,9 @@
+import { EUserPage } from '@utility/enum/route.enum';
+import { UserPageMap } from '@utility/map/router.map';
 
 export const environment = {
   production: true,
-  // defaultUrl: `${Module.User}/${Page.Chat}`,
+  defaultUrl: `${EUserPage.Chat}/${UserPageMap.get(EUserPage.Chat)?.path}`,
   firebaseConfig: {
     apiKey: 'AIzaSyAJ-b0JwMjkqFkOTEQxBdKBCZFXCbzkf_Q',
     authDomain: 'f-coin-1bf5f.firebaseapp.com',
