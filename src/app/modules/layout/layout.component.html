@@ -1,14 +1,16 @@
 <aside>
-  <app-menu></app-menu>
+  <app-menu [module]="this.module" (moduleChanged)="this.module = $event"></app-menu>
 </aside>
 <div class="w-100 h-100">
-  <header class="w-100">
+  <header class="w-100 fc-border-b">
     <app-header></app-header>
   </header>
-  <main class="d-flex flex-row align-itmes-center w-100 h-100">
-    <nav>
-      <app-chat-list></app-chat-list>
+  <main class="d-flex flex-row align-itmes-center w-100">
+    <nav class="fc-border-r" [ngSwitch]="this.module">
+      <app-chat-list *ngSwitchCase="this.Module.User"></app-chat-list>
     </nav>
-    <router-outlet></router-outlet>
+    <section>
+      <router-outlet></router-outlet>
+    </section>
   </main>
 </div>

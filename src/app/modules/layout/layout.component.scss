@@ -13,6 +13,19 @@ header {
   height: 55px;
 }
 
+main {
+  height: calc(100% - 55px);
+}
+
 nav {
   width: 280px;
+  padding-top: 15px;
+  height: 100%;
+  overflow-y: auto;
+}
+
+section {
+  width: calc(100% - 280px);
+  height: 100%;
+  overflow-y: auto;
 }
