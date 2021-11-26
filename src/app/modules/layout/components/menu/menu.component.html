@@ -1,4 +1,4 @@
-<ul class="w-100">
+<ul class="Menu w-100">
   <li *ngFor="let menu of this.Menu | keyvalue" class="d-flex flex-row align-items-center justify-content-center">
     <input [(ngModel)]="this.module" (ngModelChange)="this.moduleChanged.emit($event)" class="d-none" [id]="menu.key"
       [value]="menu.key" type="radio" name="menu">
