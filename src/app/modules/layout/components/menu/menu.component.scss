@@ -13,17 +13,22 @@
     rgb(36, 49, 70),
     rgb(49, 58, 82)
   );
-  animation: growWidth .3s;
+  animation: growWidth 0.3s;
 }
 
 .material-icons {
   cursor: pointer;
   color: white;
-  margin-top: 15px;
   opacity: 0.5;
-  animation: Looming .8s;
+  animation: Looming 0.8s;
   &:hover {
-    opacity: .7;
+    opacity: 0.7;
+  }
+}
+
+li {
+  &:not(:first-of-type) {
+    margin-top: 10px;
   }
 }
 
@@ -48,6 +53,6 @@ input:checked + label {
     opacity: 0;
   }
   100% {
-    opacity: .5;
+    opacity: 0.5;
   }
 }
