@@ -3,7 +3,6 @@ export enum EModule {
   Business = 'business'
 }
 
-
 export enum EUserPage {
   Chat = 'chat'
 }

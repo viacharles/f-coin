@@ -1,8 +1,11 @@
 :host {
   display: flex;
+  flex-direction: column;
   align-items: flex-start;
+  justify-content: space-between;
   width: 100%;
   height: 100%;
+  padding: 12px 0 10px 0;
   background: linear-gradient(
     190deg,
     rgb(54, 110, 163) 5%,
@@ -10,17 +13,41 @@
     rgb(36, 49, 70),
     rgb(49, 58, 82)
   );
+  animation: growWidth .3s;
 }
 
 .material-icons {
   cursor: pointer;
   color: white;
+  margin-top: 15px;
   opacity: 0.5;
+  animation: Looming .8s;
   &:hover {
-    opacity: 1;
+    opacity: .7;
   }
 }
 
 input:checked + label {
   opacity: 1;
+}
+
+@keyframes growWidth {
+  0% {
+    width: 0;
+  }
+  50% {
+    width: 40px;
+  }
+  100% {
+    width: 50px;
+  }
+}
+
+@keyframes Looming {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: .5;
+  }
 }

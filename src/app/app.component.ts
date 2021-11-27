@@ -16,6 +16,8 @@ export class AppComponent implements OnInit {
   ngOnInit(): void {}
 
   public isIndividualPage(): boolean {
-    return IndividualPageQueue.has(this.router.url.split('/')[1] as EIndividualPage);
+    return IndividualPageQueue.has(
+      this.router.url.split('/')[1] as EIndividualPage
+    );
   }
 }

@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { EModule } from '@utility/enum/route.enum';
 import { MenuMap } from '@utility/map/router.map';
+import { AuthService } from 'src/auth/auth.service';
 
 @Component({
   selector: 'app-menu',
@@ -10,6 +11,8 @@ import { MenuMap } from '@utility/map/router.map';
 export class MenuComponent {
   @Output() moduleChanged = new EventEmitter<EModule>();
   @Input() module: EModule = EModule.User;
-  constructor() {}
+  constructor(
+    public $auth: AuthService
+  ) {}
   public readonly Menu = MenuMap;
 }

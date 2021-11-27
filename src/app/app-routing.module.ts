@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { EModule } from '@utility/enum/route.enum';
+import { EIndividualPage, EModule } from '@utility/enum/route.enum';
 import { AuthGuard } from 'src/auth/auth.guard';
 import { LandingPageComponent } from './modules/layout/pages/landing-page/landing-page.component';
 
@@ -17,9 +17,9 @@ const routes: Routes = [
     ],
   },
   {
-    path: 'landing',
-    component: LandingPageComponent
-  }
+    path: EIndividualPage.Landing,
+    component: LandingPageComponent,
+  },
 ];
 
 @NgModule({
