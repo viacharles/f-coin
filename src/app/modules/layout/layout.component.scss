@@ -6,11 +6,11 @@
 }
 
 aside {
-  width: 50px;
+  min-width: 55px;
 }
 
 header {
-  height: 35px;
+  min-height: 35px;
 }
 
 main {
@@ -18,8 +18,7 @@ main {
 }
 
 nav {
-  width: 280px;
-  padding-top: 15px;
+  min-width: 280px;
   height: 100%;
   overflow-y: auto;
 }

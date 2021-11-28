@@ -5,6 +5,7 @@ import { AppComponent } from './app.component';
 import { LayoutModule } from './modules/layout/layout.module';
 import { AngularFireModule } from '@angular/fire';
 import { environment } from 'src/environments/environment';
+import { OverlayModule } from '@shared/overlay/overlay.module';
 
 @NgModule({
   declarations: [AppComponent],
@@ -13,6 +14,7 @@ import { environment } from 'src/environments/environment';
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AppRoutingModule,
     LayoutModule,
+    OverlayModule
   ],
   providers: [],
   bootstrap: [AppComponent],

@@ -15,7 +15,9 @@ export class ChatListComponent implements OnInit {
     tap((friends) => this.onFriendsUpdated(friends))
   );
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.$user.fetchFriendList();
+  }
 
   private onFriendsUpdated(friends: Friend[]): void {
     console.log(friends);

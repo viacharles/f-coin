@@ -4,68 +4,103 @@ import {
   AngularFirestore,
   AngularFirestoreDocument,
 } from '@angular/fire/firestore';
-import { map } from 'rxjs/operators';
+import { OverlayService } from '@shared/overlay/overlay.service';
+import { finalize, map, tap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
 })
 export class FirebaseService {
   constructor(
-    private $store: AngularFirestore
+    private $store: AngularFirestore,
+    private $overlay: OverlayService
   ) {}
 
-  public request = (collection: string) => ({
-    create: (target: any, doc: string) =>
-      this.getDoc(collection, doc).set(target),
-    read: (doc?: string) =>
-      doc
-        ? this.readDocument(collection, doc)
-        : this.readCollection(collection),
-    read$: (doc?: string) =>
-      doc
-        ? this.getDoc(collection, doc)
-            .get()
-            .pipe(map((res) => res.data()))
-        : this.$store
-            .collection(collection)
-            .get()
-            .pipe(
-              map((res) =>
-                res.docs.map((resDoc) => ({
-                  key: resDoc.id,
-                  value: resDoc.data(),
-                }))
+  public request(collection: string): any {
+    const LoadingId = this.$overlay.startLoading();
+    return {
+      create: (target: any, doc: string) =>
+        this.getDoc(collection, doc)
+          .set(target)
+          .then(() => this.$overlay.endLoading(LoadingId)),
+      read: (doc?: string) =>
+        doc
+          ? this.readDocument(collection, doc, LoadingId)
+          : this.readCollection(collection, LoadingId),
+      read$: (doc?: string) =>
+        doc
+          ? this.getDoc(collection, doc)
+              .get()
+              .pipe(
+                finalize(() => this.$overlay.endLoading(LoadingId)),
+                map((res) => res.data())
               )
-            ),
-    update: (target: any, doc: string) =>
-      this.getDoc(collection, doc).update(target),
-    delete: (doc: string) => this.getDoc(collection, doc).delete(),
-  });
+          : this.$store
+              .collection(collection)
+              .get()
+              .pipe(
+                finalize(() => this.$overlay.endLoading(LoadingId)),
+                map((res) =>
+                  res.docs.map((resDoc) => ({
+                    key: resDoc.id,
+                    value: resDoc.data(),
+                  }))
+                )
+              ),
+      update: (target: any, doc: string) =>
+        this.getDoc(collection, doc)
+          .update(target)
+          .then(() => this.$overlay.endLoading(LoadingId)),
+      delete: (doc: string) =>
+        this.getDoc(collection, doc)
+          .delete()
+          .then(() => this.$overlay.endLoading(LoadingId)),
+    };
+  }
 
-  public watch = (collection: string) => ({
-    onChanges$: () => this.$store.collection(collection).valueChanges(),
-    doc: (doc: string) => ({
+  public watch(collection: string): any {
+    const LoadingId = this.$overlay.startLoading();
+    return {
       onChanges$: () =>
-        this.$store.collection(collection).doc(doc).valueChanges(),
-    }),
-  });
+        this.$store
+          .collection(collection)
+          .valueChanges()
+          .pipe(tap(() => this.$overlay.endLoading(LoadingId))),
+      doc: (doc: string) => ({
+        onChanges$: () =>
+          this.$store
+            .collection(collection)
+            .doc(doc)
+            .valueChanges()
+            .pipe(tap(() => this.$overlay.endLoading(LoadingId))),
+      }),
+    };
+  }
 
-  private readDocument(collection: string, doc: string): Promise<any> {
+  private readDocument(
+    collection: string,
+    doc: string,
+    loadingId: string
+  ): Promise<any> {
     return new Promise<any>((resolve) => {
       this.getDoc(collection, doc)
         .get()
-        .subscribe((res) => resolve(res.data()));
+        .subscribe((res) => {
+          this.$overlay.endLoading(loadingId);
+          resolve(res.data());
+        });
     });
   }
 
-  private readCollection(collection: string): Promise<any> {
+  private readCollection(collection: string, loadingId: string): Promise<any> {
     return new Promise<any>((resolve) => {
       this.$store
         .collection(collection)
         .get()
-        .subscribe((res) =>
-          resolve(res.docs.map((doc) => ({ key: doc.id, value: doc.data() })))
-        );
+        .subscribe((res) => {
+          this.$overlay.endLoading(loadingId);
+          resolve(res.docs.map((doc) => ({ key: doc.id, value: doc.data() })));
+        });
     });
   }
 

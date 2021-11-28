@@ -1,4 +1,4 @@
-<section *ngIf="this.friends$ | async as friends" class="UserList">
+<section class="UserList" *ngIf="this.friends$ | async as friends" >
     <ul class="UserList__container">
       <li class="li" *ngFor="let friend of friends">
         <img class="UserList__img">
@@ -8,6 +8,5 @@
         </div>
       </li>
     </ul>
-  
+
   </section>
-  
