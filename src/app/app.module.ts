@@ -6,6 +6,12 @@ import { LayoutModule } from './modules/layout/layout.module';
 import { AngularFireModule } from '@angular/fire';
 import { environment } from 'src/environments/environment';
 import { OverlayModule } from '@shared/overlay/overlay.module';
+import { Level, NgLoggerModule } from '@nsalaun/ng-logger';
+
+let LOG_LEVEL = Level.LOG;
+if (environment.production) {
+  LOG_LEVEL = Level.ERROR;
+}
 
 @NgModule({
   declarations: [AppComponent],
@@ -14,7 +20,8 @@ import { OverlayModule } from '@shared/overlay/overlay.module';
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AppRoutingModule,
     LayoutModule,
-    OverlayModule
+    OverlayModule,
+    NgLoggerModule.forRoot(LOG_LEVEL),
   ],
   providers: [],
   bootstrap: [AppComponent],
