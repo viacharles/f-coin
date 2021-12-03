@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { Router } from '@angular/router';
+import { UserService } from '@user/shared/services/user.service';
 import { filter, tap } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 
@@ -11,7 +12,11 @@ import { environment } from 'src/environments/environment';
   providedIn: 'root',
 })
 export class AuthService {
-  constructor(private $auth: AngularFireAuth, private router: Router) {}
+  constructor(
+    private $auth: AngularFireAuth,
+    private router: Router,
+    private $user: UserService
+  ) {}
 
   get isAuth(): string | null {
     return sessionStorage.getItem('id');
@@ -25,7 +30,7 @@ export class AuthService {
           .then(() => console.log('unknown user, please login first'));
       } else {
         sessionStorage.setItem('id', `${res.uid}`);
-        console.log(`Welcome user ${res.uid}`);
+        this.$user.generateUser(res);
       }
     }),
     filter((res) => !!res?.uid)
