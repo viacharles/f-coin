@@ -1,5 +1,5 @@
-import { FirebaseService } from '@shared/services/firebase.service';
-import { IFriend } from '@utility/interface/user.inteface';
+
+import { IFriend } from '@utility/interface/user.interface';
 
 export class Friend implements IFriend {
   public id: string;

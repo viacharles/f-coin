@@ -2,9 +2,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, forkJoin, Observable } from 'rxjs';
 import { Friend } from '@user/shared/models/friend.model';
 import { FirebaseService } from '@shared/services/firebase.service';
-import { map, switchMap, finalize } from 'rxjs/operators';
-import { AuthService } from 'src/auth/auth.service';
-import { OverlayService } from '@shared/overlay/overlay.service';
+import { LoggerService } from '@shared/services/logger.service';
 
 /**
  * friend list
@@ -13,16 +11,33 @@ import { OverlayService } from '@shared/overlay/overlay.service';
   providedIn: 'root',
 })
 export class UserService {
-  constructor(private $firebase: FirebaseService, private $auth: AuthService) {}
+  constructor(
+    private $firebase: FirebaseService,
+    private $logger: LoggerService
+  ) {}
 
   private friends = new BehaviorSubject<Friend[]>([]);
   public friends$: Observable<Friend[]> = this.friends.asObservable();
+
+  private user = new BehaviorSubject(null);
+  public user$ = this.user.asObservable();
+
+  /**
+   * @description 生成使用者資料
+   */
+  public generateUser(user: any): void {
+    this.user.next(user);
+    this.$logger.systemMessage(`welcome user ${user.uid}`);
+  }
+
+  public getChatHistory(id?: string): Promise<any> {
+    return this.$firebase.request('user').read(id);
+  }
 
   /**
    * @description 主動更新好友清單
    */
   public fetchFriendList(): void {
-    console.log('fetch Friend List')
     this.$firebase
       .request('user')
       .read(sessionStorage.getItem('id') as string)

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NavigationService } from '@shared/services/navigation.service';
+import { UserService } from '@user/shared/services/user.service';
 import { EModule } from '@utility/enum/route.enum';
 
 @Component({
@@ -8,7 +9,10 @@ import { EModule } from '@utility/enum/route.enum';
   styleUrls: ['./layout.component.scss'],
 })
 export class LayoutComponent implements OnInit {
-  constructor(public $navigation: NavigationService) {}
+  constructor(
+    public $navigation: NavigationService,
+    public $user: UserService
+  ) {}
   get Module(): typeof EModule {
     return EModule;
   }
