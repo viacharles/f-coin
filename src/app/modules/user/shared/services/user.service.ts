@@ -40,6 +40,11 @@ export class UserService {
   public fetchFriendList(): void {
     this.$firebase
       .request('user')
+      // .read()
+      // .then((datas: any) => datas.forEach(({key, value}: any) => {
+      //   this.$firebase.request('user').update({id : key}, key);
+      // })
+      // )
       .read(sessionStorage.getItem('id') as string)
       .then(({ friends }: { friends: any[] }) => {
         //   friends.forEach((id: any) => {
@@ -52,7 +57,7 @@ export class UserService {
   }
 
   private updateFriendsList(friends: any[]): void {
-    console.log(`total ${friends.length} friends have updated.`);
+    this.$logger.systemMessage(`total ${friends.length} friends have updated.`);
     this.friends.next(friends.map((friend) => new Friend(friend)));
   }
 }

@@ -1,12 +1,13 @@
-<section class="UserList" *ngIf="this.friends$ | async as friends" >
-    <ul class="UserList__container">
-      <li class="li" *ngFor="let friend of friends">
+<section class="UserList" *ngIf="this.friends$ | async as friends">
+  <ul class="UserList__container">
+    <ng-container *ngFor="let friend of friends">
+      <li class="li" *ngIf="friend.isLogin">
         <img class="UserList__img">
         <div class="column-left">
           <p class="UserList__name">{{friend.name}}</p>
-          <p class="UserList__summary">{{friend.latestSentence}}</p>
+          <p class="UserList__summary">{{'test'}}</p>
         </div>
       </li>
-    </ul>
-
-  </section>
+    </ng-container>
+  </ul>
+</section>

@@ -1,17 +1,30 @@
-
+import { finalize } from 'rxjs/operators';
 import { IFriend } from '@utility/interface/user.interface';
+import { interval, Subscription, timer } from 'rxjs';
 
 export class Friend implements IFriend {
-  public id: string;
-  public name: string;
-  public latestSentence: string;
-  public lastSendTime: string;
-  public top = false;
-  constructor({ id, name, latestSentence, lastSendTime, top }: IFriend) {
+  constructor({ id, name }: IFriend) {
     this.id = id;
     this.name = name;
-    this.lastSendTime = lastSendTime;
-    this.latestSentence = latestSentence;
-    this.top = top;
+    this.startTimer();
+  }
+
+  public id: string;
+  public name: string;
+  public isLogin = false;
+
+  private timer$ = timer(Math.random() * 6000).pipe(
+    finalize(() => this.startTimer())
+  );
+  private subscription = new Subscription();
+
+  /**
+   * @description 開始計時，結束前次訂閱，開始新一輪隨機秒數計時
+   */
+  private startTimer(): void {
+    this.subscription?.unsubscribe();
+    this.subscription = this.timer$.subscribe(
+      () => (this.isLogin = Math.random() >= 0.5)
+    );
   }
 }
