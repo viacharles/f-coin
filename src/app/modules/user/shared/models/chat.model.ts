@@ -6,4 +6,5 @@ export enum ChatAction {
 
 export interface IChatEvent extends IEvent<ChatAction> {
   id?: string;
+  friendId?: string;
 }

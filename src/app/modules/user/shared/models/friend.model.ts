@@ -1,7 +1,11 @@
 import { finalize } from 'rxjs/operators';
 import { IFriend } from '@utility/interface/user.interface';
-import { interval, Subscription, timer } from 'rxjs';
+import { Subscription, timer } from 'rxjs';
+import { IMessage } from '@utility/interface/messageCenter.interface';
 
+/**
+ * @description 好友資訊，隨機秒數更新登陸狀態
+ */
 export class Friend implements IFriend {
   constructor({ id, name }: IFriend) {
     this.id = id;

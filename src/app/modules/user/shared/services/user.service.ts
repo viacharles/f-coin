@@ -1,3 +1,4 @@
+import { DatabaseService } from '@utility/abstract/database-service.abstract';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, forkJoin, Observable } from 'rxjs';
 import { Friend } from '@user/shared/models/friend.model';
@@ -10,11 +11,12 @@ import { LoggerService } from '@shared/services/logger.service';
 @Injectable({
   providedIn: 'root',
 })
-export class UserService {
-  constructor(
-    private $firebase: FirebaseService,
-    private $logger: LoggerService
-  ) {}
+export class UserService extends DatabaseService {
+  constructor($fb: FirebaseService, $logger: LoggerService) {
+    super($fb, $logger);
+  }
+
+  protected databaseName = 'user';
 
   private friends = new BehaviorSubject<Friend[]>([]);
   public friends$: Observable<Friend[]> = this.friends.asObservable();
@@ -30,16 +32,18 @@ export class UserService {
     this.$logger.systemMessage(`welcome user ${user.uid}`);
   }
 
+  /**
+   * @description 獲取聊天紀錄
+   */
   public getChatHistory(id?: string): Promise<any> {
-    return this.$firebase.request('user').read(id);
+    return this.fetch().read(id);
   }
 
   /**
    * @description 主動更新好友清單
    */
   public fetchFriendList(): void {
-    this.$firebase
-      .request('user')
+    this.fetch()
       // .read()
       // .then((datas: any) => datas.forEach(({key, value}: any) => {
       //   this.$firebase.request('user').update({id : key}, key);
@@ -50,9 +54,9 @@ export class UserService {
         //   friends.forEach((id: any) => {
         //     this.$firebase.request('user').update({ isLogin: false }, id);
         //   });
-        forkJoin(
-          friends.map((id) => this.$firebase.request('user').read$(id))
-        ).subscribe((profiles: any) => this.updateFriendsList(profiles));
+        forkJoin(friends.map((id) => this.fetch().read$(id))).subscribe(
+          (profiles: any) => this.updateFriendsList(profiles)
+        );
       });
   }
 
