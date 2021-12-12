@@ -23,17 +23,16 @@ export class MessageService extends DatabaseService {
    */
   public fetchMessageRecord(id: string, friendId: string): Promise<IMessage[]> {
     return new Promise<IMessage[]>((resolve) => {
-      this.fetch()
-        .read()
-        .then(
-          ({ history }: IMessageCenter) => {
-            console.log(history, id);
-          }
-          // resolve(
-          //   Object.values(history).filter(
-          //     ({ userId }: IMessage) => userId === friendId
-          //   )
-          // )
+      this.$fb
+        .getDoc('messageCenter', id)
+        .collection('history')
+        .get()
+        .subscribe((res) =>
+          resolve(
+            (res.docs.map((doc) => doc.data()) as IMessage[]).filter(
+              ({ userId }) => userId === friendId
+            )
+          )
         );
     });
   }

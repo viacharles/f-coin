@@ -1,3 +1,7 @@
+.active {
+  background: rgb(248, 249, 250);
+}
+
 .UserList {
   & > ul {
     overflow-y: auto;
@@ -20,6 +24,7 @@
     align-items: center;
     width: calc(100%-55px);
     padding: 7px 15px;
+    cursor: pointer;
     &:hover {
       background: rgb(248, 249, 250);
     }

@@ -1,7 +1,8 @@
 <section class="UserList" *ngIf="this.friends$ | async as friends">
   <ul class="UserList__container">
     <ng-container *ngFor="let friend of friends">
-      <li class="li" *ngIf="friend.isLogin">
+      <li class="li" [class.active]="friend.id === this.activatedFriendId"
+        (click)="this.router.navigateByUrl('user/chat/' + friend.id)">
         <img class="UserList__img">
         <div class="column-left">
           <p class="UserList__name">{{friend.name}}</p>

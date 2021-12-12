@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { FirebaseApp } from '@angular/fire';
 import {
   AngularFirestore,
+  AngularFirestoreCollection,
   AngularFirestoreDocument,
 } from '@angular/fire/firestore';
 import { OverlayService } from '@shared/overlay/overlay.service';
@@ -77,6 +78,17 @@ export class FirebaseService {
     };
   }
 
+  /**
+   * @description 獲得對應collection下的doc
+   */
+  public getDoc(collection: string, doc: string): AngularFirestoreDocument {
+    return this.$store.collection(collection).doc(doc);
+  }
+
+  public getCollection(collection: string): AngularFirestoreCollection {
+    return this.$store.collection(collection);
+  }
+
   private readDocument(
     collection: string,
     doc: string,
@@ -102,9 +114,5 @@ export class FirebaseService {
           resolve(res.docs.map((doc) => ({ key: doc.id, value: doc.data() })));
         });
     });
-  }
-
-  private getDoc(collection: string, doc: string): AngularFirestoreDocument {
-    return this.$store.collection(collection).doc(doc);
   }
 }

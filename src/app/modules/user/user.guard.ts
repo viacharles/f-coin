@@ -20,10 +20,6 @@ export class UserGuard extends UnSubOnDestroy implements CanActivate {
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): Promise<boolean> {
-    return new Promise<boolean>((resolve) => {
-      this.$user.friends$
-        .pipe(takeUntil(this.onDestroy$))
-        .subscribe((friends) => resolve(true));
-    });
+    return new Promise<boolean>((resolve) => resolve(true));
   }
 }

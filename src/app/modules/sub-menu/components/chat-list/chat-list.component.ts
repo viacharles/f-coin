@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Friend } from '@user/shared/models/friend.model';
 import { UserService } from '@user/shared/services/user.service';
 import { tap } from 'rxjs/operators';
@@ -9,7 +10,15 @@ import { tap } from 'rxjs/operators';
   styleUrls: ['./chat-list.component.scss'],
 })
 export class ChatListComponent implements OnInit {
-  constructor(private $user: UserService) {}
+  constructor(private $user: UserService, public router: Router) {}
+
+  /**
+   * @description 因sub menu不放在router outlet中，故無法透過activatedRoute獲得路由參數
+   */
+  get activatedFriendId(): string {
+    const Array = this.router.url.split('/');
+    return Array[Array.length - 1];
+  }
 
   public friends$ = this.$user.friends$.pipe(
     tap((friends) => this.onFriendsUpdated(friends))
