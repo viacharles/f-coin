@@ -20,9 +20,10 @@ export class OverlayService {
     return Id;
   }
 
-  public endLoading(id: string): void {
+  public endLoading(id: string, activatedElement?: HTMLElement): void {
     if (this.loadingQueue.has(id)) {
       this.loadingQueue.delete(id);
     }
+    activatedElement?.focus();
   }
 }

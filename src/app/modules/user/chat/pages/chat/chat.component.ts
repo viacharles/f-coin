@@ -1,7 +1,7 @@
-import { take, tap, map, switchMap, takeUntil } from 'rxjs/operators';
+import { take, map, switchMap, takeUntil } from 'rxjs/operators';
 import { Component, OnInit } from '@angular/core';
 import { ChatService } from '@user/chat/chat.service';
-import { ChatAction } from '@user/shared/models/chat.model';
+import { ChatAction as Action } from '@user/shared/models/chat.model';
 import { UserService } from '@user/shared/services/user.service';
 import { IMessage } from '@utility/interface/messageCenter.interface';
 import { ActivatedRoute } from '@angular/router';
@@ -23,31 +23,43 @@ export class ChatComponent extends UnSubOnDestroy implements OnInit {
     super();
   }
 
+  public message = '';
   public history: IMessage[] = [];
   public friend: Friend | null = null;
+  private userId: string | null = null;
 
   ngOnInit(): void {
+    this.$user.user$
+      .pipe(take(1))
+      .subscribe((user) => (this.userId = (user as any).uid));
     combineLatest([this.$user.friends$, this.activatedRoute.params])
       .pipe(
         takeUntil(this.onDestroy$),
-        map(([friends, { id }]) => ({ friends, id })),
-        switchMap(({ friends, id }) =>
-          this.$user.user$.pipe(
-            take(1),
-            map((user) => ({ friends, user, id }))
-          )
-        )
+        map(([friends, { id }]) => ({ friends, id }))
       )
-      .subscribe(({ user, id, friends }) => this.initial(user, id, friends));
+      .subscribe(({ id, friends }) => this.initial(id, friends));
   }
 
-  private initial({ uid }: any, friendId: string, friends: Friend[]): void {
+  public afterKeydown(event: KeyboardEvent): void {
+    if (event.key === 'Enter') {
+      this.$feature
+        .fireEvent({
+          action: Action.SendMessage,
+          id: this.userId as string,
+          message: this.message,
+          friendId: this.friend?.id,
+        })
+        .then(() => (this.message = ''));
+    }
+  }
+
+  private initial(friendId: string, friends: Friend[]): void {
     this.friend = friends.find(({ id }) => id === friendId) as Friend;
     this.$feature
       .fireEvent<IMessage[]>({
-        action: ChatAction.FetchChatHistory,
+        action: Action.FetchChatHistory,
         friendId,
-        id: uid,
+        id: this.userId as string,
       })
       .then((history) => (this.history = history));
   }

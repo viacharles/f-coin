@@ -19,28 +19,34 @@ export class FirebaseService {
 
   public request(collection: string): any {
     const LoadingId = this.$overlay.startLoading();
+    const ActivatedElement: HTMLElement = document.activeElement as HTMLElement;
+    ActivatedElement.blur();
     return {
       create: (target: any, doc: string) =>
         this.getDoc(collection, doc)
           .set(target)
-          .then(() => this.$overlay.endLoading(LoadingId)),
+          .then(() => this.$overlay.endLoading(LoadingId, ActivatedElement)),
       read: (doc?: string) =>
         doc
-          ? this.readDocument(collection, doc, LoadingId)
-          : this.readCollection(collection, LoadingId),
+          ? this.readDocument(collection, doc, LoadingId, ActivatedElement)
+          : this.readCollection(collection, LoadingId, ActivatedElement),
       read$: (doc?: string) =>
         doc
           ? this.getDoc(collection, doc)
               .get()
               .pipe(
-                finalize(() => this.$overlay.endLoading(LoadingId)),
+                finalize(() =>
+                  this.$overlay.endLoading(LoadingId, ActivatedElement)
+                ),
                 map((res) => res.data())
               )
           : this.$store
               .collection(collection)
               .get()
               .pipe(
-                finalize(() => this.$overlay.endLoading(LoadingId)),
+                finalize(() =>
+                  this.$overlay.endLoading(LoadingId, ActivatedElement)
+                ),
                 map((res) =>
                   res.docs.map((resDoc) => ({
                     key: resDoc.id,
@@ -51,11 +57,11 @@ export class FirebaseService {
       update: (target: any, doc: string) =>
         this.getDoc(collection, doc)
           .update(target)
-          .then(() => this.$overlay.endLoading(LoadingId)),
+          .then(() => this.$overlay.endLoading(LoadingId, ActivatedElement)),
       delete: (doc: string) =>
         this.getDoc(collection, doc)
           .delete()
-          .then(() => this.$overlay.endLoading(LoadingId)),
+          .then(() => this.$overlay.endLoading(LoadingId, ActivatedElement)),
     };
   }
 
@@ -92,25 +98,30 @@ export class FirebaseService {
   private readDocument(
     collection: string,
     doc: string,
-    loadingId: string
+    loadingId: string,
+    activatedElement: HTMLElement
   ): Promise<any> {
     return new Promise<any>((resolve) => {
       this.getDoc(collection, doc)
         .get()
         .subscribe((res) => {
-          this.$overlay.endLoading(loadingId);
+          this.$overlay.endLoading(loadingId, activatedElement);
           resolve(res.data());
         });
     });
   }
 
-  private readCollection(collection: string, loadingId: string): Promise<any> {
+  private readCollection(
+    collection: string,
+    loadingId: string,
+    activatedElement: HTMLElement
+  ): Promise<any> {
     return new Promise<any>((resolve) => {
       this.$store
         .collection(collection)
         .get()
         .subscribe((res) => {
-          this.$overlay.endLoading(loadingId);
+          this.$overlay.endLoading(loadingId, activatedElement);
           resolve(res.docs.map((doc) => ({ key: doc.id, value: doc.data() })));
         });
     });

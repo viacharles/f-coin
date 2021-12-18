@@ -1,3 +1,5 @@
+import firebase from 'firebase/app';
+
 /**
  * @description 聊天紀錄介面
  */
@@ -5,7 +7,7 @@ export interface IMessage {
   id: string;
   message: string;
   isRead: boolean;
-  sendTime: string;
+  sendTime: firebase.firestore.Timestamp;
   userId: string;
 }
 

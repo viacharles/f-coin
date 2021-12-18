@@ -47,6 +47,7 @@ footer {
     max-height: 140px;
     border: none;
     resize: none;
+    font-size: map-get($font-level, "xs");
     &::placeholder {
       color: rgba(0, 0, 0, 0.2);
       font-size: map-get($font-level, "xs");
