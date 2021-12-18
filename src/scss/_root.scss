@@ -1,0 +1,18 @@
+* {
+  font-size: 16px;
+}
+
+em {
+  cursor: pointer;
+  color: black;
+  &:not(:last-of-type) {
+    margin-right: 0.5rem;
+  }
+}
+
+.material-icons {
+  font-size: 1rem;
+  &[rotate45] {
+    transform: rotateZ(45deg);
+  }
+}

@@ -1,6 +1,9 @@
-@import "reset.scss";
-@import "img.scss";
-@import "style.scss";
+@import "reset";
+@import "root";
+@import "variables";
+@import "colors";
+@import "img";
+@import "style";
 
 body {
   width: 100vw;

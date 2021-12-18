@@ -3,13 +3,19 @@
 }
 
 .UserList {
-  & > ul {
+  &__Container {
     overflow-y: auto;
     width: 100%;
     height: 100%;
     margin-block-start: 0;
     margin-block-end: 0;
     padding-inline-start: 0;
+    input:checked + label {
+      background: rgb(248, 249, 250);
+    }
+    li:hover {
+      background: rgb(248, 249, 250);
+    }
   }
   &__img {
     min-width: 42px;
@@ -18,7 +24,7 @@
     background-color: rgb(217, 223, 231);
     border-radius: 50%;
   }
-  .li {
+  label {
     display: flex;
     flex-direction: row;
     align-items: center;

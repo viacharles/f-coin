@@ -1,13 +1,27 @@
-:host {
-  height: 100%;
-  width: 100%;
-}
-
 .Header {
   height: 100%;
   width: 100%;
   display: flex;
   flex-direction: row;
+  &__Field {
+    display: flex;
+    align-items: center;
+    padding: 13px 10px 0 10px;
+    height: 100%;
+    .text {
+      height: 100%;
+      text-align: end;
+      cursor: pointer;
+      color: #c1c1c1;
+      font-size: 12px;
+    }
+    input {
+      &:checked + .text {
+        border-bottom: 2px solid rgb(32, 32, 32);
+        color: rgb(32, 32, 32);
+      }
+    }
+  }
 }
 
 

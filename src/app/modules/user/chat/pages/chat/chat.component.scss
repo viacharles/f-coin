@@ -1,0 +1,62 @@
+@import "variables";
+
+:host {
+  display: block;
+  height: 100%;
+}
+
+nav {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  height: 50px;
+  padding: 0 0.5rem;
+  position: relative;
+  h3 {
+    margin-right: 0.5rem;
+  }
+}
+
+app-chat-announcement {
+  width: 100%;
+  position: absolute;
+  top: 50px;
+  left: 0;
+  height: 40px;
+}
+
+section {
+  overflow-y: auto;
+}
+
+footer {
+  border-top: 1px solid $light-border;
+  padding: 0.5rem 1rem 0;
+  textarea {
+    outline: none;
+    display: block;
+    width: 100%;
+    min-height: 80px;
+    max-height: 140px;
+    border: none;
+    resize: none;
+    &::placeholder {
+      color: rgba(0, 0, 0, 0.2);
+      font-size: map-get($font-level, "xs");
+    }
+  }
+  nav {
+    height: 40px;
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    justify-content: space-between;
+  }
+}

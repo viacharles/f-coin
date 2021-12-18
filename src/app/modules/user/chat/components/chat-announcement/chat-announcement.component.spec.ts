@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CoiningPageComponent } from './coining-page.component';
+import { ChatAnnouncementComponent } from './chat-announcement.component';
 
-describe('CoiningPageComponent', () => {
-  let component: CoiningPageComponent;
-  let fixture: ComponentFixture<CoiningPageComponent>;
+describe('ChatAnnouncementComponent', () => {
+  let component: ChatAnnouncementComponent;
+  let fixture: ComponentFixture<ChatAnnouncementComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ CoiningPageComponent ]
+      declarations: [ ChatAnnouncementComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(CoiningPageComponent);
+    fixture = TestBed.createComponent(ChatAnnouncementComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

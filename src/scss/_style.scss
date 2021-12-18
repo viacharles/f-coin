@@ -3,12 +3,15 @@
   }
 
   &-border {
-    border: 1px solid rgb(230, 230, 230);
+    border: 1px solid #e6e6e6;
     &-r {
-      border-right: 1px solid rgb(230, 230, 230);
+      border-right: 1px solid #e6e6e6;
     }
     &-b {
-      border-bottom: 1px solid rgb(230, 230, 230);
+      border-bottom: 1px solid #e6e6e6;
+    }
+    &-t {
+      border-top: 1px solid #e6e6e6;
     }
     &-red {
       border-color: red;

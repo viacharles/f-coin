@@ -6,6 +6,8 @@ import { UserService } from '@user/shared/services/user.service';
 import { IMessage } from '@utility/interface/messageCenter.interface';
 import { ActivatedRoute } from '@angular/router';
 import { UnSubOnDestroy } from '@utility/abstract/unsubondestroy.abstract';
+import { Friend } from '@user/shared/models/friend.model';
+import { combineLatest, forkJoin } from 'rxjs';
 
 @Component({
   selector: 'app-chat',
@@ -21,29 +23,32 @@ export class ChatComponent extends UnSubOnDestroy implements OnInit {
     super();
   }
 
-  public message = '';
+  public history: IMessage[] = [];
+  public friend: Friend | null = null;
 
   ngOnInit(): void {
-    this.activatedRoute.params
+    combineLatest([this.$user.friends$, this.activatedRoute.params])
       .pipe(
         takeUntil(this.onDestroy$),
-        switchMap(({ id }) =>
+        map(([friends, { id }]) => ({ friends, id })),
+        switchMap(({ friends, id }) =>
           this.$user.user$.pipe(
             take(1),
-            map((user) => ({ user, id }))
+            map((user) => ({ friends, user, id }))
           )
         )
       )
-      .subscribe(({ user, id }) => this.initial(user, id));
+      .subscribe(({ user, id, friends }) => this.initial(user, id, friends));
   }
 
-  private initial({ uid }: any, friendId: string): void {
+  private initial({ uid }: any, friendId: string, friends: Friend[]): void {
+    this.friend = friends.find(({ id }) => id === friendId) as Friend;
     this.$feature
       .fireEvent<IMessage[]>({
         action: ChatAction.FetchChatHistory,
         friendId,
         id: uid,
       })
-      .then((_) => console.log(_));
+      .then((history) => (this.history = history));
   }
 }
