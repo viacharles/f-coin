@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { UserService } from '@user/shared/services/user.service';
 import { filter, tap } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
+import firebase from 'firebase/app';
 
 /**
  * auth
@@ -30,7 +31,7 @@ export class AuthService {
           .then(() => console.log('unknown user, please login first'));
       } else {
         sessionStorage.setItem('id', `${res.uid}`);
-        this.$user.generateUser(res);
+        this.$user.generateUser((res as firebase.User).uid);
       }
     }),
     filter((res) => !!res?.uid)

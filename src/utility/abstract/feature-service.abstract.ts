@@ -2,7 +2,7 @@ import { LoggerService } from '@shared/services/logger.service';
 import { IEvent } from '@utility/interface/common.interface';
 
 export abstract class FeatureService<Event extends IEvent<Action>, Action> {
-  constructor(private $logger: LoggerService) {}
+  constructor(protected $logger: LoggerService) {}
   /**
    * @description will console after event has been fired
    */

@@ -4,6 +4,9 @@ import { BehaviorSubject, forkJoin, Observable } from 'rxjs';
 import { Friend } from '@user/shared/models/friend.model';
 import { FirebaseService } from '@shared/services/firebase.service';
 import { LoggerService } from '@shared/services/logger.service';
+import firebase from 'firebase/app';
+import { User } from '@user/shared/models/user.model';
+import { IUser } from '@utility/interface/user.interface';
 
 /**
  * friend list
@@ -21,15 +24,19 @@ export class UserService extends DatabaseService {
   private friends = new BehaviorSubject<Friend[]>([]);
   public friends$: Observable<Friend[]> = this.friends.asObservable();
 
-  private user = new BehaviorSubject(null);
+  private user = new BehaviorSubject<User | null>(null);
   public user$ = this.user.asObservable();
 
   /**
    * @description 生成使用者資料
    */
-  public generateUser(user: any): void {
-    this.user.next(user);
-    this.$logger.systemMessage(`welcome user ${user.uid}`);
+  public generateUser(uid: string): void {
+    this.fetch()
+      .read(uid)
+      .then((profile: IUser) => {
+        this.user.next(new User(profile));
+        this.$logger.systemMessage(`welcome user ${uid}`);
+      });
   }
 
   /**
@@ -50,17 +57,17 @@ export class UserService extends DatabaseService {
       // })
       // )
       .read(sessionStorage.getItem('id') as string)
-      .then(({ friends }: { friends: any[] }) => {
+      .then(({ friends }: { friends: string[] }) => {
         //   friends.forEach((id: any) => {
         //     this.$firebase.request('user').update({ isLogin: false }, id);
         //   });
         forkJoin(friends.map((id) => this.fetch().read$(id))).subscribe(
-          (profiles: any) => this.updateFriendsList(profiles)
+          (profiles: any) => this.updateFriendsList(profiles as IUser[])
         );
       });
   }
 
-  private updateFriendsList(friends: any[]): void {
+  private updateFriendsList(friends: IUser[]): void {
     this.$logger.systemMessage(`total ${friends.length} friends have updated.`);
     this.friends.next(friends.map((friend) => new Friend(friend)));
   }

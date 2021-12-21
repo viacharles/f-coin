@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Friend } from '@user/shared/models/friend.model';
+import { User } from '@user/shared/models/user.model';
 import { UserService } from '@user/shared/services/user.service';
 import { tap } from 'rxjs/operators';
 
@@ -28,7 +29,5 @@ export class ChatListComponent implements OnInit {
     this.$user.fetchFriendList();
   }
 
-  private onFriendsUpdated(friends: Friend[]): void {
-    console.log(friends);
-  }
+  private onFriendsUpdated(friends: Friend[]): void {}
 }

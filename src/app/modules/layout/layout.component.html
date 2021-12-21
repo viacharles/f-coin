@@ -1,6 +1,6 @@
 <ng-container *ngIf="this.$user.user$ | async as user">
   <aside>
-    <app-menu [module]="this.module" (moduleChanged)="this.module = $event"></app-menu>
+    <app-menu [module]="this.module" (moduleChanged)="this.module = $event" [user]="user"></app-menu>
   </aside>
   <div class="w-100 h-100">
     <header class="w-100 fc-border-b">

@@ -25,9 +25,14 @@ export class ChatService extends FeatureService<IChatEvent, Action> {
     return new Promise<any>((resolve) => {
       switch (action) {
         case Action.FetchChatHistory:
-          resolve(
-            this.$message.fetchMessageRecord(id as string, friendId as string)
-          );
+          this.$message
+            .fetchMessageRecord(id as string, friendId as string)
+            .then((history) => {
+              this.$logger.systemMessage(
+                `Total ${history.length} messages with friend ${friendId} has successfully fetched.`
+              );
+              resolve(history);
+            });
           break;
         case Action.SendMessage:
           resolve(

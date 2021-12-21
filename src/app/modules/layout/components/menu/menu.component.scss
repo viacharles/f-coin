@@ -16,6 +16,14 @@
   animation: growWidth 0.3s;
 }
 
+img {
+  width: 42px;
+  height: 42px;
+  border-radius: 100%;
+  margin-bottom: 0.5rem;
+  cursor: pointer;
+}
+
 .material-icons {
   cursor: pointer;
   color: white;

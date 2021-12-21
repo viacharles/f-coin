@@ -1,4 +1,4 @@
-import { take, map, switchMap, takeUntil } from 'rxjs/operators';
+import { take, map, switchMap, takeUntil, filter } from 'rxjs/operators';
 import { Component, OnInit } from '@angular/core';
 import { ChatService } from '@user/chat/chat.service';
 import { ChatAction as Action } from '@user/shared/models/chat.model';
@@ -8,6 +8,7 @@ import { ActivatedRoute } from '@angular/router';
 import { UnSubOnDestroy } from '@utility/abstract/unsubondestroy.abstract';
 import { Friend } from '@user/shared/models/friend.model';
 import { combineLatest, forkJoin } from 'rxjs';
+import { IUser } from '@utility/interface/user.interface';
 
 @Component({
   selector: 'app-chat',
@@ -31,8 +32,11 @@ export class ChatComponent extends UnSubOnDestroy implements OnInit {
   ngOnInit(): void {
     this.$user.user$
       .pipe(take(1))
-      .subscribe((user) => (this.userId = (user as any).uid));
-    combineLatest([this.$user.friends$, this.activatedRoute.params])
+      .subscribe((user) => (this.userId = (user as IUser).id));
+    combineLatest([
+      this.$user.friends$.pipe(filter((friends) => friends.length > 0)),
+      this.activatedRoute.params,
+    ])
       .pipe(
         takeUntil(this.onDestroy$),
         map(([friends, { id }]) => ({ friends, id }))
