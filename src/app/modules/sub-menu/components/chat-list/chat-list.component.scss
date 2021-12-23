@@ -40,6 +40,9 @@
       width: 203px;
       padding: 0 0 0 7px;
     }
+    & img {
+      object-fit: cover
+    }
   }
   &__name {
     margin: 0;

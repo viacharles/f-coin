@@ -3,12 +3,14 @@
     <app-menu [module]="this.module" (moduleChanged)="this.module = $event" [user]="user"></app-menu>
   </aside>
   <div class="w-100 h-100">
-    <header class="w-100 fc-border-b">
+    <header #tHeader [hidden]="this.module !== this.Module.User" class="w-100 fc-border-b">
       <app-header></app-header>
     </header>
-    <main class="d-flex flex-row align-itmes-center w-100">
+    <main class="d-flex flex-row align-itmes-center w-100"
+          [style.height]="'calc(100% - ' + tHeader.clientHeight + 'px)'">
       <nav class="fc-border-r" [ngSwitch]="this.module">
         <app-chat-list *ngSwitchCase="this.Module.User"></app-chat-list>
+        <app-coining-console *ngSwitchCase="this.Module.Business"></app-coining-console>
       </nav>
       <section>
         <router-outlet></router-outlet>

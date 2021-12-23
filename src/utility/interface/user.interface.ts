@@ -9,7 +9,9 @@ export interface IFriend extends IUser {
  */
 export interface IUser {
   id: string;
-  avatar?: string;
   name: string;
+  avatar?: string;
   friends?: string[];
+  isCoining?: boolean;
+  totalAssets?: number;
 }
