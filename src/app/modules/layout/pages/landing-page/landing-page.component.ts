@@ -15,14 +15,14 @@ export class LandingPageComponent implements OnInit {
     private router: Router
   ) {}
 
-  ngOnInit() {
-    if (this.$auth.isAuth) {
-      this.router.navigateByUrl('');
-    }
-  }
-
   public form: FormGroup = this.fb.group({
     email: [null, Validators.required],
     password: [null, Validators.required],
   });
+
+  ngOnInit(): void {
+    if (this.$auth.isAuth) {
+      this.router.navigateByUrl('');
+    }
+  }
 }
