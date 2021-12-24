@@ -4,7 +4,12 @@
   justify-content: center;
   height: 100vh;
   width: 100%;
-  background: linear-gradient(180deg, rgb(72, 145, 241) 0% , rgb(48, 90, 228) 50% ,rgb(72, 145, 241) 100%) ;
+  background: linear-gradient(
+    180deg,
+    rgb(72, 145, 241) 0%,
+    rgb(48, 90, 228) 50%,
+    rgb(72, 145, 241) 100%
+  );
   background-size: 100% 400%;
   animation: verticalCycle 10s infinite;
   &__Container {
@@ -18,14 +23,14 @@
     // background: rgba($color: #49a7ff, $alpha: .7);
     box-shadow: 12px 27px 40px 8px rgba(225, 236, 255, 0.2) inset;
     border-radius: 7px;
-    border-top: 1px solid rgba($color: #e9e9e9, $alpha: .4);
-    border-left: 1px solid rgba($color: #e9e9e9, $alpha: .4);
+    border-top: 1px solid rgba($color: #e9e9e9, $alpha: 0.4);
+    border-left: 1px solid rgba($color: #e9e9e9, $alpha: 0.4);
     &:hover {
-      transition: .2s;
+      transition: 0.2s;
       transform: translateY(1px);
-      background: rgba($color: #49a7ff, $alpha: .6);
+      background: rgba($color: #49a7ff, $alpha: 0.6);
       box-shadow: 12px 27px 25px 8px rgba(225, 236, 255, 0.2) inset,
-      12px 27px 30px 8px rgba(225, 236, 255, .1);
+        12px 27px 30px 8px rgba(225, 236, 255, 0.1);
     }
     & > h2 {
       font-size: 23px;
@@ -59,12 +64,15 @@
       color: white;
       background: rgb(83, 156, 240);
       &:hover {
-        transition: .2s;
+        transition: 0.2s;
         background: rgb(70, 177, 248);
       }
       &:active {
         background: rgb(156, 215, 255);
         transform: translateY(-1px);
+      }
+      &:disabled {
+        cursor: not-allowed;
       }
     }
   }

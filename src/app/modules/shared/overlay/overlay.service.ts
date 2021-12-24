@@ -17,6 +17,7 @@ export class OverlayService {
     if (!this.loadingQueue.has(Id)) {
       setTimeout(() => this.loadingQueue.add(Id), 0);
     }
+
     return Id;
   }
 

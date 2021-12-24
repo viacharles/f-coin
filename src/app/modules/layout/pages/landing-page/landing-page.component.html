@@ -4,8 +4,10 @@
     <form class="Landing__Form" [formGroup]="this.form" (ngSubmit)="this.$auth.login(this.form.getRawValue())">
       <input type="text" formControlName="email" placeholder="email">
       <input type="password" formControlName="password" placeholder="password">
-      <button [disabled]="this.form.invalid" type="submit">submit</button>
+      <button [disabled]="this.form.invalid" type="submit">sign in</button>
+      <button type="button" [disabled]="this.form.invalid" (click)="this.$auth.signOn(this.form.getRawValue())">
+        sign on
+      </button>
     </form>
   </div>
 </section>
-

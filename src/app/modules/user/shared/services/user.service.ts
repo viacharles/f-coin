@@ -61,9 +61,11 @@ export class UserService extends DatabaseService {
         //   friends.forEach((id: any) => {
         //     this.$firebase.request('user').update({ isLogin: false }, id);
         //   });
-        forkJoin(friends.map((id) => this.fetch().read$(id))).subscribe(
-          (profiles: any) => this.updateFriendsList(profiles as IUser[])
-        );
+        if (friends) {
+          forkJoin(friends?.map((id) => this.fetch().read$(id))).subscribe(
+            (profiles: any) => this.updateFriendsList(profiles as IUser[])
+          );
+        }
       });
   }
 
