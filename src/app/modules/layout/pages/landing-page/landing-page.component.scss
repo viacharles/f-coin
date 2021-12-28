@@ -44,16 +44,25 @@
     flex-direction: column;
     justify-content: flex-start;
     font-size: 12px;
-    & > input {
-      width: 172px;
-      height: 36px;
-      border: none;
-      padding-left: 40px;
-      border-radius: 3px;
-      margin-top: 10px;
-      &:focus {
-        outline-style: none;
+    & > div {
+      position: relative;
+      & > .material-icons {
+        position: absolute;
+        left: 9px;
+        top: 19px;
+        color: cornflowerblue;
       }
+      & > input {
+        width: 172px;
+        height: 36px;
+        border: none;
+        padding-left: 40px;
+        border-radius: 3px;
+        margin-top: 10px;
+        &:focus {
+          outline-style: none;
+        }
+    }
     }
     & > button {
       width: 88px;

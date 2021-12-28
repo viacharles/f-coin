@@ -9,7 +9,7 @@
   </nav>
   <app-chat-announcement *ngIf="false"></app-chat-announcement>
 </header>
-<section [style.height]="'calc('+ '100% - ' + tHeader.clientHeight + 'px - ' + tFooter.clientHeight + 'px)'">
+<section *ngIf="this.friend; else empty" [style.height]="'calc('+ '100% - ' + tHeader.clientHeight + 'px - ' + tFooter.clientHeight + 'px)'">
   123
 </section>
 <footer #tFooter>
@@ -21,3 +21,11 @@
     </div>
   </nav>
 </footer>
+
+<ng-template #empty>
+  <section class="d-flex justify-content-center align-item-center">
+    <span class="material-icons">
+      question_answer
+      </span>
+  </section>
+</ng-template>

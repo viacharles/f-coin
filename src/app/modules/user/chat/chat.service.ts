@@ -16,12 +16,7 @@ export class ChatService extends FeatureService<IChatEvent, Action> {
   }
 
   protected featureName = 'Chat';
-  protected resolveAction({
-    action,
-    id,
-    friendId,
-    message,
-  }: IChatEvent): Promise<any> {
+  protected resolveAction({action, id, friendId, message }: IChatEvent): Promise<any> {
     return new Promise<any>((resolve) => {
       switch (action) {
         case Action.FetchChatHistory:

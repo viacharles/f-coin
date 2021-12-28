@@ -2,8 +2,18 @@
   <div class="Landing__Container">
     <h2 class="Landing__Title"><em class="icon_logo"></em>CHAT <br>AND<br> COINING</h2>
     <form class="Landing__Form" [formGroup]="this.form" (ngSubmit)="this.$auth.login(this.form.getRawValue())">
-      <input type="text" formControlName="email" placeholder="email">
-      <input type="password" formControlName="password" placeholder="password">
+      <div>
+        <input type="text" formControlName="email" placeholder="email">
+        <span class="material-icons">
+          mail_outline
+          </span>
+      </div>
+      <div>
+        <input type="password" formControlName="password" placeholder="password" [minlength]="6">
+        <span class="material-icons">
+          password
+          </span>
+      </div>
       <button [disabled]="this.form.invalid" type="submit">sign in</button>
       <button type="button" [disabled]="this.form.invalid" (click)="this.$auth.signOn(this.form.getRawValue())">
         sign on

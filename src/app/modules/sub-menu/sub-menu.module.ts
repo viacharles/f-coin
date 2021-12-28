@@ -1,13 +1,13 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ChatListComponent } from './components/chat-list/chat-list.component';
-import { CoiningConsoleComponent } from './components/coining-console/coining-console.component';
+import { CoiningComponent } from './components/coining/coining.component';
 
 
 
 @NgModule({
-  declarations: [ChatListComponent, CoiningConsoleComponent],
-  exports: [ChatListComponent, CoiningConsoleComponent],
+  declarations: [ChatListComponent, CoiningComponent],
+  exports: [ChatListComponent, CoiningComponent],
   imports: [
     CommonModule
   ]

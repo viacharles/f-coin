@@ -10,7 +10,7 @@
           [style.height]="'calc(100% - ' + tHeader.clientHeight + 'px)'">
       <nav class="fc-border-r" [ngSwitch]="this.module">
         <app-chat-list *ngSwitchCase="this.Module.User"></app-chat-list>
-        <app-coining-console *ngSwitchCase="this.Module.Business"></app-coining-console>
+        <app-coining *ngSwitchCase="this.Module.Business" [user]="user"></app-coining>
       </nav>
       <section>
         <router-outlet></router-outlet>

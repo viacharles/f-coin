@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControlName, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/auth/auth.service';
 
@@ -24,5 +24,14 @@ export class LandingPageComponent implements OnInit {
     if (this.$auth.isAuth) {
       this.router.navigateByUrl('');
     }
+    console.log(this.form)
   }
+
+  public submit({email, password}: {email: string; password: string}): void {
+    this.$auth.login({email, password});
+  }
+
+  // public formErrorHint(formControl: FormControl): string {
+  //   if (this.form.controls[formControl].)
+  // }
 }

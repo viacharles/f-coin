@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CoiningConsoleComponent } from './coining-console.component';
+import { CoiningComponent } from './coining.component';
 
 describe('CoiningConsoleComponent', () => {
-  let component: CoiningConsoleComponent;
-  let fixture: ComponentFixture<CoiningConsoleComponent>;
+  let component: CoiningComponent;
+  let fixture: ComponentFixture<CoiningComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ CoiningConsoleComponent ]
+      declarations: [ CoiningComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(CoiningConsoleComponent);
+    fixture = TestBed.createComponent(CoiningComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -1,8 +1,9 @@
 import { IEvent } from "@utility/interface/common.interface";
 
 export enum CoiningAction {
-  miningStart = 1,
-  miningEnd,
+  FetchBusinessStatus = 1,
+  MiningStart,
+  MiningEnd,
 }
 
 export interface ICoiningEvent extends IEvent<CoiningAction> {
