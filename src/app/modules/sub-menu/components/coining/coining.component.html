@@ -1,21 +1,24 @@
 <ng-container *ngIf="this.friends$ | async as friends">
-  <div class="d-flex flex-column align-item-center">
+  <section *ngIf="this.coinInfo" class="d-flex flex-column align-item-center">
     <div class="content">
       <section class="chart">
-          <span></span>
-          <span></span>
-          <span></span>
-          <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
       </section>
-      <p [class.toggle-active]="this.isDiggingView">目前共<strong>{{friends.length}}</strong>人在線上</p>
-      <p [class.toggle-active]="this.isDiggingView">一秒可挖出<strong>{{currentIncomePerSec}}</strong>枚</p>
-      <p [class.toggle-active]="this.isDiggingView"[class.toggle-active]="this.isDiggingView">總共已累積持有<strong>{{this.$business?.totalAssets||this.business?.totalAmount}}</strong>枚</p>
+      <p [class.toggle-active]="this.coinInfo.isDigging">目前共<strong>{{friends.length}}</strong>人在線上</p>
+      <p [class.toggle-active]="this.coinInfo.isDigging">一秒可挖出<strong>{{currentIncomePerSec}}</strong>枚</p>
+      <p [class.toggle-active]="this.coinInfo.isDigging" [class.toggle-active]="this.coinInfo.isDigging">
+        總共已累積持有<strong></strong>枚
+      </p>
     </div>
-    <label class="toggle" for="coining-toggle" (change)="toggleMining()">
-      <input class="d-none" type="checkbox" id="coining-toggle" [checked]="this.isDiggingView">
-      <span [class.toggle-active]="this.isDiggingView">
-        <em class="material-icons" [class.toggle-active]="this.isDiggingView">{{this.isDiggingView ? 'check_circle':'do_not_disturb_on'}}</em>
+    <label class="toggle" for="coining-toggle">
+      <input class="d-none" type="checkbox" id="coining-toggle" [checked]="this.coinInfo.isDigging">
+      <span [class.toggle-active]="this.coinInfo.isDigging">
+        <em class="material-icons" [class.toggle-active]="this.coinInfo.isDigging">{{this.coinInfo.isDigging ?
+          'check_circle':'do_not_disturb_on'}}</em>
       </span>
     </label>
-  </div>
+  </section>
 </ng-container>
