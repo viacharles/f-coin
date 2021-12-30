@@ -66,21 +66,23 @@ export class CoiningService extends FeatureService<ICoiningEvent, Action> {
           );
           break;
         case Action.EndDigging:
-          resolve(
-            this.fireEvent({
-              action: Action.UpdateCoinInfo,
-              id,
-              info: {
-                isDigging: false,
-                lastStopDate: firebase.firestore.Timestamp.now()
-              } as ICoinInfo
-            }).then(() => {
-              if (this.subscription) {
-                this.subscription.unsubscribe();
-                this.subscription = null;
-              }
-            })
-          );
+          this.assets$.pipe(take(1)).subscribe(totalAmount => {
+            if (this.subscription) {
+              this.subscription.unsubscribe();
+              this.subscription = null;
+            }
+            resolve(
+              this.fireEvent({
+                action: Action.UpdateCoinInfo,
+                id,
+                info: {
+                  isDigging: false,
+                  lastStopDate: firebase.firestore.Timestamp.now(),
+                  totalAmount
+                } as ICoinInfo
+              })
+            );
+          });
           break;
       }
     }
@@ -106,7 +108,7 @@ export class CoiningService extends FeatureService<ICoiningEvent, Action> {
    * @description 同步db資產資料
    */
   private asyncTotalAmount(id: string): Subscription {
-    return interval(3000)
+    return interval(10000)
       .pipe(switchMap(() => this.assets$.pipe(take(1))))
       .subscribe(totalAmount => this.fireEvent({
         action: Action.UpdateCoinInfo,
