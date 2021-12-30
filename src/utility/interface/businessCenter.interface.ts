@@ -7,7 +7,7 @@ export interface IBusinessCenter {
 
 
 export interface ICoinInfo {
-  isDigging: boolean;
-  lastStopDate: firebase.firestore.Timestamp;
-  totalAmount: number;
+  isDigging?: boolean;
+  lastStopDate?: firebase.firestore.Timestamp;
+  totalAmount?: number;
 }

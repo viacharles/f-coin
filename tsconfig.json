@@ -21,10 +21,21 @@
       "dom"
     ],
     "paths": {
-      "@shared/*": ["src/app/modules/shared/*"],
-      "@utility/*": ["src/utility/*"],
-      "@user/*": ["src/app/modules/user/*"],
-      "@business/*": ["src/app/modules/business/*"]
+      "@shared/*": [
+        "src/app/modules/shared/*"
+      ],
+      "@utility/*": [
+        "src/utility/*"
+      ],
+      "@user/*": [
+        "src/app/modules/user/*"
+      ],
+      "@business/*": [
+        "src/app/modules/business/*"
+      ],
+      "@sub-menu/*": [
+        "src/app/modules/sub-menu/*"
+      ],
     }
   },
   "angularCompilerOptions": {
