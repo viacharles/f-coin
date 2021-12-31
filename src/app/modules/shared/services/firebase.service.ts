@@ -17,8 +17,8 @@ export class FirebaseService {
     private $overlay: OverlayService
   ) {}
 
-  public request(collection: string): any {
-    const LoadingId = this.$overlay.startLoading();
+  public request(collection: string, showLoader = true): any {
+    const LoadingId = showLoader ? this.$overlay.startLoading(): null;
     const ActivatedElement: HTMLElement = document.activeElement as HTMLElement;
     ActivatedElement.blur();
     return {
@@ -98,7 +98,7 @@ export class FirebaseService {
   private readDocument(
     collection: string,
     doc: string,
-    loadingId: string,
+    loadingId: string|null,
     activatedElement: HTMLElement
   ): Promise<any> {
     return new Promise<any>((resolve) => {
@@ -113,7 +113,7 @@ export class FirebaseService {
 
   private readCollection(
     collection: string,
-    loadingId: string,
+    loadingId: string|null,
     activatedElement: HTMLElement
   ): Promise<any> {
     return new Promise<any>((resolve) => {

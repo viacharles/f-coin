@@ -39,7 +39,7 @@ export class BusinessCenterService extends DatabaseService {
     return new Promise<boolean>(resolve => {
       this.fetchCoinInfo(uid).then(coinInfo => {
         coinInfo.updateInfo(data);
-        this.fetch().update({ coinInfo: coinInfo.getData() }, uid).then(() => resolve(true));
+        this.fetch().update({ coinInfo: coinInfo.getData() }, uid, false).then(() => resolve(true));
       });
     });
   }
