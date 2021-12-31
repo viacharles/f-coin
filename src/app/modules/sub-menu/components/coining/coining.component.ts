@@ -42,10 +42,16 @@ export class CoiningComponent implements OnInit {
   }
 
   public digging(event: Event): void {
-    this.$feature.fireEvent({
-      action: (event.target as HTMLInputElement).checked ? Action.StartDigging : Action.EndDigging,
-      id: this.user?.id
-    }).then(() => this.coinInfo?.updateInfo({ isDigging: (event.target as HTMLInputElement).checked }));
+    if ((event.target as HTMLInputElement).checked && this.isNextDayAfterStop()){  
+      this.$feature.fireEvent({
+        action: (event.target as HTMLInputElement).checked ? Action.StartDigging : Action.EndDigging,
+        id: this.user?.id
+      }).then(() => this.coinInfo?.updateInfo({ isDigging: (event.target as HTMLInputElement).checked }));
+    } else {
+      //TODO: 以pop的形式顯示
+      const stopDay = this.coinInfo?.lastStopDate?.toDate() as Date;
+      alert(`下次挖礦時間${stopDay.getFullYear()}/${stopDay.getMonth()+1}/${stopDay.getDate()+1}`)
+    }
   }
 
   private initial(): void {
@@ -61,5 +67,14 @@ export class CoiningComponent implements OnInit {
         });
       }
     });
+  }
+
+
+  private isNextDayAfterStop(): boolean {
+    const today = new Date();
+    const stopDay = this.coinInfo?.lastStopDate?.toDate() as Date;
+    return today.getFullYear() >= stopDay.getFullYear() 
+    && today.getMonth() >= stopDay.getMonth()
+    && today.getDate() > stopDay.getDate();
   }
 }
