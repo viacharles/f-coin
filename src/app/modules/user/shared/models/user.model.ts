@@ -14,4 +14,15 @@ export class User implements IUser {
     this.friends = friends || [];
     this.totalAssets = totalAssets || 0;
   }
+
+  public addFriends(friendIds: string | string[]) {
+    switch (typeof friendIds) {
+      case 'string':
+        if (!this.friends.includes(friendIds)) {
+          this.friends.push(friendIds);
+        }
+        break;
+      default: this.friends = [...this.friends, ...friendIds]; break;
+    }
+  }
 }

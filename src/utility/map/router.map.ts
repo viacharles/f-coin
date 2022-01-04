@@ -8,7 +8,7 @@ export const IndividualPageQueue = new Set<EIndividualPage>([
 export const MenuMap = new Map<EModule, string>([
     [EModule.User, 'question_answer'],
     [EModule.Business, 'trending_up'],
-    [EModule.AddFriend, 'person_add']
+    [EModule.Friend, 'person_add']
 ]);
 export const UserPageMap = new Map<EUserPage, IPage>([
     [EUserPage.Chat, { path: 'chat', icon: '' }]

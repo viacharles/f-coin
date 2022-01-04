@@ -1,7 +1,7 @@
 export enum EModule {
   User = 'user',
   Business = 'business',
-  AddFriend = 'add-friend'
+  Friend = 'friend'
 }
 
 export enum EUserPage {
