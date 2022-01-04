@@ -63,14 +63,14 @@ export class UserService extends DatabaseService {
         //   });
         if (friends) {
           forkJoin(friends?.map((id) => this.fetch().read$(id))).subscribe(
-            (profiles: any) => this.updateFriendsList(profiles as IUser[])
+            (profiles: any) => {
+              this.updateFriendsList(profiles as IUser[])}
           );
         }
       });
   }
 
   private updateFriendsList(friends: IUser[]): void {
-    this.$logger.systemMessage(`total ${friends.length} friends have updated.`);
     this.friends.next(friends.map((friend) => new Friend(friend)));
   }
 }

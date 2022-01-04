@@ -1,7 +1,7 @@
 <ng-container *ngIf="this.friends$ | async as friends">
   <section *ngIf="this.coinInfo" class="d-flex flex-column align-item-center">
     <div class="content">
-      <p [class.toggle-active]="this.coinInfo.isDigging">目前共<strong>{{friends.length}}</strong>人在線上</p>
+      <p [class.toggle-active]="this.coinInfo.isDigging">目前共<strong>{{friendsNums}}</strong>人在線上</p>
       <p [class.toggle-active]="this.coinInfo.isDigging">一秒可挖出<strong>{{currentIncomePerSec}}</strong>枚</p>
       <p [class.toggle-active]="this.coinInfo.isDigging">
         總共已累積持有<strong *ngIf="this.assets$ | async as assets">

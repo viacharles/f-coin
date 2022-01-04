@@ -1,0 +1,34 @@
+<section class="SignOn">
+    <div class="SignOn__Logo">
+    <img src="assets/images/logo.png" >
+    <p>F-Coin</p>
+    </div>
+    <div class="SignOn__Container">
+    <h2 ><em class="icon_logo"></em>註冊</h2>
+    <form class="SignOn__Form" [formGroup]="form" (submit)="signOn()">
+        <div>
+            <input type="text" formControlName="name" placeholder="暱稱" maxlength="10"
+                (keyup)="null">
+            <span class="material-icons">
+                person
+            </span>
+        </div>
+        <div>
+            <input type="text" formControlName="email" placeholder="信箱">
+            <span class="material-icons">
+                mail_outline
+            </span>
+        </div>
+        <div>
+            <input type="password" formControlName="password" placeholder="密碼" [minlength]="6">
+            <span class="material-icons">
+                password
+            </span>
+        </div>
+        <p>限英數</p>
+
+        <button [disabled]="form.invalid" type="submit" >SIGN ON</button>
+    </form>
+    <p (click)="toLandingPage()"> 回登入頁？</p>
+    </div>
+</section>

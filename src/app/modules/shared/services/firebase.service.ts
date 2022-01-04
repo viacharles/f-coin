@@ -22,9 +22,13 @@ export class FirebaseService {
     const ActivatedElement: HTMLElement = document.activeElement as HTMLElement;
     ActivatedElement.blur();
     return {
-      create: (target: any, doc: string) =>
-        this.getDoc(collection, doc)
+      create: (target: any, doc?: string) =>
+        doc
+        ? this.getDoc(collection, doc)
           .set(target)
+          .then(() => this.$overlay.endLoading(LoadingId, ActivatedElement))
+        : this.getCollection(collection)
+          .add(target)
           .then(() => this.$overlay.endLoading(LoadingId, ActivatedElement)),
       read: (doc?: string) =>
         doc

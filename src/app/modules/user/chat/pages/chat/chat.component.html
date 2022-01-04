@@ -1,31 +1,56 @@
-<header #tHeader class="w-100">
-  <nav>
-    <h3>{{this.friend?.name}}</h3>
-    <em></em>
-  </nav>
-  <nav>
-    <em class="material-icons">search</em>
-    <em class="material-icons">content_paste</em>
-  </nav>
-  <app-chat-announcement *ngIf="false"></app-chat-announcement>
-</header>
-<section *ngIf="this.friend; else empty" [style.height]="'calc('+ '100% - ' + tHeader.clientHeight + 'px - ' + tFooter.clientHeight + 'px)'">
-  123
-</section>
-<footer #tFooter>
-  <textarea [(ngModel)]="this.message" (keydown)="this.afterKeydown($event)" class="p-0" placeholder="請輸入訊息"></textarea>
-  <nav>
-    <div class="d-flex flex-row align-itmes-center">
-      <em rotate45 class="material-icons">attach_file</em>
-      <em class="material-icons">bookmark_border</em>
+<ng-container *ngIf="this.friend; else empty">
+  <header #tHeader class="w-100">
+    <nav>
+      <h3>{{this.friend?.name}}</h3>
+      <em></em>
+    </nav>
+    <nav>
+      <em class="material-icons">search</em>
+      <em class="material-icons">content_paste</em>
+    </nav>
+    <app-chat-announcement *ngIf="false"></app-chat-announcement>
+  </header>
+  <section [style.height]="'calc('+ '100% - ' + tHeader.clientHeight + 'px - ' + tFooter.clientHeight + 'px)'">
+    <div class="message-group" *ngFor="let item of this.history">
+      <!-- 對方訊息 -->
+      <ng-container [ngSwitch]="item.userId">
+        <div class="message partner" *ngSwitchCase="this.userId">
+          <div class="message-left">
+            <img [src]="this.friend.avatar">
+          </div>
+          <div class="message-right">
+            <div>
+              <p>{{'item.message'}}</p>
+            </div>
+          </div>
+        </div>
+        <!-- 本人訊息 -->
+        <div class="message user" *ngSwitchCase="this.friend.id">
+          <div class="item-group">
+            <p>{{item.message}}</p>
+          </div>
+        </div>
+      </ng-container>
     </div>
-  </nav>
-</footer>
+  </section>
+  <footer #tFooter>
+    <textarea [(ngModel)]="this.message" (keydown)="this.afterKeydown($event)" class="p-0"
+      placeholder="請輸入訊息"></textarea>
+    <nav>
+      <div class="d-flex flex-row align-itmes-center">
+        <em rotate45 class="material-icons">attach_file</em>
+        <em class="material-icons">bookmark_border</em>
+      </div>
+    </nav>
+  </footer>
+</ng-container>
+
 
 <ng-template #empty>
-  <section class="d-flex justify-content-center align-item-center">
+  empty
+  <!-- <section class="d-flex justify-content-center align-item-center" [style.height]="'calc('+ '100% - ' + tHeader.clientHeight + 'px - ' + tFooter.clientHeight + 'px)'">
     <span class="material-icons">
       question_answer
       </span>
-  </section>
+  </section> -->
 </ng-template>

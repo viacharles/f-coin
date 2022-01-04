@@ -4,6 +4,8 @@ import { CoiningService } from './coining.service';
 import { Component,Input, OnInit } from '@angular/core';
 import { User } from '@user/shared/models/user.model';
 import { distinctUntilChanged, tap, map } from 'rxjs/operators';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import { Friend } from '@user/shared/models/friend.model';
 
 
 @Component({
@@ -22,11 +24,14 @@ export class CoiningComponent implements OnInit {
 
   public friendsNums = 0;
   public assets$ = this.$feature.assets$.pipe(map(assets => `${assets}`));
-  public friends$ = this.$user.friends$.pipe(
-    map(friends => friends.filter(({ isLogin }) => isLogin)),
-    distinctUntilChanged((previous, current) => previous.length !== current.length),
-    tap(friends => this.friendsNums = friends.length)
-  );
+  private friends = new Subject<Friend[]>();
+  public friends$ = this.friends.asObservable();
+  // public friends$ = this.$user.friends$.pipe(
+  //   map(friends => friends.filter(({ isLogin }) => isLogin)),
+  //   tap(friends => console.log('friends', friends)),
+  //   distinctUntilChanged((previous, current) => previous.length !== current.length),
+  //   tap(friends => this.friendsNums = friends.length)
+  // );
   public coinInfo: CoinInfo | undefined;
 
   ngOnInit(): void {
@@ -55,6 +60,15 @@ export class CoiningComponent implements OnInit {
   }
 
   private initial(): void {
+    this.$user.friends$.pipe(
+      map(friends => friends.filter(({ isLogin }) => isLogin)),
+        tap(friends => console.log('friends', friends)),
+        distinctUntilChanged((previous, current) => previous.length !== current.length),
+    ).subscribe((friends)=> {
+      console.log('friends', friends)
+      this.friends.next(friends);
+    }
+    )
     this.$feature.fireEvent<CoinInfo>({
       action: Action.FetchCoinInfo,
       id: this.user?.id

@@ -1,3 +1,4 @@
+import { EIndividualPage } from '@utility/enum/route.enum';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControlName, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -29,6 +30,10 @@ export class LandingPageComponent implements OnInit {
 
   public submit({email, password}: {email: string; password: string}): void {
     this.$auth.login({email, password});
+  }
+
+  public toLogOnPage(): void {
+    this.router.navigateByUrl(EIndividualPage.SignOn);
   }
 
   // public formErrorHint(formControl: FormControl): string {

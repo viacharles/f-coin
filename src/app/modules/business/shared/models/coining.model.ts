@@ -4,6 +4,7 @@ import { IEvent } from '@utility/interface/common.interface';
 
 export enum CoiningAction {
   FetchCoinInfo = 1,
+  FetchFriendList,
   UpdateCoinInfo,
   StartDigging,
   EndDigging

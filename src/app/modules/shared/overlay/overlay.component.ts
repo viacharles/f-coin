@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { OverlayService } from '@shared/overlay/overlay.service';
 
 @Component({
@@ -6,9 +6,17 @@ import { OverlayService } from '@shared/overlay/overlay.service';
   templateUrl: './overlay.component.html',
   styleUrls: ['./overlay.component.scss'],
 })
-export class OverlayComponent {
-  constructor(private $overlay: OverlayService) {}
-  get isLoading(): boolean {
-    return this.$overlay.loadingQueue.size > 0;
+export class OverlayComponent implements OnInit {
+  constructor(private $overlay: OverlayService) { }
+  public isLoading = false;
+
+  ngOnInit(): void {
+    window.requestAnimationFrame(this.setLoading.bind(this));
   }
+
+  private setLoading() {
+    this.isLoading = this.$overlay.loadingQueue.size > 0;
+    window.requestAnimationFrame(this.setLoading.bind(this));
+  }
+
 }

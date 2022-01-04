@@ -1,13 +1,13 @@
-import { take, map, switchMap, takeUntil, filter } from 'rxjs/operators';
+import { take, map, takeUntil, filter } from 'rxjs/operators';
 import { Component, OnInit } from '@angular/core';
 import { ChatService } from '@user/chat/chat.service';
 import { ChatAction as Action } from '@user/shared/models/chat.model';
 import { UserService } from '@user/shared/services/user.service';
-import { IMessage } from '@utility/interface/messageCenter.interface';
+import { IMessage, IMessageBatched } from '@utility/interface/messageCenter.interface';
 import { ActivatedRoute } from '@angular/router';
 import { UnSubOnDestroy } from '@utility/abstract/unsubondestroy.abstract';
 import { Friend } from '@user/shared/models/friend.model';
-import { combineLatest, forkJoin } from 'rxjs';
+import { combineLatest } from 'rxjs';
 import { IUser } from '@utility/interface/user.interface';
 
 @Component({
@@ -27,7 +27,7 @@ export class ChatComponent extends UnSubOnDestroy implements OnInit {
   public message = '';
   public history: IMessage[] = [];
   public friend: Friend | null = null;
-  private userId: string | null = null;
+  public userId: string | null = null;
 
   ngOnInit(): void {
     this.$user.user$
@@ -35,7 +35,7 @@ export class ChatComponent extends UnSubOnDestroy implements OnInit {
       .subscribe((user) => (this.userId = (user as IUser).id));
     combineLatest([
       this.$user.friends$.pipe(filter((friends) => friends.length > 0)),
-      this.activatedRoute.params,
+      this.activatedRoute.params.pipe(filter(({ id }) => !!id)),
     ])
       .pipe(
         takeUntil(this.onDestroy$),
@@ -45,7 +45,7 @@ export class ChatComponent extends UnSubOnDestroy implements OnInit {
   }
 
   public afterKeydown(event: KeyboardEvent): void {
-    if (event.key === 'Enter') {
+    if (event.key === 'Enter' && this.message.trim() !== '') {
       this.$feature
         .fireEvent({
           action: Action.SendMessage,
@@ -65,6 +65,10 @@ export class ChatComponent extends UnSubOnDestroy implements OnInit {
         friendId,
         id: this.userId as string,
       })
-      .then((history) => (this.history = history));
+      .then((history) => {
+        console.log('history', history);
+        (this.history = history)
+      });
   }
+
 }

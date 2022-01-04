@@ -7,12 +7,14 @@ import { LandingPageComponent } from './pages/landing-page/landing-page.componen
 import { SharedModule } from '@shared/shared.module';
 import { MenuComponent } from './components/menu/menu.component';
 import { SubMenuModule } from '../sub-menu/sub-menu.module';
+import { SignOnPageComponent } from './pages/sign-on-page/sign-on-page.component';
 
 @NgModule({
   declarations: [
     LayoutComponent,
     HeaderComponent,
     LandingPageComponent,
+    SignOnPageComponent,
     MenuComponent,
   ],
   imports: [CommonModule, AppRoutingModule, SharedModule, SubMenuModule],

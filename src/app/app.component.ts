@@ -12,7 +12,7 @@ import { IndividualPageQueue } from '@utility/map/router.map';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
-  constructor(private router: Router, public $overlay: OverlayService) {}
+  constructor(public router: Router, public $overlay: OverlayService) {}
 
   public isIndividualPage(): boolean {
     return IndividualPageQueue.has(

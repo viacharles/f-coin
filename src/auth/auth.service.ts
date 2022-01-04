@@ -24,7 +24,7 @@ export class AuthService {
     private $logger: LoggerService,
     private $overlay: OverlayService,
     private $fb: FirebaseService
-  ) {}
+  ) { }
 
   get isAuth(): string | null {
     return sessionStorage.getItem('id');
@@ -58,13 +58,20 @@ export class AuthService {
         this.router
           .navigateByUrl(environment.defaultUrl)
           .then(() => this.$overlay.endLoading(LoadingId))
-      );
+      )
+      .catch(error => {
+        console.log('login-catch')
+        this.$overlay.endLoading(LoadingId);
+        alert(`${error}`);
+      })
   }
 
   public signOn({
+    name,
     email,
-    password,
+    password
   }: {
+    name: string;
     email: string;
     password: string;
   }): void {
@@ -73,8 +80,9 @@ export class AuthService {
       .createUserWithEmailAndPassword(email, password)
       .then(({ user }: firebase.auth.UserCredential) =>
         this.initialUserData(
+          name,
           user?.uid as string,
-          user?.displayName as string,
+          // user?.displayName as string,
           LoadingId
         ).then(() => this.login({ email, password }))
       )
@@ -96,13 +104,13 @@ export class AuthService {
    * @description 註冊後於DB建立對應使用者資料
    */
   private initialUserData(
-    uid: string,
     name: string,
+    uid: string,
     loadingId: string
   ): Promise<void> {
     return new Promise<void>((resolve) => {
       this.$overlay.endLoading(loadingId);
-      resolve(this.$fb.request('user').create({ id: uid, name } as IUser, uid));
+      resolve(this.$fb.request('user').create({ id: uid, name, friends: [] } as IUser, uid));
     });
   }
 }

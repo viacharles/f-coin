@@ -1,4 +1,8 @@
 <section class="Landing">
+  <div class="Landing__Logo">
+    <img src="assets/images/logo.png" >
+    <p>F-Coin</p>
+  </div>
   <div class="Landing__Container">
     <h2 class="Landing__Title"><em class="icon_logo"></em>CHAT <br>AND<br> COINING</h2>
     <form class="Landing__Form" [formGroup]="this.form" (ngSubmit)="this.$auth.login(this.form.getRawValue())">
@@ -14,10 +18,8 @@
           password
           </span>
       </div>
-      <button [disabled]="this.form.invalid" type="submit">sign in</button>
-      <button type="button" [disabled]="this.form.invalid" (click)="this.$auth.signOn(this.form.getRawValue())">
-        sign on
-      </button>
+      <button [disabled]="this.form.invalid" type="submit">SIGN IN</button>
     </form>
+    <p (click)="toLogOnPage()">註冊新帳號？</p>
   </div>
 </section>

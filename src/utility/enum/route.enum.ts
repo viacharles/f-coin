@@ -1,6 +1,7 @@
 export enum EModule {
   User = 'user',
-  Business = 'business'
+  Business = 'business',
+  AddFriend = 'add-friend'
 }
 
 export enum EUserPage {
@@ -8,6 +9,7 @@ export enum EUserPage {
 }
 
 export enum EIndividualPage {
-  Landing = 'landing'
+  Landing = 'landing',
+  SignOn = 'sign-on'
 }
 

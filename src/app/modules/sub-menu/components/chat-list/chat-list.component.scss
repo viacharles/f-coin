@@ -56,6 +56,11 @@
     }
     & img {
       object-fit: cover;
+      &.is-login {
+        box-shadow: 5px,5px,5px,5px,#28b2fd;
+        filter: drop-shadow(0,0,0,5px,#28b2fd);
+        transition: .3s;
+      }
     }
   }
   &__name {

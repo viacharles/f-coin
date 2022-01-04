@@ -1,4 +1,5 @@
 <app-layout *ngIf="!this.isIndividualPage(); else tIndividual"></app-layout>
+{{this.router.url}}
 <ng-template #tIndividual>
   <router-outlet></router-outlet>
 </ng-template>

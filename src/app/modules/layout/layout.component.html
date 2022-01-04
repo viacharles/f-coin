@@ -11,6 +11,7 @@
       <nav class="fc-border-r" [ngSwitch]="this.module">
         <app-chat-list *ngSwitchCase="this.Module.User"></app-chat-list>
         <app-coining *ngSwitchCase="this.Module.Business" [user]="user"></app-coining>
+        <app-add-friend *ngSwitchCase="this.Module.AddFriend" [user]="user"></app-add-friend>
       </nav>
       <section>
         <router-outlet></router-outlet>

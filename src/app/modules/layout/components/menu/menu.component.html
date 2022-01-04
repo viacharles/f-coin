@@ -1,6 +1,6 @@
 <ul class="w-100">
   <li class="d-flex justify-content-center align-items-center">
-    <img [src]="this.user?.avatar || 'assets/images/icons/empty-avatar.jpeg'" alt="">
+    <img [src]="this.user?.avatar || 'assets/images/icons/empty-avatar.jpeg'">
   </li>
   <li *ngFor="let menu of this.Menu | keyvalue" class="d-flex flex-row align-items-center justify-content-center">
     <input [(ngModel)]="this.module" (ngModelChange)="this.moduleChanged.emit($event)" class="d-none" [id]="menu.key"

@@ -30,7 +30,8 @@ export class Friend implements IFriend {
   private startTimer(): void {
     this.subscription?.unsubscribe();
     this.subscription = this.timer$.subscribe(
-      () => (this.isLogin = Math.random() >= 0.5)
+      () => {
+        (this.isLogin = Math.random() >= 0.5)}
     );
   }
 }
