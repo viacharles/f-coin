@@ -12,6 +12,6 @@ export interface IUser {
   name: string;
   avatar?: string;
   friends?: string[];
-  isCoining?: boolean;
+  inviteAddFriend?: string[];
   totalAssets?: number;
 }

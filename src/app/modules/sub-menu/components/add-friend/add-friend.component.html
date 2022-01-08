@@ -1,21 +1,33 @@
+    <div class="header">
+        <h3>加好友</h3>
+        <a (click)="toFriendPage()">
+            <p>推薦好友</p>
+            <span class="material-icons">
+                arrow_right
+            </span>
+        </a>
+    </div>
     <label for="input">
-        <input #tInput type="text" placeholder="請輸入ID搜尋" name="input" (keydown)="afterKeyDown($event)" maxlength="30">
-        <span class="material-icons" (click)="clearInput(tInput)">
+        <input type="text" [(ngModel)]="this.searchString" placeholder="請輸入ID搜尋" name="input" (keydown)="afterKeyDown($event)" maxlength="30" autofocus>
+        <span class="material-icons" (click)="clearInput()">
             cancel
         </span>
-        <span class="material-icons" (click)="afterClickSearch(tInput)">
+        <span class="material-icons" (click)="afterClickSearch()">
             search
         </span>
     </label>
-    
+
         <p *ngIf=" searchResultType === EResult.NoResult">沒有這個人喔!</p>
-        <p *ngIf=" searchResultType === EResult.WrongInput">請輸入英數字!d</p>
+        <p *ngIf=" searchResultType === EResult.WrongInput">請輸入英數字!</p>
     <ng-container *ngIf=" showProfiles ">
-        <img [src]="this.searchResultView?.avatar">
+        <img [src]="this.searchResultView?.avatar||'assets/images/icons/empty-avatar.jpeg'">
         <p class="name">{{ this.searchResultView?.name }}</p>
         <p *ngIf="searchResultType === EResult.InFriends">已加入好友</p>
-        <ng-container [ngSwitch]="searchResultType">
-            <button *ngSwitchCase="EResult.InFriends" (click)="toChat()">聊天</button>
-            <button *ngSwitchCase="EResult.Add" (click)="addAsFriend()">加入好友列表</button>
+        <p *ngIf="searchResultType === EResult.Self">無法將自己加入好友喔!</p>
+        <ng-container *ngIf="searchResultType !== EResult.Self">
+            <ng-container [ngSwitch]="searchResultType">
+                <button *ngSwitchCase="EResult.InFriends" (click)="toChat()">聊天</button>
+                <button *ngSwitchCase="EResult.Add" (click)="addAsFriend()">加入好友列表</button>
+            </ng-container>
         </ng-container>
     </ng-container>

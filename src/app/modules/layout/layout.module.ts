@@ -8,6 +8,7 @@ import { SharedModule } from '@shared/shared.module';
 import { MenuComponent } from './components/menu/menu.component';
 import { SubMenuModule } from '../sub-menu/sub-menu.module';
 import { SignOnPageComponent } from './pages/sign-on-page/sign-on-page.component';
+import { PostEditComponent } from '@sub-menu/components/post-edit/post-edit.component';
 
 @NgModule({
   declarations: [
@@ -16,6 +17,7 @@ import { SignOnPageComponent } from './pages/sign-on-page/sign-on-page.component
     LandingPageComponent,
     SignOnPageComponent,
     MenuComponent,
+    PostEditComponent
   ],
   imports: [CommonModule, AppRoutingModule, SharedModule, SubMenuModule],
   exports: [LayoutComponent],

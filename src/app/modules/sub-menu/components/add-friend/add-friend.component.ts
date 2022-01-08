@@ -1,5 +1,6 @@
+import { FriendPageMap } from './../../../../../utility/map/router.map';
 import { UserPageMap } from '@utility/map/router.map';
-import { EModule, EUserPage } from '@utility/enum/route.enum';
+import { EFriendPage, EModule, EUserPage } from '@utility/enum/route.enum';
 import { Router } from '@angular/router';
 import { IFriend } from '@utility/interface/user.interface';
 import { FirebaseService } from '@shared/services/firebase.service';
@@ -10,6 +11,7 @@ import { User } from '@user/shared/models/user.model';
 enum EResult {
   NoResult = 0,
   InFriends,
+  Self,
   Add,
   WrongInput
 }
@@ -21,7 +23,6 @@ enum EResult {
 })
 export class AddFriendComponent implements OnInit {
 
-  @ViewChild('tInput') tInput: HTMLInputElement | null = null;
   @Input() user: User | null = null;
   @Output() switchToChat = new EventEmitter<void>();
 
@@ -29,6 +30,7 @@ export class AddFriendComponent implements OnInit {
 
   public searchResultType: EResult | null = null;
   public searchResultView: IFriend | null = null;
+  public searchString = '';
 
   ngOnInit(): void {
   }
@@ -36,35 +38,37 @@ export class AddFriendComponent implements OnInit {
   get showProfiles() {
     return this.searchResultView &&
       (this.searchResultType === EResult.InFriends ||
-        this.searchResultType === EResult.Add)
+        this.searchResultType === EResult.Add || 
+        this.searchResultType === EResult.Self
+        )
   }
 
   get EResult() {
     return EResult;
   }
 
-  public clearInput(element: HTMLInputElement): void {
-    element.value = '';
+  public clearInput(): void {
+    this.searchString = '';
+    this.searchResultType = null;
   }
 
   public afterKeyDown(event: KeyboardEvent): void {
-    console.log('afterKeyDown')
     if (event.code === 'Enter') {
-      this.searchFriend((<HTMLInputElement>event.target)?.value)
+      this.searchFriend(this.searchString)
     }
   }
 
-  public afterClickSearch(element: HTMLInputElement): void {
-    this.searchFriend(element.value);
+  public afterClickSearch(): void {
+    this.searchFriend(this.searchString);
   }
 
   public addAsFriend() {
     this.user?.addFriends(this.searchResultView?.id as string);
     this.$fb.getDoc('user', this.user?.id as string).update({ friends: this.user?.friends })
       .then(() => {
-        (<HTMLInputElement>this.tInput).value = '';
+        this.searchString = '';
         this.searchResultView = null;
-        alert(`成功加入好友！`)
+        alert(`成功加入好友!`)
       });
   }
 
@@ -73,18 +77,24 @@ export class AddFriendComponent implements OnInit {
     this.switchToChat.emit();
   }
 
+  public toFriendPage(): void {
+    this.router.navigateByUrl(`${EModule.Friend}/${FriendPageMap.get(EFriendPage.Recommend)?.path}`)
+  }
+
   /**
    * @description 搜尋使用者id，如果是有註冊在userCenter裡的id，就將資料顯示在畫面上
    * @param input 
    */
   private searchFriend(id: string): void {
     const queryId = id.trim();
-    if (queryId !== '' && queryId.match(/\w/g) !== null) {
+    if (queryId !== '' && /^\w+$/.test(queryId)) {
       const findInFriends = (this.user?.friends as string[]).find(id => id === queryId);
-      console.log('searchFriend', this.user, findInFriends)
+      const isSelf = (this.user?.id as string) === queryId;
+      console.log('isSelf', isSelf)
       let findInUserCenter: string | undefined;
       this.$fb.request('user').read()
-        .then((ids: { key: string, value: IFriend }[]) => findInUserCenter = (ids.find(id => id.key === queryId))?.key as string | undefined)
+        .then((resFriends: { key: string, value: IFriend }[]) => 
+          findInUserCenter = (resFriends.find(resFriend => resFriend.key === queryId))?.key as string | undefined)
         .then(() => {
           if (findInUserCenter !== undefined) {
             this.$fb.request('user').read(queryId).then((friend: IFriend) => {
@@ -92,13 +102,12 @@ export class AddFriendComponent implements OnInit {
             });
           }
           this.searchResultType = findInUserCenter !== undefined
-            ? findInFriends === undefined
-              ? EResult.Add
-              : EResult.InFriends
-            : EResult.NoResult;
-          console.log('this.searchResultType', this.searchResultType)
-
-
+                                ? findInFriends === undefined
+                                ? isSelf
+                                ? EResult.Self
+                                : EResult.Add
+                                : EResult.InFriends
+                                : EResult.NoResult;
         });
     }
     else {

@@ -5,7 +5,6 @@ export class User implements IUser {
   public id: string;
   public avatar: string;
   public friends: string[];
-  public isCoining?: boolean | undefined;
   public totalAssets: number;
   constructor({ id, avatar, friends, name, totalAssets }: IUser) {
     this.name = name;

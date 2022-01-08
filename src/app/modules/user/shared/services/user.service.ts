@@ -4,7 +4,6 @@ import { BehaviorSubject, forkJoin, Observable } from 'rxjs';
 import { Friend } from '@user/shared/models/friend.model';
 import { FirebaseService } from '@shared/services/firebase.service';
 import { LoggerService } from '@shared/services/logger.service';
-import firebase from 'firebase/app';
 import { User } from '@user/shared/models/user.model';
 import { IUser } from '@utility/interface/user.interface';
 
@@ -73,4 +72,5 @@ export class UserService extends DatabaseService {
   private updateFriendsList(friends: IUser[]): void {
     this.friends.next(friends.map((friend) => new Friend(friend)));
   }
+  
 }

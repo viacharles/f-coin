@@ -2,10 +2,8 @@ import { FirebaseService } from '@shared/services/firebase.service';
 import { DatabaseService } from '@utility/abstract/database-service.abstract';
 import { Injectable } from '@angular/core';
 import { UserService } from '@user/shared/services/user.service';
-import { interval, Subscription } from 'rxjs';
 import { LoggerService } from '@shared/services/logger.service';
 import { IBusinessCenter, ICoinInfo } from '@utility/interface/businessCenter.interface';
-import firebase from 'firebase';
 import { CoinInfo } from '@business/shared/models/coining.model';
 
 @Injectable({
@@ -24,11 +22,10 @@ export class BusinessCenterService extends DatabaseService {
 
   /**
    * @description 獲得f-coin挖礦相關資訊
-   *
    */
   public fetchCoinInfo(uid: string): Promise<CoinInfo> {
     return new Promise<CoinInfo>(resolve => {
-      this.fetch().read(uid).then(({ coinInfo }: IBusinessCenter) => resolve(new CoinInfo(coinInfo)));
+      this.fetch(false).read(uid).then(({ coinInfo }: IBusinessCenter) => resolve(new CoinInfo(coinInfo)));
     });
   }
 
@@ -39,7 +36,7 @@ export class BusinessCenterService extends DatabaseService {
     return new Promise<boolean>(resolve => {
       this.fetchCoinInfo(uid).then(coinInfo => {
         coinInfo.updateInfo(data);
-        this.fetch().update({ coinInfo: coinInfo.getData() }, uid, false).then(() => resolve(true));
+        this.fetch(false).update({ coinInfo: coinInfo.getData() }, uid, false).then(() => resolve(true));
       });
     });
   }

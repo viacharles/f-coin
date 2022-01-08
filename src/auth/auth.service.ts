@@ -79,10 +79,9 @@ export class AuthService {
     this.$auth
       .createUserWithEmailAndPassword(email, password)
       .then(({ user }: firebase.auth.UserCredential) =>
-        this.initialUserData(
+        this.initialDBData(
           name,
           user?.uid as string,
-          // user?.displayName as string,
           LoadingId
         ).then(() => this.login({ email, password }))
       )
@@ -103,14 +102,15 @@ export class AuthService {
   /**
    * @description 註冊後於DB建立對應使用者資料
    */
-  private initialUserData(
+  private initialDBData(
     name: string,
     uid: string,
     loadingId: string
   ): Promise<void> {
-    return new Promise<void>((resolve) => {
-      this.$overlay.endLoading(loadingId);
-      resolve(this.$fb.request('user').create({ id: uid, name, friends: [] } as IUser, uid));
-    });
+    const initialMessageData = new Promise((resolve)=> resolve(this.$fb.request('messageCenter').create({ history: []}, uid)));
+    const initialUserData = new Promise((resolve)=> resolve(this.$fb.request('user').create({ id: uid, name, friends: [], inviteAddFriend: [] } as IUser, uid)));
+    const initialBusinessData = new Promise((resolve)=> resolve(this.$fb.request('businessCenter').create({ coinInfo: { isDigging: false, lastStopDate: firebase.firestore.Timestamp.fromDate(new Date(0)), totalAmount: 0, }},uid)));
+    return Promise.all([ initialMessageData, initialUserData, initialBusinessData ])
+          .then(()=> this.$overlay.endLoading(loadingId));
   }
 }

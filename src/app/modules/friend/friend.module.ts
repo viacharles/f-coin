@@ -2,10 +2,11 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { FriendRoutingModule } from './friend-routing.module';
+import { RecommendPageComponent } from './pages/recommend-page/recommend-page.component';
 
 
 @NgModule({
-  declarations: [],
+  declarations: [RecommendPageComponent],
   imports: [
     CommonModule,
     FriendRoutingModule

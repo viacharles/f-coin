@@ -1,0 +1,53 @@
+<section>
+    <div class="post" *ngFor="let post of [1,2,3,4,5]">
+        <header>
+            <img src="">
+            <p><strong>{{'作者name'}}</strong></p>
+        </header>
+        <img src="">
+        <div class="funcs">
+            <div>
+                <span class="material-icons">
+                    favorite_border
+                    </span>
+                <span class="material-icons">
+                    chat_bubble_outline
+                    </span>
+            </div>
+            <div>
+                <button class="dot" *ngFor="let dot of [1,2,3,4]"></button>
+                <span class="material-icons img-button">
+                    arrow_forward
+                    </span>
+            </div>
+        </div>
+        <div class="text-content">
+            <p><strong>{{'作者name'}}</strong>
+                {{'貼文文字內容貼文文字內容貼文文字內容貼文文字內容貼文文字內容貼文文字內容貼文文字內容貼文文字內容'}}
+                <span>....更多</span>
+            </p>
+            <button>查看全部{{'5'}}則留言</button>
+        </div>
+    </div>
+</section>
+
+<section class="detail-area">
+    <header>
+        <img src="">
+        <p>
+            <strong>{{'作者name'}}</strong>
+            {{'貼文文字內容貼文文字內容貼文文字內容貼文文字內容貼文文字內容貼文文字內容貼文文字內容貼文文字內容'}}
+        </p>
+    </header>
+    <p>{{'2天前'}}。{{'已編輯'}}</p>
+    <div class="comments" *ngFor="let comment of [1,2,3,4,5]">
+        <img src="">
+        <div>
+            <p>{{'留言文字留言文字留言文字留言文字留言文字留言文字留言文字留言文字留言文字留言文字'}}</p>
+        </div>
+    </div>
+</section>
+
+<div class="comments-pop">
+
+</div>

@@ -1,7 +1,10 @@
+import { UserPageMap } from '@utility/map/router.map';
+import { SocialPageMap } from './../../../utility/map/router.map';
+import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { NavigationService } from '@shared/services/navigation.service';
 import { UserService } from '@user/shared/services/user.service';
-import { EModule } from '@utility/enum/route.enum';
+import { EModule, ESocialPage, EUserPage } from '@utility/enum/route.enum';
 
 @Component({
   selector: 'app-layout',
@@ -11,7 +14,8 @@ import { EModule } from '@utility/enum/route.enum';
 export class LayoutComponent implements OnInit {
   constructor(
     public $navigation: NavigationService,
-    public $user: UserService
+    public $user: UserService,
+    private $router: Router
   ) {}
   get Module(): typeof EModule {
     return EModule;
@@ -19,4 +23,17 @@ export class LayoutComponent implements OnInit {
   public module: EModule = EModule.User;
 
   ngOnInit(): void {}
+
+  public moduleChanged(name: EModule): void {
+    this.module = name;
+    switch(name) {
+      case EModule.Social:
+        this.$router.navigateByUrl(`${EModule.Social}/${SocialPageMap.get(ESocialPage.SharedWall)?.path}`);
+        break;
+      case EModule.User:
+        this.$router.navigateByUrl(`${EModule.User}/${UserPageMap.get(EUserPage.Chat)?.path}`);
+        break;
+    }
+
+  }
 }

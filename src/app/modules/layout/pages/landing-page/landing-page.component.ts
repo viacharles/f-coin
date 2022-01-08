@@ -25,7 +25,6 @@ export class LandingPageComponent implements OnInit {
     if (this.$auth.isAuth) {
       this.router.navigateByUrl('');
     }
-    console.log(this.form)
   }
 
   public submit({email, password}: {email: string; password: string}): void {

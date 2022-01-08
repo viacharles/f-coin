@@ -1,0 +1,26 @@
+<div class="header">
+    <h3>發文章</h3>
+    <button [disabled]="!this.isAblePost" (click)="null">發文</button>
+</div>
+<div class="funcs">
+    <span class="material-icons" [style]="">
+        format_bold
+        </span>
+    <span class="material-icons">
+        format_italic
+        </span>
+    <span class="material-icons">
+        color_lens
+        </span>
+    <span class="material-icons">
+        image
+        </span>
+    <span class="material-icons">
+        attachment
+        </span>
+    <span class="material-icons">
+        video_camera_back
+        </span>
+</div>
+<textarea #tTextArea placeholder="在想些什麼？" autofocus [(ngModel)]="this.textContent"></textarea>
+

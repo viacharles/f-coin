@@ -1,7 +1,7 @@
 import { finalize } from 'rxjs/operators';
 import { IFriend, IUser } from '@utility/interface/user.interface';
 import { Subscription, timer } from 'rxjs';
-import { IMessage } from '@utility/interface/messageCenter.interface';
+import { IEvent } from "@utility/interface/common.interface";
 
 /**
  * @description 好友資訊，隨機秒數更新登陸狀態
@@ -34,4 +34,13 @@ export class Friend implements IFriend {
         (this.isLogin = Math.random() >= 0.5)}
     );
   }
+}
+
+export enum FriendsAction {
+    FetchRecommendList = 1,
+    FetchInviteList,
+}
+
+export interface IFriendsEvent extends IEvent<FriendsAction> {
+    id?: string
 }

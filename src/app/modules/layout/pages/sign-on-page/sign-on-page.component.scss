@@ -78,7 +78,7 @@
         position: absolute;
         left: 9px;
         top: 19px;
-        color: $focus;
+        color: $primary;
       }
       & > input {
         width: 172px;
@@ -96,7 +96,7 @@
     & > p {
       padding-top: 3px;
       padding-right: 5px;
-      color: $focus;
+      color: $primary;
       font-size: map-get($font-level , 'xs' );
       text-align: end;
     }

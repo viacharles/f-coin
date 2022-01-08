@@ -1,3 +1,4 @@
+import { FormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ChatListComponent } from './components/chat-list/chat-list.component';
@@ -10,7 +11,8 @@ import { AddFriendComponent } from './components/add-friend/add-friend.component
   declarations: [ChatListComponent, CoiningComponent, AddFriendComponent],
   exports: [ChatListComponent, CoiningComponent, AddFriendComponent],
   imports: [
-    CommonModule
+    CommonModule,
+    FormsModule
   ]
 })
 export class SubMenuModule { }

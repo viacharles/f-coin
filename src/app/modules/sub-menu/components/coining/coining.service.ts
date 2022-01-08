@@ -1,3 +1,4 @@
+import { OverlayService } from '@shared/overlay/overlay.service';
 import { ICoinInfo } from '@utility/interface/businessCenter.interface';
 import { BehaviorSubject, interval, Subscription, forkJoin } from 'rxjs';
 import { LoggerService } from '@shared/services/logger.service';
@@ -18,7 +19,8 @@ export class CoiningService extends FeatureService<ICoiningEvent, Action> {
   constructor(
     protected $logger: LoggerService,
     private $business: BusinessCenterService,
-    private $user: UserService
+    private $user: UserService,
+    private $overlay: OverlayService
   ) {
     super($logger);
   }
@@ -118,11 +120,14 @@ export class CoiningService extends FeatureService<ICoiningEvent, Action> {
   }
 
   private fetchCoinInfo(uid: string): Promise<CoinInfo> {
+    const loaderId = this.$overlay.startLoading();
     return new Promise<CoinInfo>(resolve => this.$business.fetchCoinInfo(uid).then(coinInfo => {
       this.$logger.systemMessage(`Coin info has successfully updated.\n Total Assets: ${coinInfo.totalAmount}`);
       this.assets.next(coinInfo.totalAmount || 0);
+      this.$overlay.endLoading(loaderId);
       resolve(coinInfo);
     }));
+    
   }
 
   /**
