@@ -20,12 +20,14 @@ export class LayoutComponent implements OnInit {
   get Module(): typeof EModule {
     return EModule;
   }
-  public module: EModule = EModule.User;
+  public module: EModule|null = this.$navigation.getModule() || null;
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+  }
 
   public moduleChanged(name: EModule): void {
     this.module = name;
+    this.$navigation.setModule(name);
     switch(name) {
       case EModule.Social:
         this.$router.navigateByUrl(`${EModule.Social}/${SocialPageMap.get(ESocialPage.SharedWall)?.path}`);

@@ -1,3 +1,4 @@
+import { EModule } from './../../../../utility/enum/route.enum';
 import { Injectable } from '@angular/core';
 import { Event, NavigationEnd, NavigationStart, Router } from '@angular/router';
 import { filter, tap } from 'rxjs/operators';
@@ -16,6 +17,25 @@ export class NavigationService {
         )
       )
       .subscribe((event) => this.handleRouterEvent(event));
+  }
+
+  public setModule(value: EModule): void {
+    sessionStorage.setItem('module', value.toString());
+  }
+  public getModule(): EModule|null {
+    const module = sessionStorage.getItem('module');
+    switch (module) {
+      case 'user':
+        return EModule.User;
+      case 'social':
+        return EModule.Social;
+      case 'friend':
+        return EModule.Friend;
+      case 'business':
+        return EModule.Business;
+      default:
+        return null;
+    }
   }
 
   private handleRouterEvent(event: Event): void {
