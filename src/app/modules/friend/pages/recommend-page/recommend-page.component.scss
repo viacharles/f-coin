@@ -1,0 +1,66 @@
+@import "variables";
+
+:host {
+    width: 100%;
+    height: 100%;;
+}
+
+section {
+    width: 100%;
+    height: 100%;
+    padding: 15px 20px;
+}
+
+ul {
+    width: auto;
+    height: auto;
+    h3 {
+        padding: 15px 0;
+        font-weight: bold;
+        font-size: map-get($font-level , 'ms' );
+    }
+}
+
+.list {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 50%;
+    min-width: 300px;
+    padding: 7px 0;
+    div {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        img {
+            object-fit: cover;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+        }
+        p {
+            padding-left: 10px;
+        }
+        button {
+            cursor: pointer;
+            width: 49px;
+            height: 27px;
+            margin-right: 20px;
+            color: $caption-text;
+            font-size: map-get($font-level , 'ms' );
+            border: 1px solid $normal-border;
+            border-radius: 4px;
+            background: none;
+            &:hover {
+                color: $normal-border-hover;
+                border:1px solid $normal-border-hover;
+            }
+
+        }
+    }
+    .material-icons {
+        cursor: pointer;
+        font-size: 24px;
+        color: $caption-text;
+    }
+}
