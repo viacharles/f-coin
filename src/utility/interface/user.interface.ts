@@ -1,6 +1,4 @@
 export interface IFriend extends IUser {
-  id: string;
-  name: string;
   isLogin: boolean;
 }
 
@@ -12,6 +10,6 @@ export interface IUser {
   name: string;
   avatar?: string;
   friends?: string[];
-  inviteAddFriend?: string[];
+  inviteAddFriends?: string[];
   totalAssets?: number;
 }

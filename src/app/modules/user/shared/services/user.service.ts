@@ -6,6 +6,7 @@ import { FirebaseService } from '@shared/services/firebase.service';
 import { LoggerService } from '@shared/services/logger.service';
 import { User } from '@user/shared/models/user.model';
 import { IUser } from '@utility/interface/user.interface';
+import { take } from 'rxjs/operators';
 
 /**
  * friend list
@@ -39,13 +40,6 @@ export class UserService extends DatabaseService {
   }
 
   /**
-   * @description 獲取聊天紀錄
-   */
-  public getChatHistory(id?: string): Promise<any> {
-    return this.fetch().read(id);
-  }
-
-  /**
    * @description 主動更新好友清單
    */
   public fetchFriendList(): void {
@@ -69,8 +63,17 @@ export class UserService extends DatabaseService {
       });
   }
 
+  public getUser(user?: User): Promise<User> {
+    return new Promise<User>(resolve => {
+      if (user) {
+        resolve(user);
+      } else {
+        this.user$.pipe(take(1)).subscribe(_ => resolve(_ as User));
+      }
+    });
+  }
+
   private updateFriendsList(friends: IUser[]): void {
     this.friends.next(friends.map((friend) => new Friend(friend)));
   }
-  
 }

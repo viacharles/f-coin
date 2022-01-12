@@ -32,11 +32,11 @@ export class BusinessCenterService extends DatabaseService {
   /**
    * @description 更新挖礦資訊
    */
-  public updateCoinInfo(uid: string, data: ICoinInfo): Promise<boolean> {
+  public updateCoinInfo(uid: string, data: ICoinInfo, isLoading = true): Promise<boolean> {
     return new Promise<boolean>(resolve => {
       this.fetchCoinInfo(uid).then(coinInfo => {
         coinInfo.updateInfo(data);
-        this.fetch(false).update({ coinInfo: coinInfo.getData() }, uid, false).then(() => resolve(true));
+        this.fetch(isLoading).update({ coinInfo: coinInfo.getData() }, uid, false).then(() => resolve(true));
       });
     });
   }

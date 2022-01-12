@@ -3,6 +3,7 @@ import { UserPageMap } from '@utility/map/router.map';
 
 export const environment = {
   production: true,
+  defaultAvatar: 'assets/images/icons/empty-avatar.jpeg',
   defaultUrl: `${EModule.User}/${UserPageMap.get(EUserPage.Chat)?.path}`,
   firebaseConfig: {
     apiKey: 'AIzaSyAJ-b0JwMjkqFkOTEQxBdKBCZFXCbzkf_Q',

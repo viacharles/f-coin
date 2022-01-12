@@ -6,7 +6,7 @@ import { FriendsAction as Action } from '@user/shared/models/friend.model';
 import { environment } from 'src/environments/environment';
 import { UserService } from '@user/shared/services/user.service';
 import { User } from '@user/shared/models/user.model';
-import { FriendService } from '../../shared/services/friend.service';
+import { RecommendService } from '../recommend.service';
 
 @Component({
   selector: 'app-recommend-page',
@@ -16,14 +16,14 @@ import { FriendService } from '../../shared/services/friend.service';
 export class RecommendPageComponent implements OnInit {
 
   constructor(
-    private $feature: FriendService,
+    private $feature: RecommendService,
     private $user: UserService,
     private $logger: LoggerService) { }
 
-  public inviteList: IUser[] = [];
-  public recommendList: IUser[] = [];
   public defaultAvatar = environment.defaultAvatar;
   private user: User | null = null;
+  public inviteList: IUser[] = [];
+  public recommendList: IUser[] = [];
 
   get id(): string {
     return (this.user as User).id;
@@ -44,25 +44,37 @@ export class RecommendPageComponent implements OnInit {
   public addFriend(friendId: string): void {
     this.$feature.fireEvent({
       action: Action.AddFriend,
-      id: this.id,
-      friendId
+      id: friendId
+    }).then(isUpdated => {
+      if (isUpdated) {
+        this.inviteList = this.inviteList.filter(user  => user.id !== friendId);
+      }
     });
   }
 
+  public ignoreInvite(friendId: string): void {
+    this.$feature.fireEvent({
+      action: Action.IgnoreInvite,
+      user: this.user as User
+    }).then(() => this.inviteList = this.inviteList.filter(user  => user.id !== friendId));
+  }
+
   private init(): void {
+
     this.$feature.fireEvent<IUser[]>({
       action: Action.FetchInviteList,
       id: this.id
-    }).then((friends: IUser[]) => {
-      this.$logger.systemMessage(`${(friends as []).length} invitations were received `);
-      this.inviteList = friends;
+    }).then((users: IUser[]) => {
+      this.$logger.systemMessage(`${(users as []).length} invitations were received `);
+      this.inviteList = users;
     });
+
     this.$feature.fireEvent<IUser[]>({
       action: Action.FetchRecommendList,
       id: this.id
-    }).then((friends: IUser[]) => {
-      this.$logger.systemMessage(`${(friends as []).length} recommendations were received `);
-      this.recommendList = friends;
+    }).then((users: IUser[]) => {
+      this.$logger.systemMessage(`${(users as []).length} recommendations were received `);
+      this.recommendList = users;
     }
     );
   }

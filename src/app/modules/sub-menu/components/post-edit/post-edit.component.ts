@@ -6,15 +6,15 @@ import { Component, Input, OnInit, ElementRef, ViewChild, AfterViewInit } from '
   styleUrls: ['./post-edit.component.scss']
 })
 export class PostEditComponent implements OnInit {
-  @ViewChild("tTextArea") tTextArea: ElementRef|null = null;
   constructor() { }
 
-  public textContent = '';
+  public textContent = 'test';
 
   ngOnInit(): void {
   }
 
-  get isAblePost(): boolean {
-    return this.textContent !== '';
+  public show(value: any) {
+    console.log(value);
   }
+
 }

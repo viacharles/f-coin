@@ -1,12 +1,15 @@
-import { FriendPageMap } from './../../../../../utility/map/router.map';
+import { FriendPageMap } from '@utility/map/router.map';
 import { UserPageMap } from '@utility/map/router.map';
 import { EFriendPage, EModule, EUserPage } from '@utility/enum/route.enum';
 import { Router } from '@angular/router';
 import { IFriend } from '@utility/interface/user.interface';
-import { FirebaseService } from '@shared/services/firebase.service';
 import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { UserService } from '@user/shared/services/user.service';
 import { User } from '@user/shared/models/user.model';
+import { FriendService } from 'src/app/modules/friend/shared/services/friend.service';
+import {
+  FriendsAction as Action
+} from '@user/shared/models/friend.model';
 
 enum EResult {
   NoResult = 0,
@@ -26,7 +29,10 @@ export class AddFriendComponent implements OnInit {
   @Input() user: User | null = null;
   @Output() switchToChat = new EventEmitter<void>();
 
-  constructor(public $user: UserService, private $fb: FirebaseService, private router: Router) { }
+  constructor(
+    public $user: UserService,
+    private $feature: FriendService,
+    private router: Router) { }
 
   public searchResultType: EResult | null = null;
   public searchResultView: IFriend | null = null;
@@ -38,9 +44,9 @@ export class AddFriendComponent implements OnInit {
   get showProfiles() {
     return this.searchResultView &&
       (this.searchResultType === EResult.InFriends ||
-        this.searchResultType === EResult.Add || 
+        this.searchResultType === EResult.Add ||
         this.searchResultType === EResult.Self
-        )
+      )
   }
 
   get EResult() {
@@ -62,14 +68,15 @@ export class AddFriendComponent implements OnInit {
     this.searchFriend(this.searchString);
   }
 
-  public addAsFriend() {
-    this.user?.addFriends(this.searchResultView?.id as string);
-    this.$fb.getDoc('user', this.user?.id as string).update({ friends: this.user?.friends })
-      .then(() => {
-        this.searchString = '';
-        this.searchResultView = null;
-        alert(`成功加入好友!`)
-      });
+  public addAsFriend(): void {
+    this.$feature.fireEvent({
+      action: Action.AddFriend,
+      user: this.user as User,
+      id: this.searchResultView?.id
+    }).then(() => {
+      this.searchString = '';
+      this.searchResultView = null;
+    });
   }
 
   public toChat(): void {
@@ -86,32 +93,32 @@ export class AddFriendComponent implements OnInit {
    * @param input 
    */
   private searchFriend(id: string): void {
-    const queryId = id.trim();
-    if (queryId !== '' && /^\w+$/.test(queryId)) {
-      const findInFriends = (this.user?.friends as string[]).find(id => id === queryId);
-      const isSelf = (this.user?.id as string) === queryId;
-      console.log('isSelf', isSelf)
-      let findInUserCenter: string | undefined;
-      this.$fb.request('user').read()
-        .then((resFriends: { key: string, value: IFriend }[]) => 
-          findInUserCenter = (resFriends.find(resFriend => resFriend.key === queryId))?.key as string | undefined)
-        .then(() => {
-          if (findInUserCenter !== undefined) {
-            this.$fb.request('user').read(queryId).then((friend: IFriend) => {
-              this.searchResultView = friend
-            });
-          }
-          this.searchResultType = findInUserCenter !== undefined
-                                ? findInFriends === undefined
-                                ? isSelf
-                                ? EResult.Self
-                                : EResult.Add
-                                : EResult.InFriends
-                                : EResult.NoResult;
-        });
-    }
-    else {
-      this.searchResultType = EResult.WrongInput;
-    }
+    // const queryId = id.trim();
+    // if (queryId !== '' && /^\w+$/.test(queryId)) {
+    //   const findInFriends = (this.user?.friends as string[]).find(id => id === queryId);
+    //   const isSelf = (this.user?.id as string) === queryId;
+    //   console.log('isSelf', isSelf)
+    //   let findInUserCenter: string | undefined;
+    //   this.$fb.request('user').read()
+    //     .then((resFriends: { key: string, value: IFriend }[]) =>
+    //       findInUserCenter = (resFriends.find(resFriend => resFriend.key === queryId))?.key as string | undefined)
+    //     .then(() => {
+    //       if (findInUserCenter !== undefined) {
+    //         this.$fb.request('user').read(queryId).then((friend: IFriend) => {
+    //           this.searchResultView = friend
+    //         });
+    //       }
+    //       this.searchResultType = findInUserCenter !== undefined
+    //         ? findInFriends === undefined
+    //           ? isSelf
+    //             ? EResult.Self
+    //             : EResult.Add
+    //           : EResult.InFriends
+    //         : EResult.NoResult;
+    //     });
+    // }
+    // else {
+    //   this.searchResultType = EResult.WrongInput;
+    // }
   }
 }

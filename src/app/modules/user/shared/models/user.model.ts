@@ -6,22 +6,30 @@ export class User implements IUser {
   public avatar: string;
   public friends: string[];
   public totalAssets: number;
-  constructor({ id, avatar, friends, name, totalAssets }: IUser) {
+  public inviteAddFriends: string[];
+  constructor({ id, avatar, friends, name, totalAssets, inviteAddFriends }: IUser) {
     this.name = name;
     this.id = id;
     this.avatar = avatar || '';
     this.friends = friends || [];
     this.totalAssets = totalAssets || 0;
+    this.inviteAddFriends = inviteAddFriends || [];
   }
 
-  public addFriends(friendIds: string | string[]) {
-    switch (typeof friendIds) {
-      case 'string':
-        if (!this.friends.includes(friendIds)) {
-          this.friends.push(friendIds);
-        }
-        break;
-      default: this.friends = [...this.friends, ...friendIds]; break;
-    }
+  public addFriends(friendIds: string): Promise<boolean> {
+    return new Promise<boolean>((resolve) => {
+      if (!this.friends.includes(friendIds)) {
+        this.friends.push(friendIds);
+        this.inviteAddFriends = this.inviteAddFriends.filter(id => id !== friendIds);
+        resolve(true);
+      } else {
+        resolve(false);
+      }
+    });
   }
+
+  public ignoreInvite(friendIds: string): Promise<string[]> {
+    return new Promise<string[]>((resolve) => resolve(this.inviteAddFriends.filter(id => id !== friendIds)));
+  }
+
 }

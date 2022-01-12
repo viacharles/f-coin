@@ -1,0 +1,37 @@
+@import "variables";
+
+ckeditor::ng-deep {
+
+    .ck-editor {
+        width: calc(100% - 30px);
+        margin: 0 15px;
+    }
+    .ck-rounded-corners .ck.ck-editor__top .ck-sticky-panel .ck-toolbar {
+        background: rgb(48, 158, 248);
+        border: none;
+        border-radius: 10px;
+    }
+    .ck-button {
+        color: white;
+        &:hover {
+            background: $primary-hover !important;
+        }
+    }
+    .ck.ck-editor__main>.ck-editor__editable {
+        border: none;
+        &:focus {
+           box-shadow: none;
+        }
+    }
+    .ck.ck-button.ck-on {
+        background: $primary-hover !important;
+    }
+    .ck-content {
+        padding: 10px;
+        height: 100%;
+    }
+
+    strong {
+        font-weight: bold;
+    }
+}

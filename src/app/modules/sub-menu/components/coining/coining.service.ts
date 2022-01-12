@@ -31,7 +31,7 @@ export class CoiningService extends FeatureService<ICoiningEvent, Action> {
   public assets$ = this.assets.asObservable();
   private subscription: Subscription | null = null;
 
-  protected resolveAction({ action, id, info }: ICoiningEvent): Promise<any> {
+  protected resolveAction({ action, id, info, isLoading }: ICoiningEvent): Promise<any> {
     return new Promise<any>((resolve) => {
       switch (action) {
         case Action.FetchCoinInfo:
@@ -50,7 +50,7 @@ export class CoiningService extends FeatureService<ICoiningEvent, Action> {
           );
           break;
         case Action.UpdateCoinInfo:
-          resolve(this.$business.updateCoinInfo(id as string, info as ICoinInfo));
+          resolve(this.$business.updateCoinInfo(id as string, info as ICoinInfo, isLoading));
           break;
         case Action.StartDigging:
           resolve(
@@ -127,7 +127,7 @@ export class CoiningService extends FeatureService<ICoiningEvent, Action> {
       this.$overlay.endLoading(loaderId);
       resolve(coinInfo);
     }));
-    
+
   }
 
   /**

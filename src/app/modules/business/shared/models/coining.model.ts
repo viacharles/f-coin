@@ -13,6 +13,7 @@ export enum CoiningAction {
 export interface ICoiningEvent extends IEvent<CoiningAction> {
   id?: string;
   info?: ICoinInfo;
+  isLoading?: boolean;
 }
 
 export class CoinInfo implements ICoinInfo {

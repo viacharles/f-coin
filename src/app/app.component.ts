@@ -15,7 +15,7 @@ import { IndividualPageQueue } from '@utility/map/router.map';
 export class AppComponent implements OnInit {
   constructor(public router: Router, public $overlay: OverlayService, private $business: BusinessCenterService) {}
   ngOnInit(): void {
-  } 
+  }
   public isIndividualPage(): boolean {
     return IndividualPageQueue.has(
       this.router.url.split('/')[1] as EIndividualPage
