@@ -2,11 +2,11 @@ import { take } from 'rxjs/operators';
 import { LoggerService } from '@shared/services/logger.service';
 import { IUser } from '@utility/interface/user.interface';
 import { Component, OnInit } from '@angular/core';
-import { FriendsAction as Action } from '@user/shared/models/friend.model';
+import { FriendsAction as Action } from '@friend/shared/models/friend.model';
 import { environment } from 'src/environments/environment';
 import { UserService } from '@user/shared/services/user.service';
 import { User } from '@user/shared/models/user.model';
-import { RecommendService } from '../recommend.service';
+import { FriendFeatureService } from '@friend/shared/services/friend-feature.service';
 
 @Component({
   selector: 'app-recommend-page',
@@ -16,12 +16,12 @@ import { RecommendService } from '../recommend.service';
 export class RecommendPageComponent implements OnInit {
 
   constructor(
-    private $feature: RecommendService,
+    private $feature: FriendFeatureService,
     private $user: UserService,
     private $logger: LoggerService) { }
 
   public defaultAvatar = environment.defaultAvatar;
-  private user: User | null = null;
+  private user?: User;
   public inviteList: IUser[] = [];
   public recommendList: IUser[] = [];
 
@@ -34,36 +34,31 @@ export class RecommendPageComponent implements OnInit {
       take(1)
     ).subscribe(
       user => {
-        this.user = user;
+        this.user = user as User;
         this.init();
       }
     );
-    this.init();
   }
 
   public addFriend(friendId: string): void {
     this.$feature.fireEvent({
       action: Action.AddFriend,
-      id: friendId
-    }).then(isUpdated => {
-      if (isUpdated) {
-        this.inviteList = this.inviteList.filter(user  => user.id !== friendId);
-      }
-    });
+      id: friendId,
+      user: this.user as User
+    }).then(() => this.inviteList = this.inviteList.filter(user => user.id !== friendId));
   }
 
   public ignoreInvite(friendId: string): void {
     this.$feature.fireEvent({
       action: Action.IgnoreInvite,
       user: this.user as User
-    }).then(() => this.inviteList = this.inviteList.filter(user  => user.id !== friendId));
+    }).then(() => this.inviteList = this.inviteList.filter(user => user.id !== friendId));
   }
 
   private init(): void {
-
     this.$feature.fireEvent<IUser[]>({
       action: Action.FetchInviteList,
-      id: this.id
+      user: this.user
     }).then((users: IUser[]) => {
       this.$logger.systemMessage(`${(users as []).length} invitations were received `);
       this.inviteList = users;
@@ -71,12 +66,10 @@ export class RecommendPageComponent implements OnInit {
 
     this.$feature.fireEvent<IUser[]>({
       action: Action.FetchRecommendList,
-      id: this.id
     }).then((users: IUser[]) => {
       this.$logger.systemMessage(`${(users as []).length} recommendations were received `);
-      this.recommendList = users;
-    }
-    );
+      this.recommendList = users.filter(({ id }) => !this.user?.friends.includes(id) && id !== this.user?.id);
+    });
   }
 
 }

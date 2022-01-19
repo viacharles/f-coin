@@ -2,7 +2,7 @@ import { OverlayService } from '@shared/overlay/overlay.service';
 import { ICoinInfo } from '@utility/interface/businessCenter.interface';
 import { CoinInfo, CoiningAction as Action } from '@business/shared/models/coining.model';
 import { UserService } from '@user/shared/services/user.service';
-import { CoiningService } from './coining.service';
+import { CoiningService } from '@sub-menu/shared/services/coining.service';
 import { Component, Input, OnInit } from '@angular/core';
 import { User } from '@user/shared/models/user.model';
 import { map, take } from 'rxjs/operators';
@@ -15,7 +15,7 @@ import { IFriend } from '@utility/interface/user.interface';
 })
 export class CoiningComponent implements OnInit {
 
-  @Input() user: User | null = null;
+  @Input() user?: User;
 
   constructor(
     public $user: UserService,
@@ -42,8 +42,8 @@ export class CoiningComponent implements OnInit {
   }
 
   public digging(): void {
-    if (!(this.coinInfo as ICoinInfo).isDigging ) {
-      if ( this.isNextDayAfterStop()) {
+    if (!(this.coinInfo as ICoinInfo).isDigging) {
+      if (this.isNextDayAfterStop()) {
         this.$feature.fireEvent({
           action: Action.StartDigging,
           id: this.user?.id
@@ -65,7 +65,7 @@ export class CoiningComponent implements OnInit {
   }
 
   private initial(): void {
-    const loaderId =this.$overlay.startLoading();
+    const loaderId = this.$overlay.startLoading();
     this.$user.friends$.pipe(take(1)).subscribe(friends => this.friends = friends);
     this.$feature.fireEvent<CoinInfo>({
       action: Action.FetchCoinInfo,
@@ -85,6 +85,6 @@ export class CoiningComponent implements OnInit {
   private isNextDayAfterStop(): boolean {
     const today = new Date();
     const stopDay = (this.coinInfo?.lastStopDate?.toDate() as Date);
-    return today >= new Date(stopDay.setDate(stopDay.getDate()+1));
+    return today >= new Date(stopDay.setDate(stopDay.getDate() + 1));
   }
 }

@@ -6,7 +6,7 @@ import { UserService } from '@user/shared/services/user.service';
 import { IMessage } from '@utility/interface/messageCenter.interface';
 import { ActivatedRoute } from '@angular/router';
 import { UnSubOnDestroy } from '@utility/abstract/unsubondestroy.abstract';
-import { Friend } from '@user/shared/models/friend.model';
+import { Friend } from '@friend/shared/models/friend.model';
 import { combineLatest } from 'rxjs';
 import { IUser } from '@utility/interface/user.interface';
 

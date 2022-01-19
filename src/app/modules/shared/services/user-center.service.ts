@@ -16,6 +16,16 @@ export class UserCenterService extends DatabaseService {
 
   protected databaseName = 'user';
 
+  /**
+   * @description 更新使用者資料
+   */
+  public updateUserProfile(profile: IUser, id: string): Promise<boolean> {
+    return new Promise<boolean>(resolve => {
+      this.fetch()
+        .update(profile, id)
+        .then((success: boolean) => resolve(success));
+    });
+  }
 
   /**
    * @description 獲得使用者資料
@@ -42,6 +52,18 @@ export class UserCenterService extends DatabaseService {
           resolve(profiles as IUser[]);
         }
       );
+    });
+  }
+
+  /**
+   * @description 獲得系統中所有使用者資料
+   */
+  public fetchAllUsers(): Promise<IUser[]> {
+    return new Promise<IUser[]>(resolve => {
+      this.fetch().read$().subscribe((users: { key: string, value: IUser }[]) => {
+        this.$logger.systemMessage(`All ${users.length} users has been successfully fetched.`);
+        resolve(users.map(({ value }) => value));
+      });
     });
   }
 }

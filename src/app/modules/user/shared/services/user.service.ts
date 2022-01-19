@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { Friend } from '@user/shared/models/friend.model';
+import { Friend } from '@friend/shared/models/friend.model';
 import { User } from '@user/shared/models/user.model';
 import { IUser } from '@utility/interface/user.interface';
 import { take } from 'rxjs/operators';

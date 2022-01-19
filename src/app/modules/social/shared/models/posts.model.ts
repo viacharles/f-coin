@@ -1,4 +1,15 @@
 import { IPost } from '@utility/interface/socialCenter.interface';
+import { IEvent } from '@utility/interface/common.interface';
+export enum EPostEditAction {
+    FilesUpload = 0,
+    Post,
+}
+
+export interface IPostEditEvent extends IEvent<EPostEditAction> {
+    id: string;
+    files?: FileList;
+}
+
 
 export class Posts {
     constructor({ createTime, images, isBigCharacterPost, textContent, likes }: IPost) {
@@ -14,3 +25,4 @@ export class Posts {
     public textContent: string;
     public likes: number;
 }
+

@@ -1,8 +1,6 @@
 import { environment } from 'src/environments/environment';
-import { AddFriendService } from './add-friend.service';
 import { FriendPageMap } from '@utility/map/router.map';
-import { UserPageMap } from '@utility/map/router.map';
-import { EFriendPage, EModule, EUserPage } from '@utility/enum/route.enum';
+import { EFriendPage, EModule } from '@utility/enum/route.enum';
 import { Router } from '@angular/router';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { UserService } from '@user/shared/services/user.service';
@@ -22,7 +20,6 @@ export class AddFriendComponent {
 
   constructor(
     public $user: UserService,
-    private $feature: AddFriendService,
     private fb: FormBuilder,
     private router: Router
   ) { }
