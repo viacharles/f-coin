@@ -1,3 +1,4 @@
+import { OverlayModule } from '@shared/overlay/overlay.module';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { LayoutComponent } from './layout.component';
@@ -19,7 +20,7 @@ import { PostEditComponent } from '@sub-menu/components/post-edit/post-edit.comp
     MenuComponent,
     PostEditComponent
   ],
-  imports: [CommonModule, AppRoutingModule, SharedModule, SubMenuModule],
+  imports: [CommonModule, AppRoutingModule, SharedModule, SubMenuModule, OverlayModule],
   exports: [LayoutComponent],
 })
 export class LayoutModule {}

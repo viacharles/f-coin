@@ -1,7 +1,7 @@
 import { finalize } from 'rxjs/operators';
 import { IFriend, IUser } from '@utility/interface/user.interface';
 import { Subscription, timer } from 'rxjs';
-import { IEvent } from "@utility/interface/common.interface";
+import { IEvent } from '@utility/interface/common.interface';
 import { User } from '@user/shared/models/user.model';
 
 /**
@@ -32,7 +32,7 @@ export class Friend implements IFriend {
     this.subscription?.unsubscribe();
     this.subscription = this.timer$.subscribe(
       () => {
-        (this.isLogin = Math.random() >= 0.5)
+        (this.isLogin = Math.random() >= 0.5);
       }
     );
   }
@@ -47,5 +47,15 @@ export enum FriendsAction {
 
 export interface IFriendsEvent extends IEvent<FriendsAction> {
   id?: string;
+  user?: User;
+}
+
+export enum EAddFriendAction {
+  GetFriend = 1,
+  AddFriend
+}
+
+export interface IAddFriendEvent extends IEvent<EAddFriendAction> {
+  id: string;
   user?: User;
 }

@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { ChatService } from '@user/chat/chat.service';
 import { ChatAction as Action } from '@user/shared/models/chat.model';
 import { UserService } from '@user/shared/services/user.service';
-import { IMessage, IMessageBatched } from '@utility/interface/messageCenter.interface';
+import { IMessage } from '@utility/interface/messageCenter.interface';
 import { ActivatedRoute } from '@angular/router';
 import { UnSubOnDestroy } from '@utility/abstract/unsubondestroy.abstract';
 import { Friend } from '@user/shared/models/friend.model';

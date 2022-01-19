@@ -1,9 +1,8 @@
-import { BusinessCenterService } from '@business/shared/services/business-center.service';
+import { BusinessCenterService } from '@shared/services/business-center.service';
 import { Component, OnInit } from '@angular/core';
 
 import { Router } from '@angular/router';
 import { OverlayService } from '@shared/overlay/overlay.service';
-import { FirebaseService } from '@shared/services/firebase.service';
 import { EIndividualPage } from '@utility/enum/route.enum';
 import { IndividualPageQueue } from '@utility/map/router.map';
 

@@ -5,7 +5,7 @@ import { LoggerService } from '@shared/services/logger.service';
 import { FeatureService } from '@utility/abstract/feature-service.abstract';
 import { Injectable } from '@angular/core';
 import { CoinInfo, CoiningAction as Action, ICoiningEvent } from '@business/shared/models/coining.model';
-import { BusinessCenterService } from '@business/shared/services/business-center.service';
+import { BusinessCenterService } from '@shared/services/business-center.service';
 import { take, switchMap, map } from 'rxjs/operators';
 import { UserService } from '@user/shared/services/user.service';
 import firebase from 'firebase';

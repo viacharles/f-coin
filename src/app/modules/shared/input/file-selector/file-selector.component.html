@@ -1,0 +1,4 @@
+<input class="form-control" readonly type="text" [value]="this.file?.name">
+<input id="selector" class="d-none" type="file" [accept]="this.acceptList"
+    (change)="this.onFileSelected($event)">
+<label for="selector">選擇檔案</label>

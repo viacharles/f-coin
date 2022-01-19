@@ -1,0 +1,20 @@
+:host {
+    display: inline-flex;
+    flex-direction: row;
+    input {
+        &:read-only {
+            cursor: auto;
+            &:focus {
+                border-color: #ced4da;
+                box-shadow: none;
+            }
+        }
+        + label {
+            height: 2.5rem;
+            padding: 0 0.25rem;
+            border: 1px solid #ced4da;
+            border-radius: 3px;
+            margin-left: 0.5rem;
+        }
+    }
+}

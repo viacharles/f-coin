@@ -7,111 +7,137 @@
     flex-direction: column;
     align-items: center;
     background: #f7fbff;
-    .header {
-        display: flex;
-            flex-direction: row;
-            justify-content: space-between;
-        width: calc(100% - 15px);
-        height: 30px;
-        margin: 24px 0 30px 15px;
-        h3 {
-            font-weight: bold;
-            line-height: 30px;
-        }
-        a {
-            position: relative;
-            cursor: pointer;
-            display: flex;
-            flex-direction: row;
-            align-items: center;
-            width: auto;
-            height: 100%;
-            color: $primary;
-            &:hover {
-                color: $primary-hover;
-            }
-            &:hover > .material-icons::before {
-                border: 1px solid $normal-border-hover;
-            }
-            .material-icons {
-                padding-left: 5px;
-            }
-            .material-icons::before {
-                content: "";
-                position: absolute;
-                right: -1px;
-                top: -3px;
-                display: flex;
-                height: 36px;
-                width: 100px;
-                border: 1px solid $normal-border;
-                border-radius: 4px 0 0 4px;
-                transition: .5s;
-            }
-            & > p {
-                font-size: map-get($font-level , 'xs' );
-            }
-        }
+}
+header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: calc(100% - 15px);
+    height: 30px;
+    margin: 24px 0 30px 15px;
+    & > h3 {
+        font-weight: bold;
+        line-height: 30px;
     }
-      & > p {
-            padding-top: 15px;
-            color: $caption-text;
-            font-size: 0.75rem;
+    & > a {
+        position: relative;
+        cursor: pointer;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        width: auto;
+        height: 100%;
+        color: $primary;
+        &:hover {
+            color: $primary-hover;
+        }
+        &:hover > .material-icons::before {
+            border: 1px solid $normal-border-hover;
+        }
+        .material-icons {
+            padding-left: 5px;
+        }
+        .material-icons::before {
+            content: "";
+            position: absolute;
+            right: -1px;
+            top: -3px;
+            display: flex;
+            height: 36px;
+            width: 100px;
+            border: 1px solid $normal-border;
+            border-radius: 4px 0 0 4px;
+            transition: .5s;
+        }
+        & > p {
             font-size: map-get($font-level , 'xs' );
         }
-        p.name {
-            font-size: map-get($font-level , 'lg' );
-            color: #1b1b1b;
-            font-weight: bold;
-            padding-top: 10px;
-        }
-        label {
-            display: flex;
-            flex-direction: row;
-            width: 250px;
-            height: 32px;
-            padding-left: 10px;
-            font-size: map-get($font-level , 'sm' );
-            background: white;
-            border-radius: 4px;
-            border: 1px solid #e6e6e6;
-            input {
-                width: 175px;
-                height: 100%;
-                font-size: map-get($font-level , 'xs' );
-                outline: none;
-                border: none;
-            }
-            span {
-                font-size: 14px;
-                padding-top: 7px;
-                margin-left: 9px;
-                color: #cacaca;
-            }
-            span:last-child {
-                font-size: 18px;
-                padding-top: 6px;
-                color: #57b1f1;
-            }
-        }
-        img {
-            width: 85px;
-            height: 85px;
-            margin-top: 25px;
-            object-fit: cover;
-            border-radius: 50%;
-        }
-        button {
-            width: 135px;
-            height: 30px;
-            margin-top: 15px;
-            border-radius: 3px;
-            color: white;
-            font-size: 14px;
-            background: $primary;
-            border: none;
-            &:hover {
-                background: $primary-hover
-            }
-        }
+    }
 }
+
+.input-frame {
+    justify-content: space-between;
+    width: 250px;
+    height: 32px;
+    padding-left: 10px;
+    font-size: map-get($font-level , 'sm' );
+    background: white;
+    border-radius: 4px;
+    border: 1px solid #e6e6e6;
+    input {
+        width: 175px;
+        height: 100%;
+        font-size: map-get($font-level , 'xs' );
+        outline: none;
+        border: none;
+    }
+    em {
+        font-size: 14px;
+        margin-left: 9px;
+        color: #cacaca;
+    }
+    button {
+        height: 100%;
+        font-size: 18px;
+        color: #57b1f1;
+        border: none
+    }
+}
+
+.form-control:focus {
+        box-shadow: none;
+}
+
+.form-control--alert {
+
+}
+
+.form-control--alert {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    padding-top: 20px;
+    text-align: center;
+    color: $caption-text;
+}
+
+section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    img {
+        width: 85px;
+        height: 85px;
+        margin-top: 25px;
+        object-fit: cover;
+        border-radius: 50%;
+    }
+    h3 {
+        font-size: map-get($font-level , 'lg' );
+        color: #1b1b1b;
+        font-weight: bold;
+        padding-top: 10px;
+    }
+    p {
+        padding-top: 15px;
+        color: $caption-text;
+        font-size: 0.75rem;
+        font-size: map-get($font-level , 'xs' );
+    }
+    button {
+        width: 135px;
+        height: 30px;
+        margin-top: 15px;
+        border-radius: 3px;
+        color: white;
+        font-size: 14px;
+        background: $primary;
+        border: none;
+        &:hover {
+            background: $primary-hover
+        }
+    }
+}
+  
+  
+   

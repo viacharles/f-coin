@@ -9,7 +9,8 @@
     <main class="d-flex flex-row align-itmes-center w-100"
       [style.height]="'calc(100% - ' + tHeader.clientHeight + 'px)'">
       <nav class="fc-border-r" [ngSwitch]="this.module">
-        <app-chat-list *ngSwitchCase="this.Module.User" (switchToFriend)="this.module = this.Module.Friend"></app-chat-list>
+        <app-chat-list *ngSwitchCase="this.Module.User" [user]="user"
+          (switchToFriend)="this.module = this.Module.Friend"></app-chat-list>
         <app-coining *ngSwitchCase="this.Module.Business" [user]="user"></app-coining>
         <app-add-friend *ngSwitchCase="this.Module.Friend" [user]="user"
           (switchToChat)="this.module = this.Module.User"></app-add-friend>

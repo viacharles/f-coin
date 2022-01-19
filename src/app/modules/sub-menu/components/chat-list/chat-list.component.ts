@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { Friend } from '@user/shared/models/friend.model';
 import { UserService } from '@user/shared/services/user.service';
 import { tap } from 'rxjs/operators';
+import { User } from '@user/shared/models/user.model';
 
 @Component({
   selector: 'app-chat-list',
@@ -10,8 +11,9 @@ import { tap } from 'rxjs/operators';
   styleUrls: ['./chat-list.component.scss'],
 })
 export class ChatListComponent implements OnInit {
+  @Input() user?: User;
   @Output() switchToFriend = new EventEmitter<void>();
-  constructor(private $user: UserService, public router: Router) {}
+  constructor(private $user: UserService, public router: Router) { }
 
   /**
    * @description 因sub menu不放在router outlet中，故無法透過activatedRoute獲得路由參數
@@ -26,12 +28,12 @@ export class ChatListComponent implements OnInit {
   );
 
   ngOnInit(): void {
-    this.$user.fetchFriendList();
+    this.$user.fetchFriendList(this.user as User);
   }
 
   public toAddFriend(): void {
     this.switchToFriend.emit();
   }
 
-  private onFriendsUpdated(friends: Friend[]): void {}
+  private onFriendsUpdated(friends: Friend[]): void { }
 }

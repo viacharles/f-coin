@@ -6,7 +6,6 @@ import { UserService } from '@user/shared/services/user.service';
 import { FeatureService } from '@utility/abstract/feature-service.abstract';
 import { IFriend, IUser } from '@utility/interface/user.interface';
 import { forkJoin } from 'rxjs';
-import { FriendService } from '../shared/services/friend.service';
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +14,6 @@ export class RecommendService extends FeatureService<IFriendsEvent, Action> {
 
   constructor(
     private $user: UserService,
-    private $friend: FriendService,
     protected $logger: LoggerService
   ) {
     super($logger);
@@ -28,7 +26,7 @@ export class RecommendService extends FeatureService<IFriendsEvent, Action> {
       switch (action) {
         case Action.FetchRecommendList:
           resolve(
-            this.fetchRecommendList( id as string)
+            this.fetchRecommendList(id as string)
           );
           break;
         case Action.FetchInviteList:
@@ -54,11 +52,12 @@ export class RecommendService extends FeatureService<IFriendsEvent, Action> {
    *  @description 其實只是拿到DB裡全部陌生人的資料
    */
   private fetchRecommendList(uid: string): Promise<IUser[]> {
-    return new Promise((resolve) =>
-      this.$friend.fetchRecommendList(uid)
-        .then((users: { key: string, value: IUser }[]) =>
-          resolve(users.map(user => user.value))
-        )
+    return new Promise(
+      (resolve) => { }
+      // this.$friend.fetchRecommendList(uid)
+      //   .then((users: { key: string, value: IUser }[]) =>
+      //     resolve(users.map(user => user.value))
+      // )
     );
   }
 
@@ -67,35 +66,35 @@ export class RecommendService extends FeatureService<IFriendsEvent, Action> {
    */
   private fetchInviteList(user: User, uid: string): Promise<IUser[]> {
     return new Promise((resolve) => {
-          if ((user.inviteAddFriends as string[])?.length > 0) {
-            forkJoin(user.inviteAddFriends?.map(id => this.$friend.getFriend(id)))
-              .subscribe((friends: any) => {
-                resolve(friends as IUser[]);
-              });
-          }
-          else {
-            resolve([]);
-          }
+      if ((user.inviteAddFriends as string[])?.length > 0) {
+        // forkJoin(user.inviteAddFriends?.map(id => this.$friend.getFriend(id)))
+        //   .subscribe((friends: any) => {
+        //     resolve(friends as IUser[]);
+        //   });
+      }
+      else {
+        resolve([]);
+      }
     });
   }
 
   private addFriend(user: User, friendId: string): Promise<boolean> {
-      return new Promise<boolean>((resolve) => {
-        user.addFriends(friendId).then(hasUpdated => {
-          if (hasUpdated) {
-            console.log('addFriend', user)
-            this.$friend.addFriend(user).then(() => resolve(true));
-          } else {
-            alert('已經在好友裡嚕');
-            resolve(false);
-          }
-        });
+    return new Promise<boolean>((resolve) => {
+      user.addFriends(friendId).then(hasUpdated => {
+        // if (hasUpdated) {
+        //   console.log('addFriend', user)
+        //   this.$friend.addFriend(user).then(() => resolve(true));
+        // } else {
+        //   alert('已經在好友裡嚕');
+        //   resolve(false);
+        // }
       });
+    });
   }
 
   private ignoreInvite(user: User, friendId: string): Promise<void> {
     return new Promise<void>((resolve) => {
-      user.ignoreInvite(friendId).then(() => this.$friend.updateInviteList(user).then(() => resolve()));
+      // user.ignoreInvite(friendId).then(() => this.$friend.updateInviteList(user).then(() => resolve()));
     });
   }
 }

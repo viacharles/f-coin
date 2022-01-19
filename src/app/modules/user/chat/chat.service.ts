@@ -5,7 +5,7 @@ import {
 import { Injectable } from '@angular/core';
 import { FeatureService } from '@utility/abstract/feature-service.abstract';
 import { LoggerService } from '@shared/services/logger.service';
-import { MessageService } from '@user/shared/services/message.service';
+import { MessageService } from '@shared/services/message.service';
 
 @Injectable({
   providedIn: 'root',

@@ -1,10 +1,11 @@
-import { Injectable } from '@angular/core';
+import { LoggerService } from './../services/logger.service';
+import { Injectable, Injector } from '@angular/core';
 
 @Injectable({
   providedIn: 'root',
 })
 export class OverlayService {
-  constructor() {
+  constructor(private injector: Injector, private $logger: LoggerService) {
     window.requestAnimationFrame(this.watchOverlay.bind(this));
   }
 
@@ -17,7 +18,6 @@ export class OverlayService {
     if (!this.loadingQueue.has(Id)) {
       this.loadingQueue.add(Id);
     }
-
     return Id;
   }
 
@@ -28,9 +28,8 @@ export class OverlayService {
     activatedElement?.focus();
   }
 
-  private watchOverlay() {
+  private watchOverlay(): void {
     this.isActivated = this.loadingQueue.size > 0;
     window.requestAnimationFrame(this.watchOverlay.bind(this));
   }
-
 }

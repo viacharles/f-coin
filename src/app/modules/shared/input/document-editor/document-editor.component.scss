@@ -3,19 +3,42 @@
 ckeditor::ng-deep {
 
     .ck-editor {
-        width: calc(100% - 30px);
-        margin: 0 15px;
+        width: calc(100% - 15px);
+        margin: 0 0 0 15px;
     }
     .ck-rounded-corners .ck.ck-editor__top .ck-sticky-panel .ck-toolbar {
         background: rgb(48, 158, 248);
         border: none;
-        border-radius: 10px;
+        border-radius: 10px 0 0 10px;
     }
-    .ck-button {
+    .ck.ck-editor .ck-editor__top .ck-sticky-panel .ck-toolbar {
+        z-index: 2;
+    }
+    .ck.ck-toolbar {
+        padding: 0 0 0 10px;
+    }
+    .ck.ck-toolbar>.ck-toolbar__items>:not(.ck-toolbar__line-break) {
+        margin-top: 0;
+        margin-bottom: 0;
+        margin-right: 0;
+    }
+    .ck.ck-editor__top {
+        width: 210px;
+        padding: 0 0 0 11px;
+    }
+
+    .ck-toolbar__items > .ck-button,
+    .ck-dropdown > .ck-button
+    {
         color: white;
+        min-height: 35px;
+        padding: 0;
         &:hover {
             background: $primary-hover !important;
         }
+    }
+    .ck.ck-dropdown .ck-button.ck-dropdown__button:not(.ck-button_with-text) {
+        padding: 5px;
     }
     .ck.ck-editor__main>.ck-editor__editable {
         border: none;
@@ -26,6 +49,9 @@ ckeditor::ng-deep {
     .ck.ck-button.ck-on {
         background: $primary-hover !important;
     }
+    .ck-editor__main {
+       width: 210px;
+    }
     .ck-content {
         padding: 10px;
         height: 100%;
@@ -33,5 +59,12 @@ ckeditor::ng-deep {
 
     strong {
         font-weight: bold;
+    }
+
+    .ck .ck-color-table {
+        background: $primary-hover !important;  
+        button:hover {
+            background-color: unset;
+        }     
     }
 }

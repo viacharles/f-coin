@@ -1,4 +1,5 @@
-import { Component, Input, OnInit, ElementRef, ViewChild, AfterViewInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { EFileType } from '@utility/enum/file.enum';
 
 @Component({
   selector: 'app-post-edit',
@@ -6,15 +7,21 @@ import { Component, Input, OnInit, ElementRef, ViewChild, AfterViewInit } from '
   styleUrls: ['./post-edit.component.scss']
 })
 export class PostEditComponent implements OnInit {
+
   constructor() { }
 
-  public textContent = 'test';
+  public textContent = '';
+  public isMultiple = true;
+  public allowType = EFileType.Image;
+  public allows = [EFileType.Image];
+  public uploadingFile?: File;
 
   ngOnInit(): void {
   }
 
-  public show(value: any) {
-    console.log(value);
+  public showFileList(file: FileList): void {
+
   }
+
 
 }

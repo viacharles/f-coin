@@ -1,0 +1,10 @@
+.form-control.invalid {
+    border-color: red;
+}
+
+.form-control {
+    &--alert {
+        color: red;
+        font-size: 14px;
+    }
+}

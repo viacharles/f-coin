@@ -1,12 +1,11 @@
-import { DatabaseService } from '@utility/abstract/database-service.abstract';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, forkJoin, Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { Friend } from '@user/shared/models/friend.model';
-import { FirebaseService } from '@shared/services/firebase.service';
-import { LoggerService } from '@shared/services/logger.service';
 import { User } from '@user/shared/models/user.model';
 import { IUser } from '@utility/interface/user.interface';
 import { take } from 'rxjs/operators';
+import { UserCenterService } from '@shared/services/user-center.service';
+import { LoggerService } from '@shared/services/logger.service';
 
 /**
  * friend list
@@ -14,12 +13,13 @@ import { take } from 'rxjs/operators';
 @Injectable({
   providedIn: 'root',
 })
-export class UserService extends DatabaseService {
-  constructor($fb: FirebaseService, $logger: LoggerService) {
-    super($fb, $logger);
+export class UserService {
+  constructor(
+    private $userCenter: UserCenterService,
+    private $logger: LoggerService
+  ) {
   }
 
-  protected databaseName = 'user';
 
   private friends = new BehaviorSubject<Friend[]>([]);
   public friends$: Observable<Friend[]> = this.friends.asObservable();
@@ -31,36 +31,17 @@ export class UserService extends DatabaseService {
    * @description 生成使用者資料
    */
   public generateUser(uid: string): void {
-    this.fetch()
-      .read(uid)
-      .then((profile: IUser) => {
-        this.user.next(new User(profile));
-        this.$logger.systemMessage(`welcome user ${uid}`);
-      });
+    this.$userCenter.fetchUser(uid).then(user => {
+      this.user.next(new User(user));
+      this.$logger.systemMessage(`welcome user ${uid}`);
+    });
   }
 
   /**
    * @description 主動更新好友清單
    */
-  public fetchFriendList(): void {
-    this.fetch()
-      // .read()
-      // .then((datas: any) => datas.forEach(({key, value}: any) => {
-      //   this.$firebase.request('user').update({id : key}, key);
-      // })
-      // )
-      .read(sessionStorage.getItem('id') as string)
-      .then(({ friends }: { friends: string[] }) => {
-        //   friends.forEach((id: any) => {
-        //     this.$firebase.request('user').update({ isLogin: false }, id);
-        //   });
-        if (friends) {
-          forkJoin(friends?.map((id) => this.fetch().read$(id))).subscribe(
-            (profiles: any) => {
-              this.updateFriendsList(profiles as IUser[])}
-          );
-        }
-      });
+  public fetchFriendList(user: User): void {
+    this.$userCenter.fetchUsers(user.friends).then(friends => this.updateFriendsList(friends));
   }
 
   public getUser(user?: User): Promise<User> {

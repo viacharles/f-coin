@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, ViewChild, AfterViewInit } from '@angular/core';
 import { CustomForm, getFormProvider } from '@utility/abstract/custom-form.abstract';
 import * as Editor from './ckeditor';
+import { ClassicEditor } from './ckeditor';
 
 @Component({
   selector: 'app-document-editor',
@@ -8,10 +9,15 @@ import * as Editor from './ckeditor';
   styleUrls: ['./document-editor.component.scss'],
   providers: [getFormProvider(DocumentEditorComponent)]
 })
-export class DocumentEditorComponent extends CustomForm<string>  {
+export class DocumentEditorComponent extends CustomForm<string> implements AfterViewInit  {
+@ViewChild('ckEditor') ckEditor?: ElementRef;
 
   constructor() {
     super();
+  }
+
+  ngAfterViewInit(): void {
+      this.setFormAttr();
   }
 
   public editor = Editor;
@@ -26,5 +32,10 @@ export class DocumentEditorComponent extends CustomForm<string>  {
     return content.replace(/<strong>/g, `<strong style = "font-weight: bold">`);
   }
 
-
+  private setFormAttr(): void {
+    ClassicEditor
+      .creat( this.ckEditor , {
+        placeholder: '輸入說明文字...'
+      });
+  }
 }

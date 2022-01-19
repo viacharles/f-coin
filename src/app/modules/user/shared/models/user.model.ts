@@ -29,7 +29,8 @@ export class User implements IUser {
   }
 
   public ignoreInvite(friendIds: string): Promise<string[]> {
-    return new Promise<string[]>((resolve) => resolve(this.inviteAddFriends.filter(id => id !== friendIds)));
+    return new Promise<string[]>((resolve) => {
+      resolve(this.inviteAddFriends.filter(id => id !== friendIds))});
   }
 
 }

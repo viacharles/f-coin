@@ -30,36 +30,31 @@
     }
 }
 
-textarea {
-    height: 100%;
-    width: 100%;
-    padding: 15px;
-    font-size: map-get($font-level, 'sm' );
-    outline: none;
-    border: none;
-}
-
-.funcs {
+nav {
     display: flex;
     flex-direction: row;
-    width: calc(100% - 30px);
-    height: auto;
-    padding: 0 6px;
-    margin: 0 15px;
-    color: rgb(102, 107, 110);
-    border-top: $light-border;
-    border-radius: 7px;
-    background: $primary;
-    & > .material-icons {
-        cursor: pointer;
-        user-select: none;
-        padding: 10px 6px;
+
+    app-file-select-icon {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 35px;
+        height: 35px;
         color: white;
+        background: $primary;
+        border-radius: 0 10px 10px 0;
+        border-left: 1px solid white;
         &:hover {
             background: $primary-hover;
         }
-        &:active {
-            background: $primary;
-        }
     }
+
+}
+
+.file-list-overlay {
+    
+    width: 400px;
+    height: 400px;
+    background: red;
+
 }
