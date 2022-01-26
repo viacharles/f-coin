@@ -29,23 +29,25 @@ export class FriendFeatureService extends FeatureService<IFriendsEvent, Action> 
           resolve(this.$userCenter.fetchAllUsers());
           break;
         case Action.FetchInviteList:
-          console.log(user);
           resolve(this.$userCenter.fetchUsers((user as User).inviteAddFriends));
           break;
         case Action.AddFriend:
-          user?.addFriends(id as string);
+          user?.addFriend(id as string);
           this.$userCenter.updateUserProfile({
             friends: user?.friends,
             inviteAddFriends: user?.inviteAddFriends
-          } as IUser, id as string).then(success => {
-            if (success) {
-              this.$logger.systemMessage(`user ${user?.id} has successfully added ${id}.`);
-              resolve(true);
-            }
+          } as IUser, user?.id as string).then(() => {
+            this.$logger.systemMessage(`user ${user?.id} has successfully added ${id}.`);
+            resolve(true);
           });
           break;
         case Action.IgnoreInvite:
-
+          user?.ignoreInvite(id as string);
+          this.$userCenter.updateUserProfile({ inviteAddFriends: user?.inviteAddFriends } as IUser, user?.id as string)
+            .then(() => {
+              this.$logger.systemMessage(`user ${user?.id} invitation has successfully ignored.`);
+              resolve(true);
+            });
           break;
       }
     });
