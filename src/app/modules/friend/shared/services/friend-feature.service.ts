@@ -1,8 +1,7 @@
 import { IUser } from '@utility/interface/user.interface';
 import { Injectable } from '@angular/core';
 import { LoggerService } from '@shared/services/logger.service';
-import { FriendsAction as Action, IFriendsEvent } from '@friend/shared/models/friend.model';
-import { UserService } from '@user/shared/services/user.service';
+import { EFriendsAction as Action, IFriendsEvent } from '@friend/shared/models/friend.model';
 import { FeatureService } from '@utility/abstract/feature-service.abstract';
 import { UserCenterService } from '@shared/services/user-center.service';
 import { User } from '@user/shared/models/user.model';
@@ -30,6 +29,9 @@ export class FriendFeatureService extends FeatureService<IFriendsEvent, Action> 
           break;
         case Action.FetchInviteList:
           resolve(this.$userCenter.fetchUsers((user as User).inviteAddFriends));
+          break;
+        case Action.SearchUser:
+          resolve(this.$userCenter.fetchUser(id as string));
           break;
         case Action.AddFriend:
           user?.addFriend(id as string);
