@@ -2,7 +2,7 @@ import { take } from 'rxjs/operators';
 import { LoggerService } from '@shared/services/logger.service';
 import { IUser } from '@utility/interface/user.interface';
 import { Component, OnInit } from '@angular/core';
-import { FriendsAction as Action } from '@friend/shared/models/friend.model';
+import { EFriendsAction as Action } from '@friend/shared/models/friend.model';
 import { environment } from 'src/environments/environment';
 import { UserService } from '@user/shared/services/user.service';
 import { User } from '@user/shared/models/user.model';
@@ -51,7 +51,8 @@ export class RecommendPageComponent implements OnInit {
   public ignoreInvite(friendId: string): void {
     this.$feature.fireEvent({
       action: Action.IgnoreInvite,
-      user: this.user as User
+      user: this.user as User,
+      id: friendId
     }).then(() => this.inviteList = this.inviteList.filter(user => user.id !== friendId));
   }
 

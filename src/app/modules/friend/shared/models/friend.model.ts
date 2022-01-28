@@ -38,24 +38,15 @@ export class Friend implements IFriend {
   }
 }
 
-export enum FriendsAction {
+export enum EFriendsAction {
   FetchRecommendList = 1,
   FetchInviteList,
+  SearchUser,
   AddFriend,
   IgnoreInvite
 }
 
-export interface IFriendsEvent extends IEvent<FriendsAction> {
+export interface IFriendsEvent extends IEvent<EFriendsAction> {
   id?: string;
-  user?: User;
-}
-
-export enum EAddFriendAction {
-  GetFriend = 1,
-  AddFriend
-}
-
-export interface IAddFriendEvent extends IEvent<EAddFriendAction> {
-  id: string;
   user?: User;
 }

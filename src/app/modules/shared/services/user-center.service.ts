@@ -31,13 +31,16 @@ export class UserCenterService extends DatabaseService {
    * @description 獲得使用者資料
    */
   public fetchUser(uid: string): Promise<IUser> {
-    return new Promise<IUser>(resolve => {
+    return new Promise<IUser>((resolve, reject) => {
       this.fetch()
         .read$(uid)
-        .subscribe((user: IUser) => {
-          this.$logger.systemMessage(`user ${user.id} profile has been successfully fetched.`);
-          resolve(user);
-        });
+        .subscribe(
+          (user: IUser) => {
+            user ? this.$logger.systemMessage(`user ${user.id} profile has been successfully fetched.`) :
+              this.$logger.systemMessage('user not found.');
+            resolve(user);
+          }
+        );
     });
   }
 

@@ -80,16 +80,12 @@ header {
         height: 100%;
         font-size: 18px;
         color: #57b1f1;
-        border: none
+        border: none;
     }
 }
 
 .form-control:focus {
         box-shadow: none;
-}
-
-.form-control--alert {
-
 }
 
 .form-control--alert {

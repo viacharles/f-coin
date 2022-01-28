@@ -6,7 +6,11 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { UserService } from '@user/shared/services/user.service';
 import { User } from '@user/shared/models/user.model';
 import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
-import { IUser } from '@utility/interface/user.interface';
+import { IUser } from '@utility/interface/user.interface'
+import { FriendFeatureService } from '@friend/shared/services/friend-feature.service';
+import {
+  EFriendsAction as Action
+} from '@friend/shared/models/friend.model';
 
 @Component({
   selector: 'app-add-friend',
@@ -20,6 +24,7 @@ export class AddFriendComponent {
 
   constructor(
     public $user: UserService,
+    private $feature: FriendFeatureService,
     private fb: FormBuilder,
     private router: Router
   ) { }
@@ -29,20 +34,16 @@ export class AddFriendComponent {
   });
 
   public result?: IUser | null;
-  public isSubmit = false;
+
   public defaultAvatar = environment.defaultAvatar;
 
   get alreadyExist(): boolean {
     return this.user?.friends.includes((this.result as IUser)?.id) || false;
   }
 
-  public clearInput(): void {
-
-  }
-
   public afterKeyDown(event: KeyboardEvent): void {
     if (event.code === 'Enter') {
-      this.isSubmit = true;
+      this.search();
     }
   }
 
@@ -70,10 +71,10 @@ export class AddFriendComponent {
    * @description 搜尋使用者id，如果是有註冊在userCenter裡的id，就將資料顯示在畫面上
    */
   public search(): void {
-    this.isSubmit = true;
-    setTimeout(() => {
-      this.result = { id: this.user?.friends[0], name: 'test' } as IUser
-    }, 1000);
+    this.$feature.fireEvent<IUser>({
+      action: Action.SearchUser,
+      id: this.form.controls.id.value
+    }).then(result => this.result = result || null);
   }
 
   /**

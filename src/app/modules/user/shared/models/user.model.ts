@@ -16,22 +16,13 @@ export class User implements IUser {
     this.inviteAddFriends = inviteAddFriends || [];
   }
 
-  // public getUserData(): IUser {
-  //   return ({
-  //     id: this.id,
-
-  //   });
-  // }
-
-  public addFriends(friendId: string): void {
+  public addFriend(friendId: string): void {
     this.friends.push(friendId);
     this.inviteAddFriends = this.inviteAddFriends.filter(id => id !== friendId);
   }
 
-  public ignoreInvite(friendIds: string): Promise<string[]> {
-    return new Promise<string[]>((resolve) => {
-      resolve(this.inviteAddFriends.filter(id => id !== friendIds))
-    });
+  public ignoreInvite(friendId: string): void {
+    this.inviteAddFriends = this.inviteAddFriends.filter(id => id !== friendId);
   }
 
 }
