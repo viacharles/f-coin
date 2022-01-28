@@ -9,7 +9,7 @@
             </div>
             <div>
                 <button (click)="ignoreInvite(item.id)">忽略</button>
-                <span class="material-icons" (click)="addFriend(item.id)">
+                <span class="material-icons" (click)="addFriendFromInvite(item.id)">
                     person_add_alt
                     </span>
             </div>
@@ -24,7 +24,7 @@
                 <img [src]="item.avatar||this.defaultAvatar">
                 <p>{{item.name||'未設定暱稱'}}</p>
             </div>
-            <span class="material-icons" (click)="addFriend(item.id)">
+            <span class="material-icons" (click)="addFriendFromRecommend(item.id)">
                 person_add_alt                
                 </span>
         </li>

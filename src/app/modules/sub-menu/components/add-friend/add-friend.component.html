@@ -1,6 +1,6 @@
 <header>
     <h3>加好友</h3>
-    <a (click)="toFriendPage()">
+    <a (click)="openFriendPage()">
         <p>推薦好友</p>
         <span class="material-icons">
             arrow_right
@@ -25,7 +25,7 @@
         <img [src]="this.result.avatar || this.defaultAvatar " alt="avatar">
         <h3>{{this.result.name}}</h3>
         <p *ngIf="this.alreadyExist">好友已存在</p>
-        <button (click)="this.alreadyExist ? this.toChat() : this.addAsFriend()">
+        <button (click)="this.alreadyExist ? this.toChat(this.result.id) : this.addAsFriend(this.result.id)">
             {{this.alreadyExist ? '聊天' : '加入好友'}}
         </button>
     </section>

@@ -4,6 +4,7 @@ import { DatabaseService } from '@utility/abstract/database-service.abstract';
 import { FirebaseService } from '@shared/services/firebase.service';
 import { LoggerService } from '@shared/services/logger.service';
 import { IUser } from '@utility/interface/user.interface';
+import { User } from '@user/shared/models/user.model';
 
 @Injectable({
   providedIn: 'root'
@@ -19,7 +20,7 @@ export class UserCenterService extends DatabaseService {
   /**
    * @description 更新使用者資料
    */
-  public updateUserProfile(profile: IUser, id: string): Promise<boolean> {
+  public updateUserProfile(profile: User, id: string): Promise<boolean> {
     return new Promise<boolean>(resolve => {
       this.fetch()
         .update(profile, id)
@@ -31,7 +32,7 @@ export class UserCenterService extends DatabaseService {
    * @description 獲得使用者資料
    */
   public fetchUser(uid: string): Promise<IUser> {
-    return new Promise<IUser>((resolve, reject) => {
+    return new Promise<IUser>((resolve) => {
       this.fetch()
         .read$(uid)
         .subscribe(

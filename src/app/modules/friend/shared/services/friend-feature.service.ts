@@ -38,14 +38,14 @@ export class FriendFeatureService extends FeatureService<IFriendsEvent, Action> 
           this.$userCenter.updateUserProfile({
             friends: user?.friends,
             inviteAddFriends: user?.inviteAddFriends
-          } as IUser, user?.id as string).then(() => {
+          } as User, user?.id as string).then(() => {
             this.$logger.systemMessage(`user ${user?.id} has successfully added ${id}.`);
             resolve(true);
           });
           break;
         case Action.IgnoreInvite:
           user?.ignoreInvite(id as string);
-          this.$userCenter.updateUserProfile({ inviteAddFriends: user?.inviteAddFriends } as IUser, user?.id as string)
+          this.$userCenter.updateUserProfile({ inviteAddFriends: user?.inviteAddFriends } as User, user?.id as string)
             .then(() => {
               this.$logger.systemMessage(`user ${user?.id} invitation has successfully ignored.`);
               resolve(true);

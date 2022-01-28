@@ -17,8 +17,8 @@ export class User implements IUser {
   }
 
   public addFriend(friendId: string): void {
-    this.friends.push(friendId);
-    this.inviteAddFriends = this.inviteAddFriends.filter(id => id !== friendId);
+      this.friends.push(friendId);
+      this.inviteAddFriends = this.inviteAddFriends.filter(id => id !== friendId);
   }
 
   public ignoreInvite(friendId: string): void {

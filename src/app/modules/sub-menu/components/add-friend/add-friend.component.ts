@@ -1,6 +1,6 @@
 import { environment } from 'src/environments/environment';
-import { FriendPageMap } from '@utility/map/router.map';
-import { EFriendPage, EModule } from '@utility/enum/route.enum';
+import { FriendPageMap, UserPageMap } from '@utility/map/router.map';
+import { EFriendPage, EModule, EUserPage } from '@utility/enum/route.enum';
 import { Router } from '@angular/router';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { UserService } from '@user/shared/services/user.service';
@@ -47,23 +47,20 @@ export class AddFriendComponent {
     }
   }
 
-
-  public addAsFriend(): void {
-    // this.$feature.fireEvent<void>({
-    //   action: Action.AddFriend,
-    //   user: this.user as User,
-
-    // }).then(() => {
-
-    // });
+  public addAsFriend(id: string): void {
+    this.$feature.fireEvent<void>({
+      action: Action.AddFriend,
+      id,
+      user: this.user as User,
+    });
   }
 
-  public toChat(): void {
-    // this.router.navigateByUrl(`${EModule.User}/${UserPageMap.get(EUserPage.Chat)?.path}/${this.searchResultView?.id}`);
+  public toChat(id: string): void {
+    this.router.navigateByUrl(`${EModule.User}/${UserPageMap.get(EUserPage.Chat)?.path}/${id}`);
     this.switchToChat.emit();
   }
 
-  public toFriendPage(): void {
+  public openFriendPage(): void {
     this.router.navigateByUrl(`${EModule.Friend}/${FriendPageMap.get(EFriendPage.Recommend)?.path}`);
   }
 
@@ -74,7 +71,8 @@ export class AddFriendComponent {
     this.$feature.fireEvent<IUser>({
       action: Action.SearchUser,
       id: this.form.controls.id.value
-    }).then(result => this.result = result || null);
+    }).then(result => {
+      this.result = result || null});
   }
 
   /**

@@ -40,12 +40,20 @@ export class RecommendPageComponent implements OnInit {
     );
   }
 
-  public addFriend(friendId: string): void {
+  public addFriendFromInvite(friendId: string): void {
     this.$feature.fireEvent({
       action: Action.AddFriend,
       id: friendId,
       user: this.user as User
     }).then(() => this.inviteList = this.inviteList.filter(user => user.id !== friendId));
+  }
+
+  public addFriendFromRecommend(friendId: string): void {
+    this.$feature.fireEvent({
+      action: Action.AddFriend,
+      id: friendId,
+      user: this.user as User
+    }).then(() => this.recommendList = this.recommendList.filter(user => user.id !== friendId));
   }
 
   public ignoreInvite(friendId: string): void {
