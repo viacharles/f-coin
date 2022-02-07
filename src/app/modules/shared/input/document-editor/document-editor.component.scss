@@ -4,7 +4,6 @@ ckeditor::ng-deep {
 
     .ck-editor {
         width: calc(100% - 15px);
-        margin: 0 0 0 15px;
     }
     .ck-rounded-corners .ck.ck-editor__top .ck-sticky-panel .ck-toolbar {
         background: rgb(48, 158, 248);
@@ -24,7 +23,6 @@ ckeditor::ng-deep {
     }
     .ck.ck-editor__top {
         width: 210px;
-        padding: 0 0 0 11px;
     }
 
     .ck-toolbar__items > .ck-button,

@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { FileSelectIconComponent } from './file-select-icon.component';
+import { SelectFileIconComponent } from './select-file-icon.component';
 
 describe('FileSelectIconComponent', () => {
-  let component: FileSelectIconComponent;
-  let fixture: ComponentFixture<FileSelectIconComponent>;
+  let component: SelectFileIconComponent;
+  let fixture: ComponentFixture<SelectFileIconComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ FileSelectIconComponent ]
+      declarations: [ SelectFileIconComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(FileSelectIconComponent);
+    fixture = TestBed.createComponent(SelectFileIconComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -1,14 +1,23 @@
 <div class="header">
     <h3>發文章</h3>
-    <button (click)="null">發文</button>
+    <button (click)="this.post()">發文</button>
+</div>
+<img #img>
+<div class="img-feild" *ngFor="let item of this.selectedFiles; let index = index">
+    <canvas #canvas width="230" height="161"></canvas>
+    <span class="material-icons" (click)="this.cancelSelectFile(this.canvases, item, index)">
+        cancel
+        </span>
+    {{item.name}}
+    <progress #progress id="progress" max="100" value="0"></progress>
 </div>
 <nav>
-    <app-document-editor [(ngModel)]="textContent"></app-document-editor>
+    <app-document-editor [(ngModel)]="article"></app-document-editor>
     <app-file-select-icon [isMultiple]="this.isMultiple" [allowType]="this.allowType"
-        (uploadingFiles)="this.showFileList($event)">
+        (uploadingFiles)="this.selectFiles($event)">
     </app-file-select-icon>
 </nav>
 
-<div [innerHTML]="textContent"></div>
-{{textContent}}
+<div [innerHTML]="article"></div>
+{{article}}
 

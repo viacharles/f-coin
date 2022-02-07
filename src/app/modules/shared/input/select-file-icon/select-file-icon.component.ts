@@ -1,5 +1,5 @@
 import { OverlayService } from '@shared/overlay/overlay.service';
-import { EFileType } from './../../../../../utility/enum/file.enum';
+import { EFileType } from '../../../../../utility/enum/file.enum';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { CustomForm, getFormProvider } from '@utility/abstract/custom-form.abstract';
 
@@ -7,11 +7,11 @@ import { CustomForm, getFormProvider } from '@utility/abstract/custom-form.abstr
 
 @Component({
   selector: 'app-file-select-icon',
-  templateUrl: './file-select-icon.component.html',
-  styleUrls: ['./file-select-icon.component.scss'],
-  providers: [getFormProvider(FileSelectIconComponent)]
+  templateUrl: './select-file-icon.component.html',
+  styleUrls: ['./select-file-icon.component.scss'],
+  providers: [getFormProvider(SelectFileIconComponent)]
 })
-export class FileSelectIconComponent extends CustomForm<FileList> implements OnInit {
+export class SelectFileIconComponent extends CustomForm<FileList> implements OnInit {
   @Output() uploadingFiles = new EventEmitter<FileList>();
   @Input() isMultiple = true;
   @Input() allowType: EFileType = EFileType.Image;
@@ -24,7 +24,6 @@ export class FileSelectIconComponent extends CustomForm<FileList> implements OnI
    * @description icon code from Google Fonts.
    */
   public iconCode?: string;
-  public tt?: FileList;
 
   ngOnInit(): void {
   }
@@ -44,9 +43,8 @@ export class FileSelectIconComponent extends CustomForm<FileList> implements OnI
   }
 
   public onFileSelected(event: Event): void {
-    this.tt = (event.target as HTMLInputElement).files as FileList;
-    this.uploadingFiles.emit(this.tt);
-    console.log('onFileSelected', event, (event.target as HTMLInputElement).files , this.tt);
+    this.model = (event.target as HTMLInputElement).files as FileList;
+    this.uploadingFiles.emit(this.model);
   }
 
 }

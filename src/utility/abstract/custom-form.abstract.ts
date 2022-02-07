@@ -56,7 +56,6 @@ export abstract class CustomForm<T> extends UnSubOnDestroy implements ControlVal
     }
 
     protected onModelChanged({ value, isFirstChange }: { value: T, isFirstChange: boolean }) {
-
     }
 
 }

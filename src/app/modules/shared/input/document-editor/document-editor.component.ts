@@ -33,9 +33,9 @@ export class DocumentEditorComponent extends CustomForm<string> implements After
   }
 
   private setFormAttr(): void {
-    ClassicEditor
-      .creat( this.ckEditor , {
-        placeholder: '輸入說明文字...'
-      });
+  //   ClassicEditor
+  //     .creat( this.ckEditor , {
+  //       placeholder: '輸入說明文字...'
+  //     });
   }
 }

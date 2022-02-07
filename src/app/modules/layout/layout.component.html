@@ -14,7 +14,7 @@
         <app-coining *ngSwitchCase="this.Module.Business" [user]="user"></app-coining>
         <app-add-friend *ngSwitchCase="this.Module.Friend" [user]="user"
           (switchToChat)="this.module = this.Module.User"></app-add-friend>
-        <app-post-edit *ngSwitchCase="this.Module.Social"></app-post-edit>
+        <app-post-edit *ngSwitchCase="this.Module.Social" [user]="user"></app-post-edit>
       </nav>
       <section>
         <router-outlet></router-outlet>
