@@ -2,16 +2,18 @@ import { IPost } from '@utility/interface/socialCenter.interface';
 import { IEvent } from '@utility/interface/common.interface';
 import { EFileType } from '@utility/enum/file.enum';
 export enum EPostEditAction {
-    Post = 0,
-    fetchHistory
+    Post = 1,
+    FetchHistory,
+    Upload
 }
 
 export interface IPostEditEvent extends IEvent<EPostEditAction> {
     action: EPostEditAction;
-    uid: string;
+    uid?: string;
     name?: string;
     fileType?: EFileType;
     files?: File[];
+    images?: string[];
     article?: string;
 }
 

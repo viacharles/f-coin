@@ -16,33 +16,31 @@ export class PostEditService extends FeatureService<IPostEditEvent, Action>{
     protected $logger: LoggerService,
     private $file: FileService,
     private $social: SocialCenterService
-    ) {
+  ) {
     super($logger);
   }
 
   protected featureName = 'post';
 
-  protected resolveAction({action, fileType, article, files, images, uid }: IPostEditEvent): Promise<any> {
+  protected resolveAction({ action, article, files, images, uid }: IPostEditEvent): Promise<any> {
     return new Promise<any>((resolve) => {
       switch (action) {
         case Action.Post:
-          resolve(this.post(fileType as EFileType, article as string, images, uid, files as File[], ));
+          resolve(this.$social.sendPost(uid as string, article as string, images as string[]));
           break;
-        case Action.fetchHistory:
-          resolve(this.fetchHistory(uid));
+
+        case Action.FetchHistory: resolve(this.fetchHistory(uid as string)); break;
+        case Action.Upload: resolve(this.upload(files as File[])); break;
       }
     });
   }
 
-  private post(fileType: EFileType, article: string, images: string[], uid: string, files?: File[] )
-  : AngularFireUploadTask[] {
-    const taskArray: AngularFireUploadTask[] = [];
-    this.$social.sendPost( uid, article, images);
-    files?.forEach(file => {
-      taskArray.push(this.$file.upload(fileType, file.name, file as File));
+  private upload(files: File[]): AngularFireUploadTask[] {
+    const Tasks: AngularFireUploadTask[] = [];
+    files.forEach(file => {
+      Tasks.push(this.$file.upload(EFileType.Image, file.name, file as File));
     });
-    console.log('dataUrlArray', taskArray, files);
-    return taskArray;
+    return Tasks;
   }
 
   private fetchHistory(uid: string): Promise<Post> {

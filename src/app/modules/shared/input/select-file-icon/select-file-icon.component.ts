@@ -29,22 +29,27 @@ export class SelectFileIconComponent extends CustomForm<FileList> implements OnI
   }
 
   get acceptList(): string {
-      switch (this.allowType) {
-        case EFileType.Image:
-          this.iconCode = 'image';
-          return 'image/jpeg,image/jpg,image/png';
-        case EFileType.Pdf:
-          this.iconCode = 'picture_as_pdf';
-          return '.pdf';
-        case EFileType.Excel:
-          this.iconCode = 'feed';
-          return '.xls';
+    switch (this.allowType) {
+      case EFileType.Image:
+        this.iconCode = 'image';
+        return 'image/jpeg,image/jpg,image/png';
+      case EFileType.Pdf:
+        this.iconCode = 'picture_as_pdf';
+        return '.pdf';
+      case EFileType.Excel:
+        this.iconCode = 'feed';
+        return '.xls';
     }
   }
 
   public onFileSelected(event: Event): void {
     this.model = (event.target as HTMLInputElement).files as FileList;
-    this.uploadingFiles.emit(this.model);
+    console.log((event.target as HTMLInputElement).files)
+    const Files: File[] = [];
+    // for(let i = 0; i < model) {
+
+    // }
+    // this.uploadingFiles.emit(Array.from(this.model));
   }
 
 }

@@ -1,0 +1,19 @@
+<app-file-select-icon (uploadingFiles)="this.selectFiles($event)">
+</app-file-select-icon>
+<button (click)="this.upload()">upload</button>
+<ng-template *ngFor="let item of this.selectedFiles; let index = index" [ngTemplateOutlet]="tFilePreview"
+    [ngTemplateOutletContext]="{file: item, index: index}"></ng-template>
+
+<ng-template #tFilePreview let-file="file" let-index="index">
+    <span class="material-icons" (click)="this.delete(index)">
+        cancel
+    </span>
+    <section>
+        <img src="" alt="">
+        <span *ngIf="this.progress[index] >= 0 && this.progress[index] < 100">
+            {{this.progress[index]}}
+        </span>
+        {{file.name}}
+    </section>
+
+</ng-template>
