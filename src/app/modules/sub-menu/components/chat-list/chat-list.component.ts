@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { Router } from '@angular/router';
 import { Friend } from '@friend/shared/models/friend.model';
 import { UserService } from '@user/shared/services/user.service';
@@ -10,7 +10,7 @@ import { User } from '@user/shared/models/user.model';
   templateUrl: './chat-list.component.html',
   styleUrls: ['./chat-list.component.scss'],
 })
-export class ChatListComponent implements OnInit {
+export class ChatListComponent implements OnChanges {
   @Input() user?: User;
   @Output() switchToFriend = new EventEmitter<void>();
   constructor(private $user: UserService, public router: Router) { }
@@ -27,7 +27,7 @@ export class ChatListComponent implements OnInit {
     tap((friends) => this.onFriendsUpdated(friends))
   );
 
-  ngOnInit(): void {
+  ngOnChanges({ user }: SimpleChanges): void {
     this.$user.fetchFriendList(this.user as User);
   }
 

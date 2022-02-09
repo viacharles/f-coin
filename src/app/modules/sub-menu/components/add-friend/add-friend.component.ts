@@ -72,7 +72,8 @@ export class AddFriendComponent {
       action: Action.SearchUser,
       id: this.form.controls.id.value
     }).then(result => {
-      this.result = result || null});
+      this.result = result?.id !== this.user?.id ? result : null;
+    });
   }
 
   /**
