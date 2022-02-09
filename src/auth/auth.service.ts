@@ -102,15 +102,25 @@ export class AuthService {
   /**
    * @description 註冊後於DB建立對應使用者資料
    */
-  private initialDBData(
-    name: string,
-    uid: string,
-    loadingId: string
-  ): Promise<void> {
-    const initialMessageData = new Promise((resolve)=> resolve(this.$fb.request('messageCenter').create({ history: []}, uid)));
-    const initialUserData = new Promise((resolve)=> resolve(this.$fb.request('user').create({ id: uid, name, friends: [], inviteAddFriend: [] } as IUser, uid)));
-    const initialBusinessData = new Promise((resolve)=> resolve(this.$fb.request('businessCenter').create({ coinInfo: { isDigging: false, lastStopDate: firebase.firestore.Timestamp.fromDate(new Date(0)), totalAmount: 0, }},uid)));
-    return Promise.all([ initialMessageData, initialUserData, initialBusinessData ])
-          .then(()=> this.$overlay.endLoading(loadingId));
+  private initialDBData(name: string, uid: string, loadingId: string): Promise<void> {
+    const initialUserData = new Promise((resolve) =>
+      resolve(this.$fb.request('user')
+        .create({
+          id: uid,
+          name,
+          friends: [],
+          inviteAddFriend: []
+        } as IUser, uid)));
+    const initialBusinessData = new Promise((resolve) =>
+      resolve(this.$fb.request('businessCenter')
+        .create({
+          coinInfo: {
+            isDigging: false,
+            lastStopDate: firebase.firestore.Timestamp.fromDate(new Date(0)),
+            totalAmount: 0,
+          }
+        }, uid)));
+    return Promise.all([initialUserData, initialBusinessData])
+      .then(() => this.$overlay.endLoading(loadingId));
   }
 }
