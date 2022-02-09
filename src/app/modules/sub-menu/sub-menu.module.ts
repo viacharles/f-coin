@@ -7,6 +7,7 @@ import { AddFriendComponent } from './components/add-friend/add-friend.component
 import { SharedModule } from '@shared/shared.module';
 import { PostEditImageComponent } from './components/post-edit/post-edit-image/post-edit-image.component';
 import { PostEditComponent } from './components/post-edit/post-edit.component';
+import { PostStepComponent } from './components/post-edit/post-step/post-step.component';
 
 
 
@@ -16,7 +17,8 @@ import { PostEditComponent } from './components/post-edit/post-edit.component';
     CoiningComponent,
     AddFriendComponent,
     PostEditImageComponent,
-    PostEditComponent
+    PostEditComponent,
+    PostStepComponent
   ],
   exports: [
     ChatListComponent,

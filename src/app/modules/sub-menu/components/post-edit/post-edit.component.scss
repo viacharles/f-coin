@@ -51,28 +51,6 @@ img {
     }
 }
 
-
-nav {
-    display: flex;
-    flex-direction: row;
-
-    app-file-select-icon {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        width: 35px;
-        height: 35px;
-        color: white;
-        background: $primary;
-        border-radius: 0 10px 10px 0;
-        border-left: 1px solid white;
-        &:hover {
-            background: $primary-hover;
-        }
-    }
-
-}
-
 .file-list-overlay {
     
     width: 400px;

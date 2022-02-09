@@ -28,7 +28,6 @@ export class PostEditService extends FeatureService<IPostEditEvent, Action>{
         case Action.Post:
           resolve(this.$social.sendPost(uid as string, article as string, images as string[]));
           break;
-
         case Action.FetchHistory: resolve(this.fetchHistory(uid as string)); break;
         case Action.Upload: resolve(this.upload(files as File[])); break;
       }

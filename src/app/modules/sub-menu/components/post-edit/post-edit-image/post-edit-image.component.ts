@@ -1,9 +1,8 @@
-import { PostEditService } from '@social/shared/services/post-edit.service';
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { EFileType } from '@utility/enum/file.enum';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { User } from '@user/shared/models/user.model';
 import { AngularFireUploadTask } from '@angular/fire/storage';
 import { EPostEditAction as Action } from '@social/shared/models/posts.model';
+import { PostEditService } from '@social/shared/services/post-edit.service';
 
 @Component({
   selector: 'app-post-edit-image',
@@ -38,10 +37,20 @@ export class PostEditImageComponent {
     );
   }
 
-
   public selectFiles(files: File[]): void {
-    this.selectedFiles = [...files];
-    console.log(files)
+    console.log('selectFiles')
+    if (files.length > 0) {
+      this.selectedFiles = [...files];
+      this.selectedFiles.forEach((file, ) => {
+        console.log('selectedFiles',file)
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = (ev: ProgressEvent<FileReader>) => {
+          console.log('onload',ev, file)
+        }
+      }
+      );
+    }
   }
 
 }

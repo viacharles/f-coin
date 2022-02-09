@@ -1,5 +1,10 @@
-<app-file-select-icon (uploadingFiles)="this.selectFiles($event)">
-</app-file-select-icon>
+<nav>
+    上傳圖片
+    <app-file-select-icon  [(ngModel)]="this.selectedFiles"  
+    (ngModelChange)="this.selectFiles($event)">
+    </app-file-select-icon>
+</nav>
+
 <button (click)="this.upload()">upload</button>
 <ng-template *ngFor="let item of this.selectedFiles; let index = index" [ngTemplateOutlet]="tFilePreview"
     [ngTemplateOutletContext]="{file: item, index: index}"></ng-template>

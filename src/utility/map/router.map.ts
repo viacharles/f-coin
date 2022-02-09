@@ -5,11 +5,11 @@ export const IndividualPageQueue = new Set<EIndividualPage>([
     EIndividualPage.Landing,
     EIndividualPage.SignOn
 ]);
-export const MenuMap = new Map<EModule, string>([
-    [EModule.User, 'question_answer'],
-    [EModule.Business, 'trending_up'],
-    [EModule.Friend, 'person_add'],
-    [EModule.Social, 'article'],
+export const MenuMap = new Map<EModule, {iconCode: string, name: string}>([
+    [EModule.User, {iconCode: 'question_answer', name: '聊天'}],
+    [EModule.Business, {iconCode: 'trending_up', name: '挖礦'}],
+    [EModule.Friend, {iconCode: 'person_add', name: '加友'}],
+    [EModule.Social, {iconCode: 'article', name: '貼文'}],
 ]);
 export const UserPageMap = new Map<EUserPage, IPage>([
     [EUserPage.Chat, { path: 'chat', icon: '' }]
