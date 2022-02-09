@@ -28,7 +28,9 @@ export class ChatListComponent implements OnChanges {
   );
 
   ngOnChanges({ user }: SimpleChanges): void {
-    this.$user.fetchFriendList(this.user as User);
+    if (user.currentValue.id === sessionStorage.getItem('id')) {
+      this.$user.fetchFriendList(user.currentValue as User);
+    }
   }
 
   public toAddFriend(): void {

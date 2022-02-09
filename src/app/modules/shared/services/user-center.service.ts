@@ -50,12 +50,16 @@ export class UserCenterService extends DatabaseService {
    */
   public fetchUsers(ids: string[]): Promise<IUser[]> {
     return new Promise<IUser[]>(resolve => {
-      forkJoin(ids.map(id => this.fetch().read$(id))).subscribe(
-        (profiles: any) => {
-          this.$logger.systemMessage(`total ${ids.length} user profiles has been successfully fetched.`);
-          resolve(profiles as IUser[]);
-        }
-      );
+      if (ids.length > 0) {
+        forkJoin(ids.map(id => this.fetch().read$(id))).subscribe(
+          (profiles: any) => {
+            this.$logger.systemMessage(`total ${ids.length} user profiles has been successfully fetched.`);
+            resolve(profiles as IUser[]);
+          }
+        );
+      } else {
+        resolve([]);
+      }
     });
   }
 
