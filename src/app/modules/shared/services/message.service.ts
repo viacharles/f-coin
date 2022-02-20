@@ -1,3 +1,5 @@
+import { map } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 import { FirebaseService } from '@shared/services/firebase.service';
 import { Injectable } from '@angular/core';
 
@@ -23,6 +25,17 @@ export class MessageService extends DatabaseService {
   }
 
   protected databaseName = 'messageCenter';
+
+  public onHistoryUpdated$(userId: string): Observable<IMessage[]> {
+    return this.$fb
+      .getCollection(this.databaseName)
+      .doc(userId)
+      .collection('history')
+      .valueChanges()
+      .pipe(
+        map(res => res as IMessage[])
+      );
+  }
 
   /**
    * @description 獲得好友對話紀錄

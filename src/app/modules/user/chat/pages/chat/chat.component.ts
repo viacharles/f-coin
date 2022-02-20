@@ -59,16 +59,13 @@ export class ChatComponent extends UnSubOnDestroy implements OnInit {
 
   private initial(friendId: string, friends: Friend[]): void {
     this.friend = friends.find(({ id }) => id === friendId) as Friend;
-    this.$feature
-      .fireEvent<IMessage[]>({
-        action: Action.FetchChatHistory,
-        friendId,
+    this.$feature.fireEvent({ action: Action.CloseSocket }).then(() => {
+      this.$feature.fireEvent<IMessage[]>({
+        action: Action.CreateSocket,
         id: this.userId as string,
-      })
-      .then((history) => {
-        console.log('history', history);
-        (this.history = history)
-      });
+        friendId
+      }).then(history => this.history = history);
+    });
   }
 
 }
