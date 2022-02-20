@@ -45,10 +45,23 @@ export class FriendFeatureService extends FeatureService<IFriendsEvent, Action> 
           this.$userCenter.updateUserProfile({ inviteAddFriends: user?.inviteAddFriends } as IUser, user?.id as string)
             .then(() => {
               this.$logger.systemMessage(`user ${user?.id} invitation has successfully ignored.`);
-              resolve(true);
+              resolve(this.removeFriend((user as User).id, id as string));
             });
           break;
       }
+    });
+  }
+
+  /**
+   * @description 將使用者從目標好友清單內移除
+   */
+  private removeFriend(userId: string, friendId: string): Promise<boolean> {
+    return new Promise<boolean>((resolve) => {
+      this.$userCenter.fetchUser(friendId).then(
+        ({ friends }) => this.$userCenter.updateUserProfile({
+          friends: (friends as string[]).filter(id => id !== userId)
+        } as IUser, friendId)
+      ).then(() => resolve(true));
     });
   }
 
