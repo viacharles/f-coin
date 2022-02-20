@@ -48,6 +48,7 @@ export class AddFriendComponent {
   }
 
   public addAsFriend(id: string): void {
+    console.log(id)
     this.$feature.fireEvent<void>({
       action: Action.AddFriend,
       id,

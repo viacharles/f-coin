@@ -20,7 +20,7 @@ export class UserCenterService extends DatabaseService {
   /**
    * @description 更新使用者資料
    */
-  public updateUserProfile(profile: User, id: string): Promise<boolean> {
+  public updateUserProfile(profile: IUser, id: string): Promise<boolean> {
     return new Promise<boolean>(resolve => {
       this.fetch()
         .update(profile, id)

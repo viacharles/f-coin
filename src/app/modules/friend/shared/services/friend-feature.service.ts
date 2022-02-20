@@ -35,23 +35,33 @@ export class FriendFeatureService extends FeatureService<IFriendsEvent, Action> 
           break;
         case Action.AddFriend:
           user?.addFriend(id as string);
-          this.$userCenter.updateUserProfile({
-            friends: user?.friends,
-            inviteAddFriends: user?.inviteAddFriends
-          } as User, user?.id as string).then(() => {
+          this.$userCenter.updateUserProfile({ friends: user?.friends } as IUser, user?.id as string).then(() => {
             this.$logger.systemMessage(`user ${user?.id} has successfully added ${id}.`);
-            resolve(true);
+            resolve(this.updateFriendInvitedList((user as User).id, id as string));
           });
           break;
         case Action.IgnoreInvite:
           user?.ignoreInvite(id as string);
-          this.$userCenter.updateUserProfile({ inviteAddFriends: user?.inviteAddFriends } as User, user?.id as string)
+          this.$userCenter.updateUserProfile({ inviteAddFriends: user?.inviteAddFriends } as IUser, user?.id as string)
             .then(() => {
               this.$logger.systemMessage(`user ${user?.id} invitation has successfully ignored.`);
               resolve(true);
             });
           break;
       }
+    });
+  }
+
+  /**
+   * @description 更新目標好友邀請清單
+   */
+  private updateFriendInvitedList(userId: string, friendId: string): Promise<boolean> {
+    return new Promise<boolean>((resolve) => {
+      this.$userCenter.fetchUser(friendId).then(
+        ({ inviteAddFriends }) => this.$userCenter.updateUserProfile({
+          inviteAddFriends: [...inviteAddFriends as string[], ...[userId]]
+        } as IUser, friendId)
+      ).then(() => resolve(true));
     });
   }
 }

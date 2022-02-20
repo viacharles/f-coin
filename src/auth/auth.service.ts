@@ -109,7 +109,7 @@ export class AuthService {
           id: uid,
           name,
           friends: [],
-          inviteAddFriend: []
+          inviteAddFriends: []
         } as IUser, uid)));
     const initialBusinessData = new Promise((resolve) =>
       resolve(this.$fb.request('businessCenter')
