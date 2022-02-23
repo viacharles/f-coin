@@ -10,28 +10,15 @@
     </nav>
     <app-chat-announcement *ngIf="false"></app-chat-announcement>
   </header>
-  <section class="message-group" [style.height]="'calc('+ '100% - ' + tHeader.clientHeight + 'px - ' + tFooter.clientHeight + 'px)'">
-    <div *ngFor="let item of this.history">
-      <!-- 對方訊息 -->
-      <ng-container [ngSwitch]="item.userId">
-        <div class="message partner" *ngSwitchCase="this.userId">
-          <div class="message-avatar">
-            <img [src]="this.friend.avatar">
-          </div>
-          <div class="message-content">
-            <div>
-              <p>{{'item.message'}}</p>
-            </div>
-          </div>
-        </div>
-        <!-- 本人訊息 -->
-        <div class="message self" *ngSwitchCase="this.friend.id">
-          <div class="item-group">
-            <p>{{item.message}}</p>
-          </div>
-        </div>
-      </ng-container>
-    </div>
+  <section *ngIf="this.$feature.messageHistory$ | async as history"
+    [style.height]="'calc('+ '100% - ' + tHeader.clientHeight + 'px - ' + tFooter.clientHeight + 'px)'">
+    <ul class="w-100">
+      <li *ngFor="let record of history" class="message" [class.message__myself]="record.sendTo !== this.userId"
+        [class.message__friend]="record.sendTo === this.userId">
+        <img *ngIf="record.sendTo === this.userId" [src]="this.friend.avatar" alt="">
+        <p>{{record.message}}</p>
+      </li>
+    </ul>
   </section>
   <footer #tFooter>
     <textarea [(ngModel)]="this.message" (keydown)="this.afterKeydown($event)" class="p-0"
@@ -50,7 +37,7 @@
   <section class="content-empty">
     <span class="material-icons ">
       question_answer
-      </span>
-      <p>開始聊天吧!</p>
+    </span>
+    <p>開始聊天吧!</p>
   </section>
 </ng-template>

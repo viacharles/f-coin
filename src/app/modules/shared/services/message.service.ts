@@ -1,4 +1,4 @@
-import { map } from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged, map, tap } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { FirebaseService } from '@shared/services/firebase.service';
 import { Injectable } from '@angular/core';
@@ -33,7 +33,10 @@ export class MessageService extends DatabaseService {
       .collection('history')
       .valueChanges()
       .pipe(
-        map(res => res as IMessage[])
+        map(res => res as IMessage[]),
+        distinctUntilChanged((previous, current) => {
+          return current.filter(({id}) => id && !previous.find(message => message.id === id)).length === 0;
+        })
       );
   }
 
@@ -65,7 +68,7 @@ export class MessageService extends DatabaseService {
    * @param id 使用者ID
    * @param userId 訊息對象ID
    */
-  public send(id: string, message: string, userId: string): Promise<boolean> {
+  public send(id: string, message: string, userId: string, sendTo: string): Promise<boolean> {
     const LoadingId = this.$overlay.startLoading();
     const ActivatedElement: HTMLElement = document.activeElement as HTMLElement;
     ActivatedElement.blur();
@@ -77,12 +80,10 @@ export class MessageService extends DatabaseService {
           message,
           isRead: false,
           userId,
+          sendTo,
           sendTime: firebase.firestore.Timestamp.now(),
         } as IMessage)
         .then((res) => {
-          this.$logger.systemMessage(
-            `message ${res.id} has successfully created.`
-          );
           this.$fb
             .getDoc('messageCenter', id)
             .collection('history')

@@ -33,57 +33,57 @@ app-chat-announcement {
   height: 40px;
 }
 
-.message-group {
-  overflow-y: auto;
-  padding: 0 12px;
-  & > div {
-    display: block;
-    width: 100%;
-    height: auto;
-  }
-}
+// .message-group {
+//   overflow-y: auto;
+//   padding: 0 12px;
+//   & > div {
+//     display: block;
+//     width: 100%;
+//     height: auto;
+//   }
+// }
 
-.message {
-  display: flex;
-  flex-direction: row;
-  width: 100%;
-  height: auto;
-  padding: 5px 0;
-}
+// .message {
+//   display: flex;
+//   flex-direction: row;
+//   width: 100%;
+//   height: auto;
+//   padding: 5px 0;
+// }
 
-.message.partner {
-  justify-content: flex-start;
-  .message-avatar {
-    width: 50px;
-    height: 100%;
-    img {
-      width: 37px;
-      height: 37px;
-      border-radius: 50%;
-      object-fit: cover;
-    }
-  }
-  .message-content {
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-end;
-    width: 100%;
-    height: auto;
-    padding: 5px 0;
-    background: $normal-border-hover;
-  }
-}
+// .message.partner {
+//   justify-content: flex-start;
+//   .message-avatar {
+//     width: 50px;
+//     height: 100%;
+//     img {
+//       width: 37px;
+//       height: 37px;
+//       border-radius: 50%;
+//       object-fit: cover;
+//     }
+//   }
+//   .message-content {
+//     display: flex;
+//     flex-direction: row;
+//     justify-content: flex-end;
+//     width: 100%;
+//     height: auto;
+//     padding: 5px 0;
+//     background: $normal-border-hover;
+//   }
+// }
 
-.message.self {
-  justify-content: flex-end;
-  .item-group {
-    margin-right: 15px;
-    padding: 10px 15px;
-    font-size: map-get($font-level, 'sm');
-    background: $self-message-background;
-    border-radius: 16px;
-  }
-}
+// .message.self {
+//   justify-content: flex-end;
+//   .item-group {
+//     margin-right: 15px;
+//     padding: 10px 15px;
+//     font-size: map-get($font-level, 'sm');
+//     background: $self-message-background;
+//     border-radius: 16px;
+//   }
+// }
 
 footer {
   border-top: 1px solid $light-border;
@@ -121,12 +121,33 @@ footer {
   height: 100%;
   color: $disable-area-text;
   background: $disable-area-background;
-  .material-icons{
+  .material-icons {
     font-size: 120px;
   }
-  &  p {
+  & p {
     font-size: 20px;
   }
 }
 
- 
+section {
+  overflow-y: auto;
+}
+
+.message {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  &__myself {
+    justify-content: flex-end;
+  }
+
+  &__friend {
+    justify-content: flex-start;
+    img {
+      width: 37px;
+      height: 37px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+  }
+}

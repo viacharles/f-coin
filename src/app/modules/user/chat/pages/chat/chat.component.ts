@@ -17,7 +17,7 @@ import { IUser } from '@utility/interface/user.interface';
 })
 export class ChatComponent extends UnSubOnDestroy implements OnInit {
   constructor(
-    private $feature: ChatService,
+    public $feature: ChatService,
     private $user: UserService,
     private activatedRoute: ActivatedRoute
   ) {
@@ -25,7 +25,6 @@ export class ChatComponent extends UnSubOnDestroy implements OnInit {
   }
 
   public message = '';
-  public history: IMessage[] = [];
   public friend: Friend | null = null;
   public userId: string | null = null;
 
@@ -64,9 +63,6 @@ export class ChatComponent extends UnSubOnDestroy implements OnInit {
         action: Action.CreateSocket,
         id: this.userId as string,
         friendId
-      }).then(history => {
-        this.history = history;
-        console.log(history)
       });
     });
   }

@@ -1,4 +1,5 @@
-import { Subscription } from 'rxjs';
+import { IMessage } from '@utility/interface/messageCenter.interface';
+import { Subscription, Observable, Subject } from 'rxjs';
 import {
   ChatAction as Action,
   IChatEvent,
@@ -17,6 +18,8 @@ export class ChatService extends FeatureService<IChatEvent, Action> {
   }
 
   private ws = new Subscription();
+  private messageHistory = new Subject<IMessage[]>();
+  public messageHistory$ = this.messageHistory.asObservable();
 
   protected featureName = 'Chat';
   protected resolveAction({ action, id, friendId, message }: IChatEvent): Promise<any> {
@@ -42,7 +45,7 @@ export class ChatService extends FeatureService<IChatEvent, Action> {
               this.$logger.systemMessage(
                 `Total ${history.length} messages with friend ${friendId} has successfully fetched.`
               );
-              resolve(history
+              this.messageHistory.next(history
                 .filter(({ userId }) => userId === friendId)
                 .sort((a, b) => a.sendTime.toDate().toISOString() > b.sendTime.toDate().toISOString() ? 1 : -1)
               );
@@ -67,8 +70,8 @@ export class ChatService extends FeatureService<IChatEvent, Action> {
    */
   private addMessageRecord(id: string, friendId: string, message: string): Promise<boolean> {
     return new Promise<boolean>(resolve => Promise.all([
-      this.$message.send(id, message, friendId),
-      this.$message.send(friendId, message, id)
+      this.$message.send(id, message, friendId, friendId),
+      this.$message.send(friendId, message, id, friendId)
     ]).then(() => resolve(true)));
   }
 }
