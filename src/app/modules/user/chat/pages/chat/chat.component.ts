@@ -1,4 +1,4 @@
-import { take, map, takeUntil, filter } from 'rxjs/operators';
+import { take, map, takeUntil, filter, tap } from 'rxjs/operators';
 import { Component, OnInit } from '@angular/core';
 import { ChatService } from '@user/chat/chat.service';
 import { ChatAction as Action } from '@user/shared/models/chat.model';
@@ -50,8 +50,8 @@ export class ChatComponent extends UnSubOnDestroy implements OnInit {
         .fireEvent({
           action: Action.SendMessage,
           id: this.userId as string,
-          message: this.message,
           friendId: this.friend?.id,
+          message: this.message
         })
         .then(() => (this.message = ''));
     }
@@ -64,7 +64,10 @@ export class ChatComponent extends UnSubOnDestroy implements OnInit {
         action: Action.CreateSocket,
         id: this.userId as string,
         friendId
-      }).then(history => this.history = history);
+      }).then(history => {
+        this.history = history;
+        console.log(history)
+      });
     });
   }
 
