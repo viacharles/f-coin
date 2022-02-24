@@ -1,3 +1,4 @@
+import { environment } from './../../../../../../environments/environment.prod';
 import { take, map, takeUntil, filter, tap } from 'rxjs/operators';
 import { Component, OnInit } from '@angular/core';
 import { ChatService } from '@user/chat/chat.service';
@@ -27,6 +28,8 @@ export class ChatComponent extends UnSubOnDestroy implements OnInit {
   public message = '';
   public friend: Friend | null = null;
   public userId: string | null = null;
+  public messageHistory = this.$feature.messageHistory$;
+  public defualtAvatar = environment.defaultAvatar;
 
   ngOnInit(): void {
     this.$user.user$
@@ -41,6 +44,13 @@ export class ChatComponent extends UnSubOnDestroy implements OnInit {
         map(([friends, { id }]) => ({ friends, id }))
       )
       .subscribe(({ id, friends }) => this.initial(id, friends));
+  }
+
+  /**
+   * @description rules for show friend's avatar.
+   */
+  public showAvatar(history: IMessage[], index: number, record: IMessage) {
+    console.log(history[index].sendTime.toDate());
   }
 
   public afterKeydown(event: KeyboardEvent): void {
