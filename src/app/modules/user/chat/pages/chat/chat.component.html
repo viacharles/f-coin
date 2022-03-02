@@ -10,15 +10,28 @@
     </nav>
     <app-chat-announcement *ngIf="false"></app-chat-announcement>
   </header>
-  <section *ngIf="this.$feature.messageHistory$ | async as history"
+  <section [scrollTop]="this.scrollTop"
     [style.height]="'calc('+ '100% - ' + tHeader.clientHeight + 'px - ' + tFooter.clientHeight + 'px)'">
-    <ul class="w-100">
-      <li *ngFor="let record of history; let index = index" class="message" 
-        [class.message__myself]="record.sendTo !== this.userId"
-        [class.message__friend]="record.sendTo === this.userId && this.showAvatar(history, index, record)">
-        <img *ngIf="record.sendTo === this.userId" [src]="this.friend.avatar || this.defualtAvatar" alt="">
-        <p>{{record.message}}</p>
-      </li>
+    <ul #tMessages class="w-100">
+      <ng-container *ngFor="let record of this.messageHistory; let index = index">
+        <li class="date-divider" *ngIf="this.showDateDivider(this.messageHistory, index, record)">
+          <p>{{record.sendTime|chatDate}}</p>
+        </li>
+        <li class="message" [class.message__myself]="record.sendTo !== this.userId"
+          [class.message__friend]="record.sendTo === this.userId">
+          <div class="avatar">
+            <img *ngIf="this.showAvatar(this.messageHistory, index, record)"
+              [src]="this.friend.avatar || this.defaultAvatar" alt="">
+          </div>
+          <div class="content">
+            <p class="text">{{record.message}}</p>
+            <div class="caption">
+              <p *ngIf="this.record.isRead && this.record.sendTo !== this.userId">已讀</p>
+              <p class="time">{{record.sendTime|chatTime}}</p>
+            </div>
+          </div>
+        </li>
+      </ng-container>
     </ul>
   </section>
   <footer #tFooter>
