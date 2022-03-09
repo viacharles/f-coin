@@ -28,6 +28,7 @@
     "firebase": "^7.0 || ^8.0",
     "logger": "0.0.1",
     "ng-logger": "^1.1.0",
+    "resize-observer": "^1.0.4",
     "rxjs": "^6.6.7",
     "tslib": "^2.0.0",
     "zone.js": "~0.10.2"

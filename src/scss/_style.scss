@@ -21,3 +21,16 @@
     }
   }
 }
+
+.scroll-bar {
+  overflow: auto;
+  &::-webkit-scrollbar {
+    width: 0.375rem;
+    height: 0.375rem;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: #e6e6e6;
+    border-radius: 10px;
+  }
+}

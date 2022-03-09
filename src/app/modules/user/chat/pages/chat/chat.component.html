@@ -10,7 +10,7 @@
     </nav>
     <app-chat-announcement *ngIf="false"></app-chat-announcement>
   </header>
-  <section [scrollTop]="this.scrollTop"
+  <section class="scroll-bar" [scrollTop]="this.scrollTop"
     [style.height]="'calc('+ '100% - ' + tHeader.clientHeight + 'px - ' + tFooter.clientHeight + 'px)'">
     <ul #tMessages class="w-100">
       <ng-container *ngFor="let record of this.messageHistory; let index = index">

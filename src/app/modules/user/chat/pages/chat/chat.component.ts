@@ -1,6 +1,6 @@
 import { environment } from './../../../../../../environments/environment.prod';
 import { take, map, takeUntil, filter, tap } from 'rxjs/operators';
-import { Component, ElementRef, OnInit, ViewChild, AfterViewInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ChatService } from '@user/chat/chat.service';
 import { ChatAction as Action } from '@user/shared/models/chat.model';
 import { UserService } from '@user/shared/services/user.service';
@@ -10,6 +10,9 @@ import { UnSubOnDestroy } from '@utility/abstract/unsubondestroy.abstract';
 import { Friend } from '@friend/shared/models/friend.model';
 import { combineLatest } from 'rxjs';
 import { IUser } from '@utility/interface/user.interface';
+import { WindowHelper } from '@utility/helper/window-helper';
+import { ResizeObserver } from 'resize-observer';
+import { ResizeObserverEntry } from 'resize-observer/lib/ResizeObserverEntry';
 
 @Component({
   selector: 'app-chat',
@@ -27,18 +30,28 @@ export class ChatComponent extends UnSubOnDestroy implements OnInit {
   }
 
   public message = '';
-  public friend: Friend | null = null;
-  public userId: string | null = null;
+  public friend?: Friend;
+  public userId?: string;
   public messageHistory: IMessage[] = [];
   public defaultAvatar = environment.defaultAvatar;
   public scrollTop = 0;
+  /**
+   * @description 控制聊天室滾動條是否滾至最新訊息
+   */
+  private shouldScroll = false;
+  /**
+   * @description 聊天室窗滾動條觀察者
+   */
+  private observer?: ResizeObserver;
 
   ngOnInit(): void {
     this.$user.user$
       .pipe(take(1))
       .subscribe((user) => (this.userId = (user as IUser).id));
     combineLatest([
-      this.$user.friends$.pipe(filter((friends) => friends.length > 0)),
+      this.$user.friends$.pipe(
+        filter((friends) => friends.length > 0),
+      ),
       this.activatedRoute.params.pipe(filter(({ id }) => !!id)),
     ]).pipe(
       takeUntil(this.onDestroy$),
@@ -81,19 +94,23 @@ export class ChatComponent extends UnSubOnDestroy implements OnInit {
   }
 
   private afterMessageHistoriesUpdated(histories: IMessage[]): void {
+    if (!this.observer) {
+      this.settingObserver();
+    }
     this.messageHistory = histories;
     switch (histories[histories.length - 1]?.sendTo) {
       case this.userId:
         this.markMessageAsRead(histories.filter(({ sendTo }) => sendTo === this.userId).map(({ id }) => id));
         break;
       case this.friend?.id:
-        setTimeout(() => this.scrollToLastMessage.bind(this), 0);
+        this.shouldScroll = true;
         break;
     }
-
   }
 
   private initial(friendId: string, friends: Friend[]): void {
+    this.scrollTop = 0;
+    this.shouldScroll = true;
     this.friend = friends.find(({ id }) => id === friendId) as Friend;
     this.$feature.fireEvent({ action: Action.CloseSocket }).then(() => {
       this.$feature.fireEvent<IMessage[]>({
@@ -113,8 +130,18 @@ export class ChatComponent extends UnSubOnDestroy implements OnInit {
     });
   }
 
-  private scrollToLastMessage(): void {
-    this.scrollTop = (this.tMessages?.nativeElement as HTMLElement).clientHeight;
+  private settingObserver() {
+    this.observer = WindowHelper.generateResizeObserver((entry: ResizeObserverEntry) => {
+      if (this.shouldScroll) {
+        this.scrollTop = entry.contentRect.height;
+        this.shouldScroll = false;
+      }
+    });
+    this.observer.observe(this.tMessages?.nativeElement);
+  }
+
+  protected onDestroy() {
+    this.observer?.disconnect();
   }
 
 }

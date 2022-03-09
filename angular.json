@@ -39,6 +39,9 @@
                 "src/scss"
               ]
             },
+            "allowedCommonJsDependencies": [
+              "resize-observer"
+            ],
             "scripts": []
           },
           "configurations": {
@@ -137,5 +140,8 @@
       }
     }
   },
-  "defaultProject": "f-coin"
+  "defaultProject": "f-coin",
+  "cli": {
+    "analytics": false
+  }
 }
