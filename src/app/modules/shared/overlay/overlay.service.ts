@@ -21,18 +21,14 @@ export class OverlayService {
 
   private loadingQueue: Subject<ILoading> = new Subject();
   public loadingQueue$: Observable<Set<string>> = this.loadingQueue.asObservable().pipe(
-    scan((queue: Set<string>, current: ILoading) => this.resolveLoadingAction(queue, current), new Set()),
-    tap(queue => this.loadingSize = queue.size)
+    scan((queue: Set<string>, current: ILoading) => this.resolveLoadingAction(queue, current), new Set())
   );
-  public loadingSize = 0;
 
   private dialogEvent: BehaviorSubject<any> = new BehaviorSubject(null);
   public dialogQueue$ = this.dialogEvent.asObservable().pipe(
     filter(event => !!event),
     scan((dialogs: Set<IDialog>, dialog: DialogEvent) => this.resolveDialogAction(dialogs, dialog), new Set()),
-    tap(dialogs => this.dialogSize = dialogs.size)
   );
-  public dialogSize = 0;
 
   /**
    * @param backdrop set false to hide backdrop overlay
