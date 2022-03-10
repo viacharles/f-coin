@@ -5,22 +5,42 @@
 }
 
 .dialog {
+  z-index: map-get($layout-level, "overlay");
   height: 100vh;
   width: 100vw;
   position: fixed;
   top: 0;
   left: 0;
-  &--xl {
-    max-width: map-get($dialog-size, "lg");
+
+  @each $key, $value in $dialog-size {
+    &--#{$key} {
+      width: $value;
+      max-width: $value;
+    }
   }
-  &--lg {
-    max-width: map-get($dialog-size, "lg");
-  }
-  &--md {
-    max-width: map-get($dialog-size, "md");
-  }
-  &--sm {
-    max-width: map-get($dialog-size, "sm");
+
+  @each $position in $positions {
+    &--#{$position} {
+      display: flex;
+      flex-direction: row;
+      & > .dialog__container {
+        margin: 0;
+        padding: 0;
+      }
+      @if ($position == "t") {
+        align-items: flex-start;
+        justify-content: flex-start;
+      } @else if($position == "r") {
+        align-items: flex-start;
+        justify-content: flex-end;
+      } @else if($position == "b") {
+        align-items: flex-end;
+        justify-content: flex-start;
+      } @else {
+        align-items: flex-start;
+        justify-content: flex-start;
+      }
+    }
   }
 
   &__container {

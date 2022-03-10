@@ -9,7 +9,7 @@ export class Dialog<T = any> implements IDialog<T> {
   public injector: Injector;
 
   constructor(
-    dialog: IDialog<any>,
+    public dialog: IDialog<any>,
     injector: Injector,
   ) {
     this.id = dialog.id;

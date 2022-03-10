@@ -23,3 +23,11 @@ $dialog-size: (
   lg: 762px,
   xl: 1140px,
 );
+
+$breakpoints: (
+  md: 767px,
+  xl: 1279px,
+  xxl: 1919px,
+);
+
+$positions: "t", "r", "b", "l";
