@@ -1,14 +1,10 @@
-import { IOverlay } from '@utility/interface/overlay.interface';
-import { UnSubOnDestroy } from '@utility/abstract/unsubondestroy.abstract';
-import { Injectable } from '@angular/core';
-import { OverlayService } from '@shared/overlay/overlay.service';
-import { ESize } from '@utility/enum/common.enum';
-import { DialogComponent } from '@shared/overlay/dialog/dialog.component';
+import { DialogComponent } from "@shared/overlay/dialog/dialog.component";
+import { OverlayService } from "@shared/overlay/overlay.service";
+import { ESize } from "@utility/enum/common.enum";
+import { IOverlay } from "@utility/interface/overlay.interface";
+import { BaseComponent } from "@utility/base/base-component";
 
-
-
-@Injectable()
-export abstract class AbstractDialog<T> extends UnSubOnDestroy {
+export class BaseDialog<T> extends BaseComponent {
   constructor(
     protected $overlay: OverlayService,
     protected dialog: DialogComponent

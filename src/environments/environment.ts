@@ -1,14 +1,7 @@
-// This file can be replaced during build by using the `fileReplacements` array.
-// `ng build --prod` replaces `environment.ts` with `environment.prod.ts`.
-// The list of file replacements can be found in `angular.json`.
-
-import { EModule, EUserPage } from '@utility/enum/route.enum';
-import { UserPageMap } from '@utility/map/router.map';
-
 export const environment = {
   production: false,
   defaultAvatar: 'assets/images/icons/empty-avatar.jpeg',
-  defaultUrl: `${EModule.User}/${UserPageMap.get(EUserPage.Chat)?.path}`,
+  defaultUrl: `user/chat`,
   firebaseConfig: {
     apiKey: 'AIzaSyAJ-b0JwMjkqFkOTEQxBdKBCZFXCbzkf_Q',
     authDomain: 'f-coin-1bf5f.firebaseapp.com',
@@ -19,12 +12,3 @@ export const environment = {
     measurementId: 'G-RY2EQ8FL6X',
   },
 };
-
-/*
- * For easier debugging in development mode, you can import the following file
- * to ignore zone related error stack frames such as `zone.run`, `zoneDelegate.invokeTask`.
- *
- * This import should be commented out in production mode because it will have a negative impact
- * on performance if an error is thrown.
- */
-// import 'zone.js/dist/zone-error';  // Included with Angular CLI.

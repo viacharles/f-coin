@@ -11,23 +11,22 @@ import { FriendFeatureService } from '@friend/shared/services/friend-feature.ser
 import {
   EFriendsAction as Action
 } from '@friend/shared/models/friend.model';
+import { BaseSubMenu } from '@utility/base/base-sub-menu';
 
 @Component({
   selector: 'app-add-friend',
   templateUrl: './add-friend.component.html',
   styleUrls: ['./add-friend.component.scss']
 })
-export class AddFriendComponent {
-
-  @Input() user?: User;
-  @Output() switchToChat = new EventEmitter<void>();
-
+export class AddFriendComponent extends BaseSubMenu {
   constructor(
     public $user: UserService,
     private $feature: FriendFeatureService,
     private fb: FormBuilder,
     private router: Router
-  ) { }
+  ) {
+    super();
+  }
 
   public form: FormGroup = this.fb.group({
     id: [null, [Validators.required, this.idValidator]]
@@ -48,7 +47,6 @@ export class AddFriendComponent {
   }
 
   public addAsFriend(id: string): void {
-    console.log(id)
     this.$feature.fireEvent<void>({
       action: Action.AddFriend,
       id,
@@ -57,8 +55,9 @@ export class AddFriendComponent {
   }
 
   public toChat(id: string): void {
-    this.router.navigateByUrl(`${EModule.User}/${UserPageMap.get(EUserPage.Chat)?.path}/${id}`);
-    this.switchToChat.emit();
+    this.router.navigateByUrl(`${EModule.User}/${UserPageMap.get(EUserPage.Chat)?.path}/${id}`).then(
+      () => this.updateModule.emit(EModule.User)
+    );
   }
 
   public openFriendPage(): void {

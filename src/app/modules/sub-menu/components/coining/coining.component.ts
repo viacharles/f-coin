@@ -7,21 +7,22 @@ import { Component, Input, OnInit } from '@angular/core';
 import { User } from '@user/shared/models/user.model';
 import { map, take } from 'rxjs/operators';
 import { IFriend } from '@utility/interface/user.interface';
+import { BaseSubMenu } from '@utility/base/base-sub-menu';
 
 @Component({
   selector: 'app-coining',
   templateUrl: './coining.component.html',
   styleUrls: ['./coining.component.scss']
 })
-export class CoiningComponent implements OnInit {
-
-  @Input() user?: User;
+export class CoiningComponent extends BaseSubMenu {
 
   constructor(
     public $user: UserService,
     private $feature: CoiningService,
     private $overlay: OverlayService
-  ) { }
+  ) {
+    super();
+  }
 
   public assets$ = this.$feature.assets$.pipe(map(assets => `${assets}`));
   public coinInfo: CoinInfo | undefined;
@@ -29,7 +30,7 @@ export class CoiningComponent implements OnInit {
 
   get onlineFriends(): IFriend[] { return this.friends.filter(({ isLogin }) => isLogin); }
 
-  ngOnInit(): void {
+  protected onInit(): void {
     this.initial();
   }
 
