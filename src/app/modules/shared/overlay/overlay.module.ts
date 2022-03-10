@@ -7,6 +7,6 @@ import { DialogComponent } from './dialog/dialog.component';
 @NgModule({
   declarations: [OverlayComponent, LoadingComponent, DialogComponent],
   imports: [CommonModule],
-  exports: [OverlayComponent],
+  exports: [OverlayComponent, DialogComponent],
 })
 export class OverlayModule { }

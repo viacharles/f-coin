@@ -1,0 +1,11 @@
+@import "variables";
+
+:host {
+  img {
+    display: block;
+    margin: 0 auto;
+    width: 8rem;
+    height: 8rem;
+    border-radius: 100%;
+  }
+}

@@ -1,0 +1,14 @@
+<app-dialog (close)="this.close()">
+  <h1 title>使用者資料</h1>
+  <img [src]="this.form.controls.avatar.value">
+  <form class="row" [formGroup]="this.form">
+    <div class="col-md-6 col-12 mt-3">
+      <h3>名稱</h3>
+      <input formControlName="name" readonly class="form-control" type="text">
+    </div>
+    <div class="col-md-6 col-12 mt-3">
+      <h3>總資產</h3>
+      <input formControlName="totalAssets" readonly class="form-control" type="text">
+    </div>
+  </form>
+</app-dialog>

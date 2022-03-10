@@ -1,10 +1,41 @@
-.form-control.invalid {
-    border-color: red;
+.form-control {
+  height: 2.5rem;
+  &:disabled,
+  &[readonly] {
+    -webkit-text-fill-color: $gray-blue;
+    border-color: $light-gray;
+    color: $gray-blue;
+    cursor: not-allowed;
+  }
+
+  &:focus {
+    box-shadow: none;
+  }
+
+  &:not([readonly]):focus {
+    border-color: $primary;
+  }
+
+  &::placeholder {
+    color: $link-water;
+  }
+
+  &::-webkit-outer-spin-button,
+  &::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  &[type="number"] {
+    -moz-appearance: textfield;
+  }
+
+  &--alert {
+    color: red;
+    font-size: 14px;
+  }
 }
 
-.form-control {
-    &--alert {
-        color: red;
-        font-size: 14px;
-    }
+.form-control.invalid {
+  border-color: red;
 }

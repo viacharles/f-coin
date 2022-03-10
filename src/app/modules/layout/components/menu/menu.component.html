@@ -1,6 +1,6 @@
 <ul class="w-100">
   <li class="d-flex justify-content-center align-items-center">
-    <img [src]="this.user?.avatar || 'assets/images/icons/empty-avatar.jpeg'">
+    <img (click)="this.toggleProfileDialog()" [src]="this.user?.avatar || 'assets/images/icons/empty-avatar.jpeg'">
   </li>
   <ng-container *ngFor="let menu of this.Menu | keyvalue">
     <li *ngIf="!menu.value.isHide" class="d-flex flex-row align-items-center justify-content-center">

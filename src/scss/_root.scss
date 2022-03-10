@@ -4,7 +4,13 @@
 }
 
 h3 {
-  line-height: 17px;
+  line-height: 20px;
+  margin-bottom: 0.5rem;
+  font-size: map-get($font-level, "sm");
+  color: $midnight;
+  &:empty {
+    display: none;
+  }
 }
 
 em {

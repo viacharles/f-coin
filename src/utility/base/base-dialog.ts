@@ -14,9 +14,9 @@ export class BaseDialog<T> extends BaseComponent {
 
   get id(): string { return this.dialog.id; }
   get params(): IOverlay<T> { return this.dialog.params; }
-  get callbacks() { return this.params?.callbacks; }
-  get config() { return this.params?.config; }
-  get options() { return this.params?.options; }
+  get callbacks() { return this.params.callbacks; }
+  get config() { return this.params.config; }
+  get options() { return this.params.options; }
   get size(): typeof ESize { return ESize; }
 
   public cancel(parms?: any) {
