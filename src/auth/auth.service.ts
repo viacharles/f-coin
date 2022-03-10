@@ -60,7 +60,6 @@ export class AuthService {
           .then(() => this.$overlay.endLoading(LoadingId))
       )
       .catch(error => {
-        console.log('login-catch')
         this.$overlay.endLoading(LoadingId);
         alert(`${error}`);
       })

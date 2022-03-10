@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Dialog } from '@shared/overlay/overlay.model';
+import { Component, Injector, OnInit } from '@angular/core';
 import { OverlayService } from '@shared/overlay/overlay.service';
 
 @Component({
@@ -7,16 +8,18 @@ import { OverlayService } from '@shared/overlay/overlay.service';
   styleUrls: ['./overlay.component.scss'],
 })
 export class OverlayComponent implements OnInit {
-  constructor(public $overlay: OverlayService) { }
-  public isLoading = false;
+  constructor(
+    public $overlay: OverlayService,
+    private injector: Injector
+  ) { }
+
+  public dialogs: Dialog[] = [];
 
   ngOnInit(): void {
-    window.requestAnimationFrame(this.setLoading.bind(this));
-  }
-
-  private setLoading(): void {
-    this.isLoading = this.$overlay.loadingQueue.size > 0;
-    window.requestAnimationFrame(this.setLoading.bind(this));
+    this.$overlay.dialogQueue$.subscribe(
+      dialogs => this.dialogs = Array.from(dialogs.values())
+        .map(dialog => new Dialog(dialog, this.injector))
+    );
   }
 
 }

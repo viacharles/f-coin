@@ -1,6 +1,4 @@
-import { BusinessCenterService } from '@shared/services/business-center.service';
 import { Component, OnInit } from '@angular/core';
-
 import { Router } from '@angular/router';
 import { OverlayService } from '@shared/overlay/overlay.service';
 import { EIndividualPage } from '@utility/enum/route.enum';
@@ -12,7 +10,10 @@ import { IndividualPageQueue } from '@utility/map/router.map';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit {
-  constructor(public router: Router, public $overlay: OverlayService, private $business: BusinessCenterService) {}
+  constructor(
+    public router: Router,
+    public $overlay: OverlayService,
+  ) { }
   ngOnInit(): void {
   }
   public isIndividualPage(): boolean {

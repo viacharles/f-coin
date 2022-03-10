@@ -1,4 +1,10 @@
-<section class="Overlay">
-
+<section class="dialog dialog__backdrop" *ngFor="let dialog of this.dialogs">
+  <div class="dialog__container dialog--{{dialog.params.size}}">
+    <ng-template *ngComponentOutlet="dialog.component; injector: dialog.injector"></ng-template>
+  </div>
 </section>
-<app-loading *ngIf="this.isLoading"></app-loading>
+
+
+<ng-container *ngIf="this.$overlay.loadingQueue$ | async as loadings">
+  <app-loading *ngIf="loadings.size > 0"></app-loading>
+</ng-container>
