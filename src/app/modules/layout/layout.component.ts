@@ -1,11 +1,12 @@
-import { UserPageMap } from '@utility/map/router.map';
-import { SocialPageMap } from './../../../utility/map/router.map';
+import {
+  UserPageMap,
+  SocialPageMap
+} from '@utility/map/router.map';
 import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { NavigationService } from '@shared/services/navigation.service';
 import { UserService } from '@user/shared/services/user.service';
 import { EModule, ESocialPage, EUserPage } from '@utility/enum/route.enum';
-
 @Component({
   selector: 'app-layout',
   templateUrl: './layout.component.html',
@@ -17,12 +18,14 @@ export class LayoutComponent implements OnInit {
     public $user: UserService,
     private $router: Router
   ) { }
+
   get Module(): typeof EModule {
     return EModule;
   }
   public module: EModule = this.$navigation.getModule() || EModule.User;
 
   ngOnInit(): void {
+
   }
 
   public moduleChanged(name: EModule): void {

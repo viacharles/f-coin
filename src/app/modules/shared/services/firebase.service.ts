@@ -14,21 +14,21 @@ export class FirebaseService {
   constructor(
     private $store: AngularFirestore,
     private $overlay: OverlayService
-  ) {}
+  ) { }
 
   public request(collection: string, showLoader = true): any {
-    const LoadingId = showLoader ? this.$overlay.startLoading(): null;
+    const LoadingId = showLoader ? this.$overlay.startLoading() : '';
     const ActivatedElement: HTMLElement = document.activeElement as HTMLElement;
     ActivatedElement.blur();
     return {
       create: (target: any, doc?: string) =>
         doc
-        ? this.getDoc(collection, doc)
-          .set(target)
-          .then(() => this.$overlay.endLoading(LoadingId, ActivatedElement))
-        : this.getCollection(collection)
-          .add(target)
-          .then(() => this.$overlay.endLoading(LoadingId, ActivatedElement)),
+          ? this.getDoc(collection, doc)
+            .set(target)
+            .then(() => this.$overlay.endLoading(LoadingId, ActivatedElement))
+          : this.getCollection(collection)
+            .add(target)
+            .then(() => this.$overlay.endLoading(LoadingId, ActivatedElement)),
       read: (doc?: string) =>
         doc
           ? this.readDocument(collection, doc, LoadingId, ActivatedElement)
@@ -36,27 +36,27 @@ export class FirebaseService {
       read$: (doc?: string) =>
         doc
           ? this.getDoc(collection, doc)
-              .get()
-              .pipe(
-                finalize(() =>
-                  this.$overlay.endLoading(LoadingId, ActivatedElement)
-                ),
-                map((res) => res.data())
-              )
-          : this.$store
-              .collection(collection)
-              .get()
-              .pipe(
-                finalize(() =>
-                  this.$overlay.endLoading(LoadingId, ActivatedElement)
-                ),
-                map((res) =>
-                  res.docs.map((resDoc) => ({
-                    key: resDoc.id,
-                    value: resDoc.data(),
-                  }))
-                )
+            .get()
+            .pipe(
+              finalize(() =>
+                this.$overlay.endLoading(LoadingId, ActivatedElement)
               ),
+              map((res) => res.data())
+            )
+          : this.$store
+            .collection(collection)
+            .get()
+            .pipe(
+              finalize(() =>
+                this.$overlay.endLoading(LoadingId, ActivatedElement)
+              ),
+              map((res) =>
+                res.docs.map((resDoc) => ({
+                  key: resDoc.id,
+                  value: resDoc.data(),
+                }))
+              )
+            ),
       update: (target: any, doc: string) =>
         this.getDoc(collection, doc)
           .update(target)
@@ -101,7 +101,7 @@ export class FirebaseService {
   private readDocument(
     collection: string,
     doc: string,
-    loadingId: string|null,
+    loadingId: string,
     activatedElement: HTMLElement
   ): Promise<any> {
     return new Promise<any>((resolve) => {
@@ -116,7 +116,7 @@ export class FirebaseService {
 
   private readCollection(
     collection: string,
-    loadingId: string|null,
+    loadingId: string,
     activatedElement: HTMLElement
   ): Promise<any> {
     return new Promise<any>((resolve) => {
