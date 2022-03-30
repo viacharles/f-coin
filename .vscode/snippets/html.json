@@ -1,0 +1,9 @@
+{
+  "Angular Template": {
+    "prefix": "c-template",
+    "body": [
+      "<ng-template [ngTemplateOutlet]=\"t${1:TemplateName}\" [ngTemplateOutletContext]=\"{${2:variable}: ${3: null}}\"></ng-template>",
+      "<ng-template #t${1:TemplateName} let-${2:variable}=\"${2:variable}\">\n${0}\n</ng-template>"
+    ]
+  }
+}
