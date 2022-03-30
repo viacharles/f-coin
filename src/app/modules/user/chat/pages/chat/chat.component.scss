@@ -17,10 +17,11 @@ header {
   align-items: center;
   justify-content: space-between;
   height: 50px;
-  padding: 0 0.5rem;
+  padding: 0 0.8rem;
   position: relative;
   h3 {
     margin-right: 0.5rem;
+    font-size: map-get($font-level, "sm");
   }
 }
 
@@ -32,13 +33,61 @@ app-chat-announcement {
   height: 40px;
 }
 
-section {
-  overflow-y: auto;
-}
+// .message-group {
+//   overflow-y: auto;
+//   padding: 0 12px;
+//   & > div {
+//     display: block;
+//     width: 100%;
+//     height: auto;
+//   }
+// }
+
+// .message {
+//   display: flex;
+//   flex-direction: row;
+//   width: 100%;
+//   height: auto;
+//   padding: 5px 0;
+// }
+
+// .message.partner {
+//   justify-content: flex-start;
+//   .message-avatar {
+//     width: 50px;
+//     height: 100%;
+//     img {
+//       width: 37px;
+//       height: 37px;
+//       border-radius: 50%;
+//       object-fit: cover;
+//     }
+//   }
+//   .message-content {
+//     display: flex;
+//     flex-direction: row;
+//     justify-content: flex-end;
+//     width: 100%;
+//     height: auto;
+//     padding: 5px 0;
+//     background: $normal-border-hover;
+//   }
+// }
+
+// .message.self {
+//   justify-content: flex-end;
+//   .item-group {
+//     margin-right: 15px;
+//     padding: 10px 15px;
+//     font-size: map-get($font-level, 'sm');
+//     background: $self-message-background;
+//     border-radius: 16px;
+//   }
+// }
 
 footer {
   border-top: 1px solid $light-border;
-  padding: 0.5rem 1rem 0;
+  padding: 0.9rem 1rem 0;
   textarea {
     outline: none;
     display: block;
@@ -54,10 +103,127 @@ footer {
     }
   }
   nav {
-    height: 40px;
+    height: 50px;
+    padding: 0 0 5px 0;
     display: flex;
     flex-direction: row;
     width: 100%;
     justify-content: space-between;
+  }
+}
+.content-empty {
+  user-select: none;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  color: $disable-area-text;
+  background: $disable-area-background;
+  .material-icons {
+    font-size: 120px;
+  }
+  & p {
+    font-size: 20px;
+  }
+}
+
+section {
+  overflow-y: auto;
+  padding: 0 12px;
+}
+
+.date-divider {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  p {
+    padding: 6px 12px;
+    font-size: map-get($font-level , "xs");
+    color: $caption-text;
+    background-color: $disable-area-background;
+    border-radius: 11px;
+  }
+}
+
+.message {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-right: 15px;
+  padding: 10px 0;
+  font-size: map-get($font-level, 'sm');
+  .content {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+    &::before {
+      content: '';
+      position: absolute;
+      z-index: 10;
+      top: 50px;
+      right: 0;
+      width: 10px;
+      height: 10px;
+      background-color: $primary;
+      transform: rotateZ(45deg);
+    }
+  }
+  .text {
+    margin: 4px 0;
+    padding: 10px 9px;
+    word-wrap: break-word;
+    border-radius: 16px;
+  }
+  .caption {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 0 7px;
+    font-size: map-get($font-level, 'xs');
+    color: $caption-text;
+    white-space: nowrap;
+  }
+  .time {
+    padding: 3px 0;
+  }
+
+  &__myself {
+    justify-content: flex-end;
+    .content {
+      flex-direction: row-reverse;
+    }
+    .caption { 
+      align-items: flex-end;
+    }
+    .text {
+      background: $self-message-background;
+    }
+  }
+
+  &__friend {
+    justify-content: flex-start;
+    align-items: flex-end;
+    .text {
+      display: flex;
+      background: $friend-message-background;
+    }
+    .avatar {
+      width: 41px;
+      margin-right: 10px;
+      img {
+        width: 41px;
+        height: 41px;
+        border-radius: 50%;
+        object-fit: cover;
+      }
+    }
+    .caption {
+      p:first-child {
+        display: none;
+      }
+    }
   }
 }

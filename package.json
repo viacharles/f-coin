@@ -4,8 +4,8 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build --prod --base-href https://github.com/viacharles/f-coin.git",
-    "deploy": "ngh --dir dist/f-coin",
+    "build": "ng build --prod --base-href https://viacharles.github.io/f-coin/",
+    "deploy": "ng build --prod --base-href https://viacharles.github.io/f-coin/ && ngh --dir dist/f-coin",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"
@@ -21,11 +21,14 @@
     "@angular/platform-browser": "~11.0.9",
     "@angular/platform-browser-dynamic": "~11.0.9",
     "@angular/router": "~11.0.9",
+    "@ckeditor/ckeditor5-angular": "^2.0.2",
+    "@ckeditor/ckeditor5-build-classic": "^31.1.0",
     "@nsalaun/ng-logger": "^9.0.0",
     "angularfire2": "^5.0.0-rc.12-next",
     "firebase": "^7.0 || ^8.0",
     "logger": "0.0.1",
     "ng-logger": "^1.1.0",
+    "resize-observer": "^1.0.4",
     "rxjs": "^6.6.7",
     "tslib": "^2.0.0",
     "zone.js": "~0.10.2"

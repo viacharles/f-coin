@@ -1,5 +1,16 @@
 * {
   font-size: 16px;
+  overflow: hidden;
+}
+
+h3 {
+  line-height: 20px;
+  margin-bottom: 0.5rem;
+  font-size: map-get($font-level, "sm");
+  color: $midnight;
+  &:empty {
+    display: none;
+  }
 }
 
 em {
@@ -11,7 +22,7 @@ em {
 }
 
 .material-icons {
-  font-size: 1rem;
+  font-size: 1.2rem;
   &[rotate45] {
     transform: rotateZ(45deg);
   }

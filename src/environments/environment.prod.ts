@@ -1,9 +1,7 @@
-import { EUserPage, EModule } from '@utility/enum/route.enum';
-import { UserPageMap } from '@utility/map/router.map';
-
 export const environment = {
   production: true,
-  defaultUrl: `${EModule.User}/${UserPageMap.get(EUserPage.Chat)?.path}`,
+  defaultAvatar: 'assets/images/icons/empty-avatar.jpeg',
+  defaultUrl: `user/chat`,
   firebaseConfig: {
     apiKey: 'AIzaSyAJ-b0JwMjkqFkOTEQxBdKBCZFXCbzkf_Q',
     authDomain: 'f-coin-1bf5f.firebaseapp.com',

@@ -1,5 +1,6 @@
+import { EIndividualPage } from '@utility/enum/route.enum';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControlName, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/auth/auth.service';
 
@@ -15,14 +16,26 @@ export class LandingPageComponent implements OnInit {
     private router: Router
   ) {}
 
-  ngOnInit() {
+  public form: FormGroup = this.fb.group({
+    email: [null, Validators.required],
+    password: [null, Validators.required],
+  });
+
+  ngOnInit(): void {
     if (this.$auth.isAuth) {
       this.router.navigateByUrl('');
     }
   }
 
-  public form: FormGroup = this.fb.group({
-    email: [null, Validators.required],
-    password: [null, Validators.required],
-  });
+  public submit({email, password}: {email: string; password: string}): void {
+    this.$auth.login({email, password});
+  }
+
+  public toLogOnPage(): void {
+    this.router.navigateByUrl(EIndividualPage.SignOn);
+  }
+
+  // public formErrorHint(formControl: FormControl): string {
+  //   if (this.form.controls[formControl].)
+  // }
 }

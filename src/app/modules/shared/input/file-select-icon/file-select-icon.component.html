@@ -1,0 +1,7 @@
+<input class="d-none" type="file" [multiple]="this.isMultiple" [accept]="this.acceptList" id="input"
+(change)="onFileSelected($event)">
+<label for="input">
+    <span class="material-icons">
+        {{iconCode}}
+        </span>
+</label>

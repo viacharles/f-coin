@@ -39,6 +39,9 @@
                 "src/scss"
               ]
             },
+            "allowedCommonJsDependencies": [
+              "resize-observer"
+            ],
             "scripts": []
           },
           "configurations": {
@@ -59,8 +62,8 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "500kb",
-                  "maximumError": "1mb"
+                  "maximumWarning": "5mb",
+                  "maximumError": "5mb"
                 },
                 {
                   "type": "anyComponentStyle",
@@ -137,5 +140,8 @@
       }
     }
   },
-  "defaultProject": "f-coin"
+  "defaultProject": "f-coin",
+  "cli": {
+    "analytics": false
+  }
 }

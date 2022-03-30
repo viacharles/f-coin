@@ -1,0 +1,32 @@
+<header>
+    <h3>加好友</h3>
+    <a (click)="openFriendPage()">
+        <p>推薦好友</p>
+        <span class="material-icons">
+            arrow_right
+        </span>
+    </a>
+</header>
+<form [formGroup]="this.form">
+    <div class="input-frame d-flex flex-row align-items-center">
+        <input formControlName="id" class="form-control"
+            [class.invalid]="this.form.controls.id.invalid && this.form.controls.id.touched" type="text"
+            placeholder="請輸入ID搜尋" (keydown)="afterKeyDown($event)" maxlength="30" autofocus>
+        <em (click)="this.form.controls.id.setValue(null)" class="material-icons">cancel</em>
+        <button class="material-icons" [disabled]="this.form.controls.id.invalid" (click)="search()">
+            search
+        </button>
+    </div>
+    <span *ngIf="this.form.controls.id.invalid && this.form.controls.id.value" class="form-control--alert mt-2">
+        請輸入英數字
+    </span>
+    <p *ngIf="this.result === null" class="form-control--alert mt-2">查無結果</p>
+    <section *ngIf="this.result">
+        <img [src]="this.result.avatar || this.defaultAvatar " alt="avatar">
+        <h3>{{this.result.name}}</h3>
+        <p *ngIf="this.alreadyExist">好友已存在</p>
+        <button (click)="this.alreadyExist ? this.toChat(this.result.id) : this.addAsFriend(this.result.id)">
+            {{this.alreadyExist ? '聊天' : '加入好友'}}
+        </button>
+    </section>
+</form>

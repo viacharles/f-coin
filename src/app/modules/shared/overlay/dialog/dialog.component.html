@@ -1,0 +1,10 @@
+<header>
+  <ng-content select="[title]"></ng-content>
+  <em (click)="this.close.emit()" class="material-icons">
+    clear
+  </em>
+</header>
+<section>
+  <ng-content></ng-content>
+</section>
+<ng-content select="[footer]"></ng-content>

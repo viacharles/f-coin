@@ -1,0 +1,72 @@
+@import "variables";
+
+:host {
+  position: fixed;
+  z-index: map-get($layout-level, "supreme");
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(rgb(255, 255, 255), 0.8);
+}
+
+.Loading {
+  display: inline-block;
+  position: relative;
+  width: 4.5rem;
+  height: 4.5rem;
+  padding: 0.25rem;
+  border-radius: 100%;
+
+  svg {
+    animation: rotate 2s linear infinite;
+    transform-origin: center center;
+  }
+  circle {
+    stroke-dasharray: 150, 200;
+    stroke-dashoffset: -10;
+    animation: dash 1.5s ease-in-out infinite, color 6s ease-in-out infinite;
+    stroke-linecap: round;
+  }
+}
+
+@keyframes rotate {
+  100% {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes dash {
+  0% {
+    stroke-dasharray: 1, 200;
+    stroke-dashoffset: 0;
+  }
+  50% {
+    stroke-dasharray: 89, 200;
+    stroke-dashoffset: -35;
+  }
+  100% {
+    stroke-dasharray: 89, 200;
+    stroke-dashoffset: -124;
+  }
+}
+
+@keyframes color {
+  0% {
+    stroke: #70a2db;
+  }
+  40% {
+    stroke: #2744c5;
+  }
+  66% {
+    stroke: #42abc5;
+  }
+  80%,
+  90% {
+    stroke: #4261c5;
+  }
+}

@@ -14,5 +14,20 @@ $layout-level: (
   cover: 2,
   important: 5,
   overlay: 99,
-  supreme: 100
+  supreme: 100,
 );
+
+$dialog-size: (
+  sm: 343px,
+  md: 500px,
+  lg: 762px,
+  xl: 1140px,
+);
+
+$breakpoints: (
+  md: 767px,
+  xl: 1279px,
+  xxl: 1919px,
+);
+
+$positions: "t", "r", "b", "l";

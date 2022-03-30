@@ -1,0 +1,194 @@
+@import 'variables';
+
+:host {
+  user-select: none;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  width: 100%;
+  height: 100%;
+  color: rgb(241, 245, 252);
+  background: linear-gradient(
+    190deg,
+    #2496ff 5%, 10%, #279cef, #1c4bc8
+    );
+    & > section {
+      padding-left: 42px;
+    }
+}
+.header {
+  display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+  width: calc(100% - 15px);
+  height: 30px;
+  margin: 24px 0 30px 15px;
+  h3 {
+      font-weight: bold;
+      line-height: 30px;
+  }
+  a {
+      position: relative;
+      cursor: pointer;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      width: auto;
+      height: 100%;
+      color: rgb(241, 245, 252);
+      &:hover {
+          color: white;
+      }
+      &:hover > .material-icons::before {
+          border: 1px solid $normal-border-hover;
+      }
+      .material-icons {
+          padding-left: 5px;
+      }
+      .material-icons::before {
+          content: "";
+          position: absolute;
+          right: -1px;
+          top: -3px;
+          display: flex;
+          height: 36px;
+          width: 100px;
+          border: 1px solid $normal-border;
+          border-radius: 4px 0 0 4px;
+          transition: .5s;
+      }
+      & > p {
+          font-size: map-get($font-level , 'xs' );
+      }
+  }
+}
+
+.content {
+  & > p {
+    position: relative;
+    padding-top: 15px;
+    font-size: map-get($font-level , 'xs' );
+    &::before {
+      position: absolute;
+      content: "";
+      left: -17px;
+      top: 21px;
+      height: 10px;
+      width: 6px;
+      border-radius: 5px;
+      background-color: #0047d6;
+      transform-origin: bottom;
+    }
+    & strong {
+      padding: 0 3px;
+      font-size: map-get($font-level , 'lg' );
+      font-weight: bold;
+      color: #0047d6;
+    }
+  }
+  & > .toggle-active::before {
+    animation: tik-tok 2s 1s ease-in-out infinite;
+  }
+}
+
+.toggle {
+  cursor: pointer;
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  width: 105px;
+  height: 32px;
+  margin-top: 23px;
+  background: #c9d2d6;
+  border-radius: 20px;
+  & input {
+    &:hover + span {
+      opacity: 1;
+    }
+  }
+  & > p {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    font-size: map-get($font-level , 'xs' );
+    line-height: 30px;
+    color: transparent;
+    background: linear-gradient(to right, $primary-hover,rgb(184, 198, 223),$primary-hover);
+    background-clip: text;
+    background-size: 200% 100%;
+    animation: horizontalCycle 3s infinite;
+  }
+  & .button {
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    height: 26px;
+    width: 26px;
+    background: cornsilk;
+    transition: .3s;
+    border-radius: 50%;
+    opacity: .5;
+    &.toggle-active {
+      transform: translateX(72px) rotateZ(360deg);
+    }
+    & em {
+      position: absolute;
+      font-size: 2rem;
+      top: -3px;
+      left: -3px;
+      color: darkkhaki;
+      transition: .3s;
+      &.toggle-active {
+        color: #1791f5 !important;
+      }
+    }
+  }
+}
+
+@keyframes tik-tok {
+  0% {
+    height: 10px;
+    top: 21px;
+  }
+  20% {
+    height: 5px;
+    top: 21px;
+  }
+  30% {
+    height: 12px;
+    top: 15px;
+  }
+  40% {
+    height: 10px;
+    top: 14px;
+    background-color: cornflowerblue;
+  }
+  60% {
+    height: 10px;
+    top: 15px;
+    background-color: #0047d6;
+  }
+  80% {
+    height: 10px;
+    top: 21px;
+  }
+  90% {
+    height: 9px;
+    top: 21px;
+  }
+  100% {
+    height: 10px;
+  }
+}
+
+@keyframes horizontalCycle {
+  from {
+    background-position: -200% 0;
+  }
+  to {
+    background-position: 200% 0;
+  }
+}
+
+

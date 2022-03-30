@@ -6,19 +6,19 @@
 }
 
 aside {
-  width: 55px;
+  width: 57px;
 }
 
 header {
-  height: 35px;
+  height: 48px;
 }
 
 main {
-  height: calc(100% - 35px);
+  height: 100%;
 }
 
 nav {
-  min-width: 280px;
+  width: 280px;
   height: 100%;
   overflow-y: auto;
 }

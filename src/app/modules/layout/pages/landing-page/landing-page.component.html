@@ -1,11 +1,25 @@
 <section class="Landing">
+  <div class="Landing__Logo">
+    <img src="assets/images/logo.png" >
+    <p>F-Coin</p>
+  </div>
   <div class="Landing__Container">
     <h2 class="Landing__Title"><em class="icon_logo"></em>CHAT <br>AND<br> COINING</h2>
     <form class="Landing__Form" [formGroup]="this.form" (ngSubmit)="this.$auth.login(this.form.getRawValue())">
-      <input type="text" formControlName="email" placeholder="email">
-      <input type="password" formControlName="password" placeholder="password">
-      <button [disabled]="this.form.invalid" type="submit">submit</button>
+      <div>
+        <input type="text" formControlName="email" placeholder="email">
+        <span class="material-icons">
+          mail_outline
+          </span>
+      </div>
+      <div>
+        <input type="password" formControlName="password" placeholder="password" [minlength]="6">
+        <span class="material-icons">
+          password
+          </span>
+      </div>
+      <button [disabled]="this.form.invalid" type="submit">SIGN IN</button>
     </form>
+    <p (click)="toLogOnPage()">註冊新帳號？</p>
   </div>
 </section>
-

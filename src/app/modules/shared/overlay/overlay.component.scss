@@ -1,73 +1,65 @@
+@import "variables";
+
 :host {
+  position: relative;
+}
+
+.dialog {
+  z-index: map-get($layout-level, "overlay");
+  height: 100vh;
+  width: 100vw;
   position: fixed;
   top: 0;
   left: 0;
-  width: 100vw;
-  height: 100vh;
-  display: flex;
-  background-color: rgba(rgb(255, 255, 255), 0.8);
-}
 
-.Loading {
-  height: 50px;
-  width: 50px;
-  top: 50%;
-  left: 50%;
-  position: absolute;
-  transform: translate(-50%, -50%);
-  svg {
-    animation: rotate 2s linear infinite;
-    transform-origin: center center;
+  @each $key, $value in $dialog-size {
+    &--#{$key} {
+      width: $value;
+      max-width: $value;
+    }
   }
-  circle {
-    stroke-dasharray: 150, 200;
-    stroke-dashoffset: -10;
-    animation: dash 1.5s ease-in-out infinite, color 6s ease-in-out infinite;
-    stroke-linecap: round;
-  }
-}
 
-@-webkit-keyframes rotate {
-  100% {
-    -webkit-transform: rotate(360deg);
-    transform: rotate(360deg);
+  @each $position in $positions {
+    &--#{$position} {
+      display: flex;
+      flex-direction: row;
+      & > .dialog__container {
+        margin: 0;
+        padding: 0;
+      }
+      @if ($position == "t") {
+        align-items: flex-start;
+        justify-content: flex-start;
+      } @else if($position == "r") {
+        align-items: flex-start;
+        justify-content: flex-end;
+      } @else if($position == "b") {
+        align-items: flex-end;
+        justify-content: flex-start;
+      } @else {
+        align-items: flex-start;
+        justify-content: flex-start;
+      }
+    }
   }
-}
 
-@keyframes rotate {
-  100% {
-    -webkit-transform: rotate(360deg);
-    transform: rotate(360deg);
+  &__container {
+    margin: 0 auto;
+    padding: 1.75rem 0;
   }
-}
 
-@keyframes dash {
-  0% {
-    stroke-dasharray: 1, 200;
-    stroke-dashoffset: 0;
-  }
-  50% {
-    stroke-dasharray: 89, 200;
-    stroke-dashoffset: -35;
-  }
-  100% {
-    stroke-dasharray: 89, 200;
-    stroke-dashoffset: -124;
+  &__backdrop {
+    background-color: rgba(0, 0, 0, 0.7);
   }
 }
 
-@keyframes color {
-  0% {
-    stroke: #70a2db;
-  }
-  40% {
-    stroke: #2744c5;
-  }
-  66% {
-    stroke: #42abc5;
-  }
-  80%,
-  90% {
-    stroke: #4261c5;
+@media screen and (max-width: map-get($breakpoints, "md")) {
+  .dialog {
+    @each $key, $value in $dialog-size {
+      &--#{$key} {
+        width: 80%;
+        max-width: 80%;
+      }
+    }
   }
 }

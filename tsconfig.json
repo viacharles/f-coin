@@ -14,6 +14,7 @@
     "experimentalDecorators": true,
     "moduleResolution": "node",
     "importHelpers": true,
+    "allowJs": true,
     "target": "es2015",
     "module": "es2020",
     "lib": [
@@ -21,10 +22,27 @@
       "dom"
     ],
     "paths": {
-      "@shared/*": ["src/app/modules/shared/*"],
-      "@utility/*": ["src/utility/*"],
-      "@user/*": ["src/app/modules/user/*"],
-      "@business/*": ["src/app/modules/business/*"]
+      "@shared/*": [
+        "src/app/modules/shared/*"
+      ],
+      "@utility/*": [
+        "src/utility/*"
+      ],
+      "@user/*": [
+        "src/app/modules/user/*"
+      ],
+      "@business/*": [
+        "src/app/modules/business/*"
+      ],
+      "@social/*": [
+        "src/app/modules/social/*"
+      ],
+      "@friend/*": [
+        "src/app/modules/friend/*"
+      ],
+      "@sub-menu/*": [
+        "src/app/modules/sub-menu/*"
+      ],
     }
   },
   "angularCompilerOptions": {

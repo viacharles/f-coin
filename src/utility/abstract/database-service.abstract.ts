@@ -9,7 +9,7 @@ export abstract class DatabaseService {
 
   protected abstract databaseName: string;
 
-  protected fetch(): any {
-    return this.$fb.request(this.databaseName);
+  protected fetch(showLoader = true): any {
+    return this.$fb.request(this.databaseName, showLoader);
   }
 }

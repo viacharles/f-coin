@@ -1,7 +1,8 @@
 import { finalize } from 'rxjs/operators';
 import { IFriend, IUser } from '@utility/interface/user.interface';
 import { Subscription, timer } from 'rxjs';
-import { IMessage } from '@utility/interface/messageCenter.interface';
+import { IEvent } from '@utility/interface/common.interface';
+import { User } from '@user/shared/models/user.model';
 
 /**
  * @description 好友資訊，隨機秒數更新登陸狀態
@@ -30,7 +31,22 @@ export class Friend implements IFriend {
   private startTimer(): void {
     this.subscription?.unsubscribe();
     this.subscription = this.timer$.subscribe(
-      () => (this.isLogin = Math.random() >= 0.5)
+      () => {
+        (this.isLogin = Math.random() >= 0.5);
+      }
     );
   }
+}
+
+export enum EFriendsAction {
+  FetchRecommendList = 1,
+  FetchInviteList,
+  SearchUser,
+  AddFriend,
+  IgnoreInvite
+}
+
+export interface IFriendsEvent extends IEvent<EFriendsAction> {
+  id?: string;
+  user?: User;
 }

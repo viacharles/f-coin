@@ -1,0 +1,39 @@
+<div class="header">
+  <h3>挖礦</h3>
+  <a (click)="null">
+      <p>線圖分析</p>
+      <span class="material-icons">
+          arrow_right
+      </span>
+  </a>
+</div>
+
+<canvas width="100%" height="300px"></canvas>
+
+<section *ngIf="this.coinInfo" class="d-flex flex-column align-item-center">
+  <div class="content">
+    <p [class.toggle-active]="this.coinInfo.isDigging">目前共<strong>{{this.onlineFriends.length}}</strong>人在線上</p>
+    <p [class.toggle-active]="this.coinInfo.isDigging">一秒可挖出<strong>{{this.currentIncomePerSec}}</strong>枚</p>
+    <p [class.toggle-active]="this.coinInfo.isDigging">
+      總共已累積持有<strong *ngIf="this.assets$ | async as assets">
+        {{assets}}
+      </strong>枚
+    </p>
+  </div>
+  <label class="toggle" for="coining-toggle"
+         [style.justifyContent]="this.coinInfo.isDigging? 'flex-start':'flex-end'">
+    <input class="d-none" type="checkbox" id="coining-toggle" [checked]="this.coinInfo.isDigging"
+      (change)="this.digging()" 
+    >
+    <p [style.flexDirection]="this.coinInfo.isDigging? 'row-reverse':'row'">
+      {{this.coinInfo.isDigging? '停止挖礦' :'開啟挖礦'}}
+      <span class="material-icons">
+        {{this.coinInfo.isDigging? 'keyboard_double_arrow_left' :'keyboard_double_arrow_right'}}
+        </span>
+    </p>
+    <span class="button" [class.toggle-active]="this.coinInfo.isDigging">
+      <em class="material-icons" [class.toggle-active]="this.coinInfo.isDigging">{{this.coinInfo.isDigging ?
+        'check_circle':'do_not_disturb_on'}}</em>
+    </span>
+  </label>
+</section>

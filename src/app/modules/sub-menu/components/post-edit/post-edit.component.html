@@ -1,0 +1,14 @@
+<div class="header">
+    <h3>發文章</h3>
+    <button (click)="null">發文</button>
+</div>
+<nav>
+    <app-document-editor [(ngModel)]="textContent"></app-document-editor>
+    <app-file-select-icon [isMultiple]="this.isMultiple" [allowType]="this.allowType"
+        (uploadingFiles)="this.showFileList($event)">
+    </app-file-select-icon>
+</nav>
+
+<div [innerHTML]="textContent"></div>
+{{textContent}}
+

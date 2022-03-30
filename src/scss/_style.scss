@@ -1,7 +1,9 @@
+@import "colors";
+@import "variables";
 @import "reset";
 @import "root";
-@import "variables";
-@import "colors";
+@import "utilities";
+@import "form";
 
 .fc {
   &-border {
@@ -18,5 +20,18 @@
     &-red {
       border-color: red;
     }
+  }
+}
+
+.scroll-bar {
+  overflow: auto;
+  &::-webkit-scrollbar {
+    width: 0.375rem;
+    height: 0.375rem;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: #e6e6e6;
+    border-radius: 10px;
   }
 }

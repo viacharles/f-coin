@@ -9,6 +9,10 @@ export interface IMessage {
   isRead: boolean;
   sendTime: firebase.firestore.Timestamp;
   userId: string;
+  sendTo: string;
+}
+export interface IMessageBatched {
+  messageBatched: IMessage;
 }
 
 /**
