@@ -1,16 +1,19 @@
 import {
   AfterContentInit,
   AfterViewInit,
-  Injectable,
+  Directive,
   OnChanges,
   OnInit,
+  Input,
   SimpleChanges
 } from "@angular/core";
+import { User } from "@user/shared/models/user.model";
 import { UnSubOnDestroy } from "@utility/abstract/unsubondestroy.abstract";
 
-@Injectable()
+@Directive()
 export class BaseComponent extends UnSubOnDestroy
   implements OnChanges, OnInit, AfterContentInit, AfterViewInit {
+  @Input() user!: User;
 
   constructor() { super(); }
 

@@ -13,13 +13,14 @@ import { IUser } from '@utility/interface/user.interface';
 import { WindowHelper } from '@utility/helper/window-helper';
 import { ResizeObserver } from 'resize-observer';
 import { ResizeObserverEntry } from 'resize-observer/lib/ResizeObserverEntry';
+import { BaseComponent } from '@utility/base/base-component';
 
 @Component({
   selector: 'app-chat',
   templateUrl: './chat.component.html',
   styleUrls: ['./chat.component.scss'],
 })
-export class ChatComponent extends UnSubOnDestroy implements OnInit {
+export class ChatComponent extends BaseComponent {
   @ViewChild('tMessages') tMessages?: ElementRef;
   constructor(
     private $feature: ChatService,
@@ -64,6 +65,7 @@ export class ChatComponent extends UnSubOnDestroy implements OnInit {
     ).subscribe(histories => this.afterMessageHistoriesUpdated(histories));
   }
 
+
   /**
    * @description rules for show friend's avatar.
    */
@@ -96,9 +98,6 @@ export class ChatComponent extends UnSubOnDestroy implements OnInit {
   }
 
   private afterMessageHistoriesUpdated(histories: IMessage[]): void {
-    if (!this.observer) {
-      this.settingObserver();
-    }
     this.messageHistory = histories;
     switch (histories[histories.length - 1]?.sendTo) {
       case this.userId:
@@ -114,13 +113,9 @@ export class ChatComponent extends UnSubOnDestroy implements OnInit {
     this.scrollTop = 0;
     this.shouldScroll = true;
     this.friend = friends.find(({ id }) => id === friendId) as Friend;
-    this.$feature.fireEvent({ action: Action.CloseSocket }).then(() => {
-      this.$feature.fireEvent<IMessage[]>({
-        action: Action.CreateSocket,
-        id: this.userId as string,
-        friendId
-      });
-    });
+    if (!this.observer) {
+      setTimeout(() => this.settingObserver(), 0);
+    }
   }
 
   private markMessageAsRead(messageIds: string[]): void {
@@ -134,6 +129,7 @@ export class ChatComponent extends UnSubOnDestroy implements OnInit {
 
   private settingObserver() {
     this.observer = WindowHelper.generateResizeObserver((entry: ResizeObserverEntry) => {
+      console.log('in')
       if (this.shouldScroll) {
         this.scrollTop = entry.contentRect.height;
         this.shouldScroll = false;

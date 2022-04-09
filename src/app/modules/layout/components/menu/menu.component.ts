@@ -1,3 +1,4 @@
+import { IMessage } from './../../../../../utility/interface/messageCenter.interface';
 import { IUserProfileDialog } from '@utility/interface/user.interface';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { OverlayService } from '@shared/overlay/overlay.service';
@@ -6,23 +7,31 @@ import { User } from '@user/shared/models/user.model';
 import { EModule } from '@utility/enum/route.enum';
 import { MenuMap } from '@utility/map/router.map';
 import { AuthService } from 'src/auth/auth.service';
+import { BaseComponent } from '@utility/base/base-component';
 
 @Component({
   selector: 'app-menu',
   templateUrl: './menu.component.html',
   styleUrls: ['./menu.component.scss'],
 })
-export class MenuComponent {
+export class MenuComponent extends BaseComponent {
   @Output() moduleChanged = new EventEmitter<EModule>();
   @Input() module: EModule = EModule.User;
-  @Input() user?: User;
+  @Input() messages: IMessage[] = [];
 
   constructor(
     public $auth: AuthService,
     private $overlay: OverlayService
-  ) { }
+  ) {
+    super();
+  }
 
   public readonly Menu = MenuMap;
+  /**
+   * @description 所有未讀訊息
+   */
+  get unreadMessages(): IMessage[] { return this.messages.filter(({ isRead, sendTo }) => !isRead && sendTo === this.user.id); }
+  get moduleType(): typeof EModule { return EModule; }
 
   public toggleProfileDialog() {
     this.$overlay.toggleDialog<IUserProfileDialog>(UserProfileDialogComponent, {

@@ -1,6 +1,7 @@
 <ng-container *ngIf="this.$user.user$ | async as user">
   <aside>
-    <app-menu [module]="this.module" (moduleChanged)="moduleChanged($event)" [user]="user"></app-menu>
+    <app-menu [module]="this.module" (moduleChanged)="moduleChanged($event)" [user]="user"
+      [messages]="this.messageHistory"></app-menu>
   </aside>
   <div class="w-100 h-100">
     <header #tHeader [hidden]="this.module !== this.Module.User" class="w-100 fc-border-b">

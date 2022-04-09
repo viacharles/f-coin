@@ -9,6 +9,7 @@
       <label [for]="menu.key" class="material-icons">
         {{menu.value.icon}}
       </label>
+      <p *ngIf="menu.key === this.moduleType.User">{{this.unreadMessages.length}}</p>
     </li>
   </ng-container>
 </ul>

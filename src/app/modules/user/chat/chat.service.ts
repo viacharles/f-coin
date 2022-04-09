@@ -50,7 +50,7 @@ export class ChatService extends FeatureService<IChatEvent, Action> {
           this.ws = this.$message.onHistoryUpdated$(id as string).subscribe(
             history => {
               this.$logger.systemMessage(
-                `Total ${history.length} messages with friend ${friendId} has successfully fetched.`
+                `All messages has successfully fetched.\nUnread: ${history.filter(({ isRead, sendTo }) => !isRead && sendTo === id).length}`
               );
               this.messageHistory.next(history
                 .sort((a, b) => a.sendTime.toDate().toISOString() > b.sendTime.toDate().toISOString() ? 1 : -1)
