@@ -21,6 +21,9 @@ export class ChatService extends FeatureService<IChatEvent, Action> {
   }
 
   private ws = new Subscription();
+  /**
+   * @description 當前使用者所有聊天紀錄
+   */
   private messageHistory = new Subject<IMessage[]>();
   public messageHistory$ = this.messageHistory.asObservable();
 
@@ -50,7 +53,6 @@ export class ChatService extends FeatureService<IChatEvent, Action> {
                 `Total ${history.length} messages with friend ${friendId} has successfully fetched.`
               );
               this.messageHistory.next(history
-                .filter(({ userId }) => userId === friendId)
                 .sort((a, b) => a.sendTime.toDate().toISOString() > b.sendTime.toDate().toISOString() ? 1 : -1)
               );
             }

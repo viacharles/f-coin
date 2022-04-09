@@ -58,8 +58,10 @@ export class ChatComponent extends UnSubOnDestroy implements OnInit {
       map(([friends, { id }]) => ({ friends, id }))
     ).subscribe(({ id, friends }) => this.initial(id, friends));
 
-    this.$feature.messageHistory$.pipe(takeUntil(this.onDestroy$))
-      .subscribe(histories => this.afterMessageHistoriesUpdated(histories));
+    this.$feature.messageHistory$.pipe(
+      map(histroy => histroy.filter(({ userId }) => userId === this.activatedRoute.snapshot.params.id)),
+      takeUntil(this.onDestroy$)
+    ).subscribe(histories => this.afterMessageHistoriesUpdated(histories));
   }
 
   /**
