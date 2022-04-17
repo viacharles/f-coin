@@ -1,5 +1,5 @@
 import { IMessage } from '@utility/interface/messageCenter.interface';
-import { Subscription, Observable, Subject } from 'rxjs';
+import { Subscription, Observable, Subject, BehaviorSubject } from 'rxjs';
 import {
   ChatAction as Action,
   IChatEvent,
@@ -24,7 +24,7 @@ export class ChatService extends FeatureService<IChatEvent, Action> {
   /**
    * @description 當前使用者所有聊天紀錄
    */
-  private messageHistory = new Subject<IMessage[]>();
+  private messageHistory = new BehaviorSubject<IMessage[]>([]);
   public messageHistory$ = this.messageHistory.asObservable();
 
   protected featureName = 'Chat';

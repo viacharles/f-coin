@@ -81,7 +81,7 @@ export class ChatComponent extends BaseComponent {
   }
 
   public afterKeydown(event: KeyboardEvent): void {
-    if (event.key === 'Enter' && this.message.trim() !== '') {
+    if (event.key === 'Enter' && this.message.trim() !== '' && !event.isComposing) {
       this.$feature
         .fireEvent({
           action: Action.SendMessage,
