@@ -50,19 +50,15 @@ export class ChatComponent extends BaseComponent {
       .pipe(take(1))
       .subscribe((user) => (this.userId = (user as IUser).id));
     combineLatest([
-      this.$user.friends$.pipe(
-        filter((friends) => friends.length > 0),
-      ),
-      this.activatedRoute.params.pipe(filter(({ id }) => !!id)),
+      this.$user.friends$.pipe(filter((friends) => friends.length > 0)),
+      this.activatedRoute.params.pipe(filter(({ id }) => !!id)).pipe(tap(() => this.shouldScroll = true)),
+      this.$feature.messageHistory$
     ]).pipe(
       takeUntil(this.onDestroy$),
-      map(([friends, { id }]) => ({ friends, id }))
-    ).subscribe(({ id, friends }) => this.initial(id, friends));
-
-    this.$feature.messageHistory$.pipe(
-      map(histroy => histroy.filter(({ userId }) => userId === this.activatedRoute.snapshot.params.id)),
-      takeUntil(this.onDestroy$)
-    ).subscribe(histories => this.afterMessageHistoriesUpdated(histories));
+      map(([friends, { id }, messages]) => ({ friends, id, messages }))
+    ).subscribe(
+      ({ id, friends, messages }) => this.initial(id, friends, messages.filter(({ userId }) => userId === id))
+    );
   }
 
 
@@ -97,7 +93,7 @@ export class ChatComponent extends BaseComponent {
     }
   }
 
-  private afterMessageHistoriesUpdated(histories: IMessage[]): void {
+  private updateMessages(histories: IMessage[]): void {
     this.messageHistory = histories;
     switch (histories[histories.length - 1]?.sendTo) {
       case this.userId:
@@ -109,10 +105,9 @@ export class ChatComponent extends BaseComponent {
     }
   }
 
-  private initial(friendId: string, friends: Friend[]): void {
-    this.scrollTop = 0;
-    this.shouldScroll = true;
+  private initial(friendId: string, friends: Friend[], histories: IMessage[]): void {
     this.friend = friends.find(({ id }) => id === friendId) as Friend;
+    this.updateMessages(histories);
     if (!this.observer) {
       setTimeout(() => this.settingObserver(), 0);
     }
@@ -129,7 +124,6 @@ export class ChatComponent extends BaseComponent {
 
   private settingObserver() {
     this.observer = WindowHelper.generateResizeObserver((entry: ResizeObserverEntry) => {
-      console.log('in')
       if (this.shouldScroll) {
         this.scrollTop = entry.contentRect.height;
         this.shouldScroll = false;

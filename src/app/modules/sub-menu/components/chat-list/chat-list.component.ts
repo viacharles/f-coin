@@ -1,5 +1,7 @@
+import { IMessage } from '@utility/interface/messageCenter.interface';
 import {
   Component,
+  Input,
   SimpleChanges
 } from '@angular/core';
 import { Router } from '@angular/router';
@@ -16,6 +18,8 @@ import { EModule } from '@utility/enum/route.enum';
   styleUrls: ['./chat-list.component.scss'],
 })
 export class ChatListComponent extends BaseSubMenu {
+
+  @Input() messages: IMessage[] = [];
 
   constructor(
     private $user: UserService,
@@ -37,13 +41,20 @@ export class ChatListComponent extends BaseSubMenu {
   );
 
   protected onChanges({ user }: SimpleChanges): void {
-    if (user.currentValue.id === sessionStorage.getItem('id')) {
+    if (user?.currentValue.id === sessionStorage.getItem('id')) {
       this.$user.fetchFriendList(user.currentValue as User);
     }
   }
 
   public toAddFriend(): void {
     this.updateModule.emit(EModule.Friend);
+  }
+
+  /**
+   * @description 依照好友id取得聊天室未讀訊息數量
+   */
+  public getUnreadNumberByFriendId(id: string): number {
+    return this.messages.filter(({ sendTo, userId, isRead }) => userId === id && sendTo === this.user.id && !isRead).length;
   }
 
   private onFriendsUpdated(friends: Friend[]): void { }
