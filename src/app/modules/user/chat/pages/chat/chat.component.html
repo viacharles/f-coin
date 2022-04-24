@@ -1,14 +1,20 @@
 <ng-container *ngIf="this.friend; else empty">
-  <header #tHeader class="w-100">
-    <nav>
-      <h3>{{this.friend?.name}}</h3>
-      <em></em>
-    </nav>
-    <nav>
-      <em class="material-icons">search</em>
-      <em class="material-icons">content_paste</em>
-    </nav>
-    <app-chat-announcement *ngIf="false"></app-chat-announcement>
+  <header #tHeader class="w-100 fc-border-b">
+    <div class="d-flex flex-row align-items-center justify-content-between w-100">
+      <nav>
+        <h3>{{this.friend?.name}}</h3>
+      </nav>
+      <nav>
+        <input #tSearch type="checkbox" class="d-none" id="chat-search">
+        <label for="chat-search">
+          <em class="material-icons">search</em>
+        </label>
+        <em class="material-icons">content_paste</em>
+      </nav>
+    </div>
+    <app-chat-announcement *ngIf="tSearch.checked" [DOMTree]="tMessages" [records]="this.messageHistory"
+      (moveTo)="this.scrollTop = $event">
+    </app-chat-announcement>
   </header>
   <section class="scroll-bar" [scrollTop]="this.scrollTop"
     [style.height]="'calc('+ '100% - ' + tHeader.clientHeight + 'px - ' + tFooter.clientHeight + 'px)'">
@@ -24,7 +30,7 @@
               [src]="this.friend.avatar || this.defaultAvatar" alt="">
           </div>
           <div class="content">
-            <p class="text">{{record.message}}</p>
+            <p [id]="record.id" class="text">{{record.message}}</p>
             <div class="caption">
               <p *ngIf="this.record.isRead && this.record.sendTo !== this.userId">已讀</p>
               <p class="time">{{record.sendTime|chatTime}}</p>
