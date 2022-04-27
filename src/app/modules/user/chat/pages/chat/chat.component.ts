@@ -81,7 +81,7 @@ export class ChatComponent extends BaseComponent {
   }
 
   public afterKeydown(event: KeyboardEvent): void {
-    if (event.key === 'Enter' && this.message.trim() !== '' && !event.isComposing) {
+    if (event.key === 'Enter' && !event.shiftKey && this.message.trim() !== '' && !event.isComposing) {
       this.$feature
         .fireEvent({
           action: Action.SendMessage,
@@ -90,6 +90,15 @@ export class ChatComponent extends BaseComponent {
           message: this.message
         })
         .then(() => this.message = '');
+    }
+  }
+
+  public autoResized(target: any) {
+    const Target = target as HTMLElement;
+    Target.style.height = '80px';
+    Target.style.height = `${Target.scrollHeight}px`;
+    if (Target.scrollHeight > 140) {
+      Target.classList.add('scroll-bar');
     }
   }
 

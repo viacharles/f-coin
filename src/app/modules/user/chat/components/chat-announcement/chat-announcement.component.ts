@@ -1,5 +1,5 @@
 import { IMessage } from '@utility/interface/messageCenter.interface';
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { BaseComponent } from '@utility/base/base-component';
 
 @Component({
@@ -10,10 +10,7 @@ import { BaseComponent } from '@utility/base/base-component';
 export class ChatAnnouncementComponent extends BaseComponent {
   @Input() records: IMessage[] = [];
   @Input() DOMTree!: HTMLUListElement;
-  /**
-   * @description 滑動scroll到特定位置
-   */
-  @Output() moveTo = new EventEmitter<number>();
+  @Input() searchElement!: HTMLInputElement;
   constructor() {
     super();
   }
@@ -23,23 +20,31 @@ export class ChatAnnouncementComponent extends BaseComponent {
    */
   public keyword: string = '';
   /**
-   * @description 所有符合條件的聊天紀錄
+   * @description 所有符合條件的聊天紀錄id
    */
-  public matchMessages: IMessage[] = [];
+  public matchMessageIds: string[] = [];
+  public current: number = 0;
 
-  ngOnInit(): void {
-
+  public switch(offset: number) {
+    this.current = this.current + offset;
+    this.getLiElementById(this.matchMessageIds[this.current]).scrollIntoView();
   }
 
   public afterKeydown(event: KeyboardEvent): void {
     if (event.key === 'Enter' && this.keyword?.trim() !== '' && !event.isComposing) {
-      this.matchMessages = this.records.filter(({ message }) => message.includes(this.keyword));
-      this.matchMessages.forEach(message => this.highlightKeyword(message));
+      this.matchMessageIds = this.records
+        .filter(({ message }) => message.includes(this.keyword))
+        .map(({ id }) => id)
+        .reverse();
+      this.records.forEach(({ id, message }) => {
+        const Element: HTMLElement = this.getLiElementById(id).getElementsByTagName('div')[1]!.getElementsByTagName('p')[0]
+        Element.innerHTML = message.replace(new RegExp(`${this.keyword}`, 'g'), `<span class="text-danger">${this.keyword}</span>`);
+      });
+      this.switch(0);
     }
   }
 
-  private highlightKeyword({ id, message }: IMessage) {
-    document.getElementById(id)!.innerHTML = message.replace(this.keyword, `<span class="text-danger">${this.keyword}</span>`)
+  private getLiElementById(id: string): HTMLElement {
+    return this.DOMTree.getElementsByClassName('message')!.namedItem(id) as HTMLElement;
   }
-
 }

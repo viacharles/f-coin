@@ -24,7 +24,7 @@
 }
 
 .scroll-bar {
-  overflow: auto;
+  overflow: auto !important;
   &::-webkit-scrollbar {
     width: 0.375rem;
     height: 0.375rem;
