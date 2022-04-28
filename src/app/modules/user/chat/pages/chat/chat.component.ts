@@ -55,6 +55,7 @@ export class ChatComponent extends BaseComponent {
       this.$feature.messageHistory$
     ]).pipe(
       takeUntil(this.onDestroy$),
+      tap(res => console.log(res)),
       map(([friends, { id }, messages]) => ({ friends, id, messages }))
     ).subscribe(
       ({ id, friends, messages }) => this.initial(id, friends, messages.filter(({ userId }) => userId === id))
@@ -78,6 +79,13 @@ export class ChatComponent extends BaseComponent {
     return index === 0 ? true
       : record.sendTime.toDate().toLocaleDateString() !== history[index - 1].sendTime.toDate().toLocaleDateString()
         ? true : false;
+  }
+
+  /**
+   * @description if the single message is non-primary in its message group.
+   */
+  public isAppendage(history: IMessage[], index: number, record: IMessage): boolean {
+    return !(this.isDiffMin(history, index, true) || this.isDiffUser(history, index, record, true));
   }
 
   public afterKeydown(event: KeyboardEvent): void {
@@ -136,4 +144,33 @@ export class ChatComponent extends BaseComponent {
     this.observer?.disconnect();
   }
 
+  /**
+   *  two consecutive message time points are not in the same minute.
+   * @param compareLast compare with last or next item.
+   */
+  private isDiffMin(history: IMessage[], index: number, compareLast: boolean): boolean {
+    if (compareLast ? index === 0 : index === history.length - 1) { return true; }
+    else {
+      const thisTimePoint = history[index].sendTime.toDate().toISOString().split(':')[1];
+      const lastTimePoint = history[compareLast ? index - 1 : index + 1].sendTime.toDate().toISOString().split(':')[1];
+      return thisTimePoint !== lastTimePoint;
+    }
+  }
+
+  public hideTime(history: IMessage[], index: number, record: IMessage): boolean {
+    return !this.isDiffMin(history, index, false) && !this.isDiffUser(history, index, record, false);
+  }
+
+  /**
+   * two consecutive message sender are not the same id.
+   * @param compareLast compare with last or next item.
+   */
+   private isDiffUser(history: IMessage[], index: number, record: IMessage, compareLast: boolean): boolean {
+    return (compareLast ? index === 0 : index === history.length - 1) ? true
+      : (record.sendTo !== history[compareLast ? index - 1 : index + 1].sendTo);
+  }
+
 }
+
+
+

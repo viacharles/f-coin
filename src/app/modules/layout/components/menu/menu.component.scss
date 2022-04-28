@@ -1,3 +1,5 @@
+@import "colors";
+@import "variables";
 :host {
   user-select: none;
   display: flex;
@@ -9,7 +11,7 @@
   padding: 20px 0 30px 0;
   background: linear-gradient(
     190deg,
-    #2496ff 5%, 10%, #279cef, #1c4bc8
+    #41e1dd 5%, 10%, #43a2e7, #24aaeb
     );
   animation: growWidth 0.3s;
 }
@@ -33,14 +35,41 @@ img {
   }
 }
 
-li {
-  &:not(:first-of-type) {
-    margin-top: 18px;
-  }
-}
+// li {
+//   &:not(:first-of-type) {
+//     margin-top: 18px;
+//   }
+// }
 
 input:checked + label {
   opacity: 1;
+}
+
+li  {
+  position: relative;
+  height: 46px;
+  & > .des {
+    position: absolute;
+    top: 0;
+    right: 8px;
+    display: flex;
+    padding: 4px;
+    font-size: map-get($font-level, 'xs' );
+    color: $white;
+    background-color: $warn;
+    border: 2px solid $primary;
+    border-radius: 12px;
+  }
+  & > .warnRound {
+    position: absolute;
+    top: 7px;
+    right: 15px;
+    display: flex;
+    width: 5px;
+    height: 5px;
+    background-color: #ff3737;
+    border-radius: 50%;
+  }
 }
 
 @keyframes growWidth {

@@ -18,7 +18,8 @@
           <p>{{record.sendTime|chatDate}}</p>
         </li>
         <li class="message" [class.message__myself]="record.sendTo !== this.userId"
-          [class.message__friend]="record.sendTo === this.userId">
+          [class.message__friend]="record.sendTo === this.userId"
+          [class.subMessage]="isAppendage(this.messageHistory, index, record)">
           <div class="avatar">
             <img *ngIf="this.showAvatar(this.messageHistory, index, record)"
               [src]="this.friend.avatar || this.defaultAvatar" alt="">
@@ -27,8 +28,10 @@
             <p class="text">{{record.message}}</p>
             <div class="caption">
               <p *ngIf="this.record.isRead && this.record.sendTo !== this.userId">已讀</p>
-              <p class="time">{{record.sendTime|chatTime}}</p>
+              <p class="time">{{this.hideTime(this.messageHistory, index, record) ? '' : record.sendTime|chatTime}}</p>
             </div>
+            <!-- 對話框尾巴 -->
+            <span *ngIf="!isAppendage(this.messageHistory, index, record)"></span>
           </div>
         </li>
       </ng-container>

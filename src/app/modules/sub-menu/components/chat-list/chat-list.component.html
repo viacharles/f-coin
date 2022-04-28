@@ -1,31 +1,36 @@
-<section class="UserList" *ngIf="this.friends$ | async as friends">
-  <ng-container *ngIf="friends.length > 0; else tEmpty">
-    <ul class="UserList__Container">
-      <li *ngFor="let friend of friends">
-        <input class="d-none" type="radio" name="user-list" [id]="'user-list'+friend.id"
-          [checked]="friend.id === this.activatedFriendId"
-          (change)="this.router.navigateByUrl('user/chat/' + friend.id)">
-        <label [class.is-login]="friend.isLogin === true" [for]="'user-list'+friend.id">
-          <img class="UserList__img" [class.is-login]="friend.isLogin === true"
-            [src]="friend.avatar || 'assets/images/icons/empty-avatar.jpeg'">
-          <div class="column-left">
-            <p class="UserList__name">{{friend.name}}</p>
-            <p class="UserList__summary">{{'test'}}</p>
-            <p>{{this.getUnreadNumberByFriendId(friend.id)}}</p>
-          </div>
-        </label>
-      </li>
-    </ul>
-  </ng-container>
-</section>
 
-<ng-template #tEmpty>
-  <section class="content-empty">
-    <button>
-      <span class="material-icons" (click)="toAddFriend()">
-        person_add
-      </span>
-      <p>加好友吧!</p>
-    </button>
+  <section class="UserList" *ngIf="this.friends$ | async as friends">
+    <ng-container *ngIf="friends.length > 0; else tEmpty">
+      <ul class="UserList__Container">
+        <li *ngFor="let friend of friends">
+          <input class="d-none" type="radio" name="user-list" [id]="'user-list'+friend.id"
+            [checked]="friend.id === this.activatedFriendId" 
+            (change)="this.router.navigateByUrl('user/chat/' + friend.id)">
+          <label [class.is-login]="friend.isLogin === true" [for]="'user-list'+friend.id">
+            <img class="UserList__img" [class.is-login]="friend.isLogin === true" 
+            [src]="friend.avatar || 'assets/images/icons/empty-avatar.jpeg'" >
+            <div class="column-left">
+              <p class="UserList__name">{{friend.name}}</p>
+              <p class="summary">{{getLastMessageByFriendId(friend.id)}}</p>
+            </div>
+            <div class="column-right">
+              <p class="text-xs">{{getLastSendTimeByFriendId(friend.id)|chatListDate}}</p>
+              <span class="read-mark" *ngIf="getUnreadNumberByFriendId(friend.id) > 0">{{getUnreadNumberByFriendId(friend.id)}}</span>
+            </div>
+          </label>
+        </li>
+      </ul>
+    </ng-container>
   </section>
-</ng-template>
+
+  <ng-template #tEmpty>
+    <section class="content-empty">
+      <button>
+        <span class="material-icons" (click)="toAddFriend()">
+          person_add
+        </span>
+        <p>加好友吧!</p>
+      </button>
+    </section>
+  </ng-template>
+
