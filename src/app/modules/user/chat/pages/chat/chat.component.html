@@ -10,14 +10,26 @@
     </nav>
     <app-chat-announcement *ngIf="false"></app-chat-announcement>
   </header>
-  <section class="scroll-bar" [scrollTop]="this.scrollTop"
+  <section #tScrollContainer class="scroll-bar"
+    *ngIf="this.$user.user$ | async as user"
+    [scrollTop]="this.scrollTop" 
+    appScrollControl (scrolling)="onScroll($event)" (scrollEnd)="onScrollEnd()"
     [style.height]="'calc('+ '100% - ' + tHeader.clientHeight + 'px - ' + tFooter.clientHeight + 'px)'">
+  <!-- date buoy -->
+  <div #tDateBuoy class="date-buoy" 
+    *ngIf="this.dateBuoyValue" 
+    [style.left]="this.dateBuoyLeft"
+    [ngClass]="this.isScrollStop === undefined ? '' : this.isScrollStop ? 'fade-out' : 'fade-in'">
+    {{this.dateBuoyValue}}
+  </div>
+
     <ul #tMessages class="w-100">
       <ng-container *ngFor="let record of this.messageHistory; let index = index">
         <li class="date-divider" *ngIf="this.showDateDivider(this.messageHistory, index, record)">
-          <p>{{record.sendTime|chatDate}}</p>
+          <p #tDateDividers>{{record.sendTime|chatDate}}</p>
         </li>
-        <li class="message" [class.message__myself]="record.sendTo !== this.userId"
+        <li class="message" 
+          [class.message__myself]="record.sendTo !== this.userId"
           [class.message__friend]="record.sendTo === this.userId"
           [class.subMessage]="isAppendage(this.messageHistory, index, record)">
           <div class="avatar">
@@ -36,6 +48,13 @@
         </li>
       </ng-container>
     </ul>
+    <!-- scroll button -->
+    <button class="scroll-button" (click)="scrollToBottom()" [class.fade-down-out]="isAtBottom">
+      <span class="material-icons">
+        arrow_downward
+      </span>
+    </button>
+  
   </section>
   <footer #tFooter>
     <textarea [(ngModel)]="this.message" (keydown)="this.afterKeydown($event)" class="p-0"

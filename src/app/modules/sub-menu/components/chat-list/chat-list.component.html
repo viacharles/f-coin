@@ -15,7 +15,11 @@
             </div>
             <div class="column-right">
               <p class="text-xs">{{getLastSendTimeByFriendId(friend.id)|chatListDate}}</p>
-              <span class="read-mark" *ngIf="getUnreadNumberByFriendId(friend.id) > 0">{{getUnreadNumberByFriendId(friend.id)}}</span>
+              <span class="read-mark" 
+                *ngIf="getUnreadNumberByFriendId(friend.id) > 0">
+                {{getUnreadNumberByFriendId(friend.id) > 999 ? 
+                  '999+' : getUnreadNumberByFriendId(friend.id)}}
+              </span>
             </div>
           </label>
         </li>

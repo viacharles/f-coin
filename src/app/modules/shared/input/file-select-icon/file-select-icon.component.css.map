@@ -1,0 +1,9 @@
+{
+    "version": 3,
+    "mappings": "AAAA,AAAA,eAAe,CAAC;EACZ,SAAS,EAAE,MAAM;CACpB",
+    "sources": [
+        "file-select-icon.component.scss"
+    ],
+    "names": [],
+    "file": "file-select-icon.component.css"
+}
