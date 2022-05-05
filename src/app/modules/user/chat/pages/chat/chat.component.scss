@@ -33,61 +33,17 @@ app-chat-announcement {
   height: 40px;
 }
 
-// .message-group {
-//   overflow-y: auto;
-//   padding: 0 12px;
-//   & > div {
-//     display: block;
-//     width: 100%;
-//     height: auto;
-//   }
-// }
-
-// .message {
-//   display: flex;
-//   flex-direction: row;
-//   width: 100%;
-//   height: auto;
-//   padding: 5px 0;
-// }
-
-// .message.partner {
-//   justify-content: flex-start;
-//   .message-avatar {
-//     width: 50px;
-//     height: 100%;
-//     img {
-//       width: 37px;
-//       height: 37px;
-//       border-radius: 50%;
-//       object-fit: cover;
-//     }
-//   }
-//   .message-content {
-//     display: flex;
-//     flex-direction: row;
-//     justify-content: flex-end;
-//     width: 100%;
-//     height: auto;
-//     padding: 5px 0;
-//     background: $normal-border-hover;
-//   }
-// }
-
-// .message.self {
-//   justify-content: flex-end;
-//   .item-group {
-//     margin-right: 15px;
-//     padding: 10px 15px;
-//     font-size: map-get($font-level, 'sm');
-//     background: $self-message-background;
-//     border-radius: 16px;
-//   }
-// }
+.filter {
+  width: 100%;
+  background: red;
+}
 
 footer {
+  position: relative;
+  z-index: map-get($layout-level, 'cover');
   border-top: 1px solid $light-border;
   padding: 0.9rem 1rem 0;
+  background: $white;
   textarea {
     outline: none;
     display: block;
@@ -129,15 +85,50 @@ footer {
   }
 }
 
+
+
 section {
+  position: relative;
   overflow-y: auto;
-  padding: 0 12px;
+  min-width: 300px;
+  padding: 12px;
+  .date-buoy {
+    display: inline-block;
+    z-index: map-get($layout-level, 'cover' );
+    position: fixed;
+    top: calc(47px + 50px + 50px); 
+    transform: translateX(-50%);
+    padding: 6px 12px;
+    font-size: 0.75rem;
+    color: #595c61;
+    background-color: $white;
+    border: 1px solid #e0e1e3;
+    border-radius: 14px;
+    opacity: 0;
+  }
+  .scroll-button {
+    position: fixed;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    bottom: 155px;
+    right: 8px;
+    width: 37px;
+    height: 37px;
+    background-color: $white;
+    border: 1px solid rgb(231, 226, 226);
+    border-radius: 50%;
+    box-shadow: 0 0 5px 1px rgba(0, 0, 0, 0.05);
+    animation: fade-in .2s ease-in forwards;
+    opacity: 0;
+  }
 }
 
 .date-divider {
   display: flex;
   justify-content: center;
   align-items: center;
+  margin: 21px 0 10px 0;
   p {
     padding: 6px 12px;
     font-size: map-get($font-level , "xs");
@@ -151,29 +142,17 @@ section {
   display: flex;
   flex-direction: row;
   align-items: center;
-  margin-right: 15px;
-  padding: 10px 0;
   font-size: map-get($font-level, 'sm');
   .content {
     position: relative;
     display: flex;
     flex-direction: row;
     align-items: flex-end;
-    &::before {
-      content: '';
-      position: absolute;
-      z-index: 10;
-      top: 50px;
-      right: 0;
-      width: 10px;
-      height: 10px;
-      background-color: $primary;
-      transform: rotateZ(45deg);
-    }
   }
   .text {
     margin: 4px 0;
-    padding: 10px 9px;
+    padding: 7px 11px;
+    line-height: 17px;
     word-wrap: break-word;
     border-radius: 16px;
   }
@@ -181,38 +160,71 @@ section {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
+    min-width: fit-content;
     padding: 0 7px;
     font-size: map-get($font-level, 'xs');
     color: $caption-text;
     white-space: nowrap;
   }
   .time {
+    height: 14px;
     padding: 3px 0;
+  }
+  &.subMessage {
+    padding-top: 0;
   }
 
   &__myself {
     justify-content: flex-end;
+    padding: 13px 0 5px 0;
     .content {
       flex-direction: row-reverse;
+      padding-right: 12px;
+      span {
+        position: absolute;
+        right: 2px;
+        top: -15px;
+        width: 23px;
+        height: 23px;
+        border-radius: 50%;
+        box-shadow: 8px 2px $self-message-background;
+        transform: rotate(73deg);
+      }
     }
     .caption { 
       align-items: flex-end;
     }
     .text {
+      position: relative;
       background: $self-message-background;
+    
     }
   }
 
   &__friend {
     justify-content: flex-start;
     align-items: flex-end;
+    padding: 23px 0 6px 0;
+    .content {
+      padding-left: 12px;
+      span {
+        position: absolute;
+        left: -1px;
+        top: -11px;
+        width: 23px;
+        height: 20px;
+        border-radius: 50%;
+        box-shadow: 8px 2px #e9ebec;
+        transform: rotate(67deg);
+      }
+    }
     .text {
       display: flex;
       background: $friend-message-background;
     }
     .avatar {
-      width: 41px;
-      margin-right: 10px;
+      min-width: 41px;
+      margin-right: 2px;
       img {
         width: 41px;
         height: 41px;
@@ -220,10 +232,52 @@ section {
         object-fit: cover;
       }
     }
-    .caption {
-      p:first-child {
-        display: none;
-      }
-    }
   }
 }
+
+.small-padding {
+  padding: 0 0 5px 0;
+}
+
+.fade-down-out {
+  animation: fade-down-out 1.5s ease-out forwards !important;
+}
+
+.fade-out {
+  animation: fade-out 1s ease-in forwards;
+}
+.fade-in {
+  animation: fade-in .2s ease-in forwards;
+}
+
+@keyframes fade-in {
+  0% {
+    opacity: 0;
+    color: $white;
+  } 100% {
+    opacity: .9;
+    color: $Black;
+  }
+}
+
+@keyframes fade-out {
+  0% {
+    opacity: .8;
+    color: $Black;
+  } 100% {
+    opacity: 0;
+    color: $white;
+  }
+}
+
+@keyframes fade-down-out {
+  0% {
+   opacity: .9;
+   transform: translateY(0);
+  } 100% {
+   opacity: .9;
+   transform: translateY(75px);
+  }
+}
+
+

@@ -20,7 +20,7 @@ export class UserProfileDialogComponent extends BaseDialog<IUserProfileDialog> {
     super($overlay, dialog);
   }
 
-  get user() { return this.config?.user as IUser }
+  get userInfo() { return this.config?.user as IUser }
 
   public form: FormGroup = this.fb.group({
     name: [null],
@@ -30,9 +30,9 @@ export class UserProfileDialogComponent extends BaseDialog<IUserProfileDialog> {
 
   protected onInit() {
     this.form.setValue({
-      name: this.user.name,
-      avatar: this.user.avatar || environment.defaultAvatar,
-      totalAssets: this.user.totalAssets
+      name: this.userInfo.name,
+      avatar: this.userInfo.avatar || environment.defaultAvatar,
+      totalAssets: this.userInfo.totalAssets
     });
   }
 

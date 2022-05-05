@@ -1,65 +1,76 @@
+import { element } from 'protractor';
 import { environment } from './../../../../../../environments/environment.prod';
 import { take, map, takeUntil, filter, tap } from 'rxjs/operators';
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { ChatService } from '@user/chat/chat.service';
 import { ChatAction as Action } from '@user/shared/models/chat.model';
 import { UserService } from '@user/shared/services/user.service';
 import { IMessage } from '@utility/interface/messageCenter.interface';
 import { ActivatedRoute } from '@angular/router';
-import { UnSubOnDestroy } from '@utility/abstract/unsubondestroy.abstract';
 import { Friend } from '@friend/shared/models/friend.model';
 import { combineLatest } from 'rxjs';
 import { IUser } from '@utility/interface/user.interface';
 import { WindowHelper } from '@utility/helper/window-helper';
 import { ResizeObserver } from 'resize-observer';
 import { ResizeObserverEntry } from 'resize-observer/lib/ResizeObserverEntry';
+import { BaseComponent } from '@utility/base/base-component';
+import { WindowService } from '@shared/services/window.service';
 
 @Component({
   selector: 'app-chat',
   templateUrl: './chat.component.html',
   styleUrls: ['./chat.component.scss'],
 })
-export class ChatComponent extends UnSubOnDestroy implements OnInit {
+export class ChatComponent extends BaseComponent {
   @ViewChild('tMessages') tMessages?: ElementRef;
+  @ViewChildren('tDateDividers') tDateDividers?: QueryList<ElementRef>;
+  @ViewChild('tDateBuoy') tDateBuoy?: ElementRef;
+
   constructor(
     private $feature: ChatService,
-    private $user: UserService,
+    public $user: UserService,
+    private $window: WindowService,
     private activatedRoute: ActivatedRoute
   ) {
     super();
   }
-
+  get dateBuoyLeft(): string { return `calc(60px + ${this.$window.submenuWidth}px + ${this.$window.pageWidth / 2}px)`; }
   public message = '';
   public friend?: Friend;
   public userId?: string;
   public messageHistory: IMessage[] = [];
   public defaultAvatar = environment.defaultAvatar;
   public scrollTop = 0;
+  public dateBuoyValue = '';                              // DateBuoy裡顯示的文字
+  public showDateBuoy = false;                            // 是否顯示DateBuoy
+  public isScrollStop?: boolean;                          // 表示scroll是否停的
   /**
    * @description 控制聊天室滾動條是否滾至最新訊息
    */
-  private shouldScroll = false;
+  public shouldScroll = false;
   /**
    * @description 聊天室窗滾動條觀察者
    */
   private observer?: ResizeObserver;
+  /**
+   * @description 判斷聊天室是否已滾至最底
+   */
+  public isScrollToBottom = true;
 
   ngOnInit(): void {
     this.$user.user$
       .pipe(take(1))
-      .subscribe((user) => (this.userId = (user as IUser).id));
+      .subscribe((user) => this.userId = (user as IUser).id);
     combineLatest([
-      this.$user.friends$.pipe(
-        filter((friends) => friends.length > 0),
-      ),
-      this.activatedRoute.params.pipe(filter(({ id }) => !!id)),
+      this.$user.friends$.pipe(filter((friends) => friends.length > 0)),
+      this.activatedRoute.params.pipe(filter(({ id }) => !!id)).pipe(tap(() => this.shouldScroll = true)),
+      this.$feature.messageHistory$
     ]).pipe(
       takeUntil(this.onDestroy$),
-      map(([friends, { id }]) => ({ friends, id }))
-    ).subscribe(({ id, friends }) => this.initial(id, friends));
-
-    this.$feature.messageHistory$.pipe(takeUntil(this.onDestroy$))
-      .subscribe(histories => this.afterMessageHistoriesUpdated(histories));
+      map(([friends, { id }, messages]) => ({ friends, id, messages }))
+    ).subscribe(
+      ({ id, friends, messages }) => this.initial(id, friends, messages.filter(({ userId }) => userId === id))
+    );
   }
 
   /**
@@ -68,9 +79,9 @@ export class ChatComponent extends UnSubOnDestroy implements OnInit {
   public showAvatar(history: IMessage[], index: number, record: IMessage): boolean {
     if (index === 0) { return record.sendTo === this.userId ? true : false; }
     else {
-      const thisTime = history[index].sendTime.toDate().toISOString().split(':')[1];
-      const lastTime = history[index - 1].sendTime.toDate().toISOString().split(':')[1];
-      return thisTime !== lastTime && record.sendTo === this.userId;
+      const thisMin = history[index].sendTime.toDate().toISOString().split(':')[1];
+      const lastMin = history[index - 1].sendTime.toDate().toISOString().split(':')[1];
+      return thisMin !== lastMin && record.sendTo === this.userId;
     }
   }
 
@@ -80,8 +91,15 @@ export class ChatComponent extends UnSubOnDestroy implements OnInit {
         ? true : false;
   }
 
+  /**
+   * @description if the single message is non-primary in its message group.
+   */
+  public isAppendage(history: IMessage[], index: number, record: IMessage): boolean {
+    return !(this.isDiffMin(history, index, true) || this.isDiffUser(history, index, record, true));
+  }
+
   public afterKeydown(event: KeyboardEvent): void {
-    if (event.key === 'Enter' && this.message.trim() !== '') {
+    if (event.key === 'Enter' && this.message.trim() !== '' && !event.isComposing) {
       this.$feature
         .fireEvent({
           action: Action.SendMessage,
@@ -93,10 +111,7 @@ export class ChatComponent extends UnSubOnDestroy implements OnInit {
     }
   }
 
-  private afterMessageHistoriesUpdated(histories: IMessage[]): void {
-    if (!this.observer) {
-      this.settingObserver();
-    }
+  private updateMessages(histories: IMessage[]): void {
     this.messageHistory = histories;
     switch (histories[histories.length - 1]?.sendTo) {
       case this.userId:
@@ -108,17 +123,38 @@ export class ChatComponent extends UnSubOnDestroy implements OnInit {
     }
   }
 
-  private initial(friendId: string, friends: Friend[]): void {
-    this.scrollTop = 0;
-    this.shouldScroll = true;
+  /**
+   * @description 顯示聊天內容部分的scroll進行時
+   */
+  public onScroll({ scrollTop, scrollHeight, clientHeight }: HTMLElement): void {
+    this.isScrollStop = false;
+    // == 計算 目前 dateBuoy顯示的內容
+    const dateBuoyY = this.tDateBuoy?.nativeElement.getBoundingClientRect().y;
+    const anchors = this.tDateDividers
+      ?.map(elem => elem.nativeElement.getBoundingClientRect().y)
+      .filter(num => num <= dateBuoyY) as number[];
+    this.dateBuoyValue = (this.tDateDividers?.toArray()[anchors.length === 0 ? 0 : anchors.length - 1] as ElementRef)
+      .nativeElement.innerText as string;
+    this.isScrollToBottom = scrollTop + clientHeight >= scrollHeight;
+  }
+
+  /**
+   * @description 顯示聊天內容部分的scroll停止時
+   */
+  public onScrollEnd(): void {
+    this.isScrollStop = true;
+  }
+
+  public scrollToBottom(container: HTMLElement, { clientHeight }: HTMLUListElement): void {
+    container.scrollTop = clientHeight;
+  }
+
+  private initial(friendId: string, friends: Friend[], histories: IMessage[]): void {
     this.friend = friends.find(({ id }) => id === friendId) as Friend;
-    this.$feature.fireEvent({ action: Action.CloseSocket }).then(() => {
-      this.$feature.fireEvent<IMessage[]>({
-        action: Action.CreateSocket,
-        id: this.userId as string,
-        friendId
-      });
-    });
+    this.updateMessages(histories);
+    if (!this.observer) {
+      setTimeout(() => this.settingObserver(), 0);
+    }
   }
 
   private markMessageAsRead(messageIds: string[]): void {
@@ -130,7 +166,7 @@ export class ChatComponent extends UnSubOnDestroy implements OnInit {
     });
   }
 
-  private settingObserver() {
+  private settingObserver(): void {
     this.observer = WindowHelper.generateResizeObserver((entry: ResizeObserverEntry) => {
       if (this.shouldScroll) {
         this.scrollTop = entry.contentRect.height;
@@ -140,8 +176,37 @@ export class ChatComponent extends UnSubOnDestroy implements OnInit {
     this.observer.observe(this.tMessages?.nativeElement);
   }
 
-  protected onDestroy() {
+  protected onDestroy(): void {
     this.observer?.disconnect();
   }
 
+  /**
+   *  two consecutive message time points are not in the same minute.
+   * @param compareLast compare with last or next item.
+   */
+  private isDiffMin(history: IMessage[], index: number, compareLast: boolean): boolean {
+    if (compareLast ? index === 0 : index === history.length - 1) { return true; }
+    else {
+      const thisTimePoint = history[index].sendTime.toDate().toISOString().split(':')[1];
+      const lastTimePoint = history[compareLast ? index - 1 : index + 1].sendTime.toDate().toISOString().split(':')[1];
+      return thisTimePoint !== lastTimePoint;
+    }
+  }
+
+  public hideTime(history: IMessage[], index: number, record: IMessage): boolean {
+    return !this.isDiffMin(history, index, false) && !this.isDiffUser(history, index, record, false);
+  }
+
+  /**
+   * two consecutive message sender are not the same id.
+   * @param compareLast compare with last or next item.
+   */
+  private isDiffUser(history: IMessage[], index: number, record: IMessage, compareLast: boolean): boolean {
+    return (compareLast ? index === 0 : index === history.length - 1) ? true
+      : (record.sendTo !== history[compareLast ? index - 1 : index + 1].sendTo);
+  }
+
 }
+
+
+

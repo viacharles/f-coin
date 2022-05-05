@@ -2,6 +2,8 @@ import firebase from 'firebase/app';
 
 /**
  * @description 聊天紀錄介面
+ * @property userId
+ * @property sendTo
  */
 export interface IMessage {
   id: string;

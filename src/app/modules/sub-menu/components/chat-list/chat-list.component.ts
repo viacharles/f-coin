@@ -1,5 +1,8 @@
+import firebase from 'firebase/app';
+import { IMessage } from '@utility/interface/messageCenter.interface';
 import {
   Component,
+  Input,
   SimpleChanges
 } from '@angular/core';
 import { Router } from '@angular/router';
@@ -10,12 +13,15 @@ import { User } from '@user/shared/models/user.model';
 import { BaseSubMenu } from '@utility/base/base-sub-menu';
 import { EModule } from '@utility/enum/route.enum';
 
+
 @Component({
   selector: 'app-chat-list',
   templateUrl: './chat-list.component.html',
   styleUrls: ['./chat-list.component.scss'],
 })
 export class ChatListComponent extends BaseSubMenu {
+
+  @Input() messages: IMessage[] = [];
 
   constructor(
     private $user: UserService,
@@ -37,7 +43,7 @@ export class ChatListComponent extends BaseSubMenu {
   );
 
   protected onChanges({ user }: SimpleChanges): void {
-    if (user.currentValue.id === sessionStorage.getItem('id')) {
+    if (user?.currentValue.id === sessionStorage.getItem('id')) {
       this.$user.fetchFriendList(user.currentValue as User);
     }
   }
@@ -46,5 +52,28 @@ export class ChatListComponent extends BaseSubMenu {
     this.updateModule.emit(EModule.Friend);
   }
 
-  private onFriendsUpdated(friends: Friend[]): void { }
+  /**
+   * @description 依照好友id取得聊天室未讀訊息數量
+   */
+  public getUnreadNumberByFriendId(id: string): number {
+    return this.messages.filter(({ sendTo, userId, isRead }) => userId === id && sendTo === this.user.id && !isRead).length;
+  }
+
+  /**
+   * @description 依照好友id取得聊天室最後一則訊息
+   */
+  public getLastMessageByFriendId(id: string): string {
+    const FilterMessages = this.messages.filter(({ sendTo, userId }) => userId === id );
+    return FilterMessages.length === 0 ? '' : FilterMessages[FilterMessages.length - 1].message;
+  }
+
+  /**
+   * @description 依照好友id取得聊天室最後一則訊息的送出時間
+   */
+  public getLastSendTimeByFriendId(id: string): firebase.firestore.Timestamp|null {
+    const FilterMessages = this.messages.filter(({ sendTo, userId }) => userId === id);
+    return FilterMessages.length === 0 ? null : FilterMessages[FilterMessages.length - 1].sendTime;
+  }
+
+  private onFriendsUpdated(friends: Friend[]): void {}
 }

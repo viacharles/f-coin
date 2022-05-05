@@ -10,15 +10,23 @@
     </nav>
     <app-chat-announcement *ngIf="false"></app-chat-announcement>
   </header>
-  <section class="scroll-bar" [scrollTop]="this.scrollTop"
+  <section #tScrollContainer class="scroll-bar" *ngIf="this.$user.user$ | async as user" [scrollTop]="this.scrollTop"
+    appScrollControl (scrolling)="onScroll(tScrollContainer)" (scrollEnd)="onScrollEnd()"
     [style.height]="'calc('+ '100% - ' + tHeader.clientHeight + 'px - ' + tFooter.clientHeight + 'px)'">
+    <!-- date buoy -->
+    <div #tDateBuoy class="date-buoy" *ngIf="this.dateBuoyValue && !isScrollToBottom" [style.left]="this.dateBuoyLeft"
+      [class.fade-out]="this.isScrollStop" [class.fade-in]="!this.isScrollStop">
+      {{this.dateBuoyValue}}
+    </div>
+
     <ul #tMessages class="w-100">
       <ng-container *ngFor="let record of this.messageHistory; let index = index">
         <li class="date-divider" *ngIf="this.showDateDivider(this.messageHistory, index, record)">
-          <p>{{record.sendTime|chatDate}}</p>
+          <p #tDateDividers>{{record.sendTime|chatDate}}</p>
         </li>
         <li class="message" [class.message__myself]="record.sendTo !== this.userId"
-          [class.message__friend]="record.sendTo === this.userId">
+          [class.message__friend]="record.sendTo === this.userId"
+          [class.subMessage]="isAppendage(this.messageHistory, index, record)">
           <div class="avatar">
             <img *ngIf="this.showAvatar(this.messageHistory, index, record)"
               [src]="this.friend.avatar || this.defaultAvatar" alt="">
@@ -27,12 +35,21 @@
             <p class="text">{{record.message}}</p>
             <div class="caption">
               <p *ngIf="this.record.isRead && this.record.sendTo !== this.userId">已讀</p>
-              <p class="time">{{record.sendTime|chatTime}}</p>
+              <p class="time">{{this.hideTime(this.messageHistory, index, record) ? '' : record.sendTime|chatTime}}</p>
             </div>
+            <!-- 對話框尾巴 -->
+            <span *ngIf="!isAppendage(this.messageHistory, index, record)"></span>
           </div>
         </li>
       </ng-container>
     </ul>
+    <!-- scroll button -->
+    <button class="scroll-button" (click)="scrollToBottom(tScrollContainer, tMessages)"
+      [class.fade-down-out]="isScrollToBottom">
+      <span class="material-icons">
+        arrow_downward
+      </span>
+    </button>
   </section>
   <footer #tFooter>
     <textarea [(ngModel)]="this.message" (keydown)="this.afterKeydown($event)" class="p-0"
