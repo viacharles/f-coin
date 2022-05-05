@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { Posts } from '../../shared/models/posts.model';
+import { Post } from '@social/shared/models/posts.model';
 
 @Component({
   selector: 'app-shared-wall',
@@ -11,7 +11,7 @@ export class SharedWallComponent implements OnInit {
 
   constructor(private router: Router) { }
 
-  public postsHistory: Posts[]|null = null; 
+  public postsHistory: Post[]|null = null;
 
   ngOnInit(): void {
   }

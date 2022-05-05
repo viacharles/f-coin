@@ -2,9 +2,9 @@ import { Pipe, PipeTransform } from '@angular/core';
 import firebase from 'firebase';
 
 @Pipe({
-  name: 'chatDate'
+  name: 'chatListDate'
 })
-export class ChatDatePipe implements PipeTransform {
+export class ChatListDatePipe implements PipeTransform {
 
   transform(value: firebase.firestore.Timestamp|null ): string {
     if (value) {
@@ -22,8 +22,9 @@ export class ChatDatePipe implements PipeTransform {
       }
       return this.isToday(date) ? '今天'
              : this.isYestday(date) ? '昨天'
+             : this.isSameWeek(date) ? `星期${day}`
              : this.isOtherYear(date) ? `${dateFormat[0]}.${dateFormat[1]}.${dateFormat[2]}`
-             : `${dateFormat[1]}月${dateFormat[2]}日(${day})`;
+             : `${dateFormat[1]}月${dateFormat[2]}日`;
     }
     return '';
   }
@@ -34,7 +35,13 @@ export class ChatDatePipe implements PipeTransform {
 
   private isYestday(date: Date): boolean {
     const today = new Date();
-    return !this.isToday(date) && (new Date(today.getTime() - (24 * 3600 * 1000)).toDateString()) === date.toDateString();
+    return today !== date && (new Date(today.getTime() - (24 * 3600 * 1000)).getDate()) === date.getDate();
+  }
+
+  private isSameWeek(date: Date): boolean {
+    const today = new Date();
+    return ((new Date().valueOf() - date.valueOf()) / (1000 * 60 * 60 * 24)) < (new Date().getDay() - 1)
+            && 0 < (new Date().getDay() - 1) - ((new Date().valueOf() - date.valueOf()) /(1000 * 60 * 60 * 24));
   }
 
   private isOtherYear(date: Date): boolean {

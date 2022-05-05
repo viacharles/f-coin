@@ -9,7 +9,8 @@
       <label [for]="menu.key" class="material-icons">
         {{menu.value.icon}}
       </label>
-      <p *ngIf="menu.key === this.moduleType.User">{{this.unreadMessages.length}}</p>
+      <span class="des" *ngIf="showUserMark(menu.key)">{{this.unreadMessages.length > 999 ? '999+' : this.unreadMessages.length}}</span>
+      <span class="warnRound" *ngIf="showFriendMark(menu.key)"></span>
     </li>
   </ng-container>
 </ul>

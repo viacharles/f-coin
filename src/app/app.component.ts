@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { OverlayService } from '@shared/overlay/overlay.service';
+import { UserService } from '@user/shared/services/user.service';
 import { EIndividualPage } from '@utility/enum/route.enum';
 import { IndividualPageQueue } from '@utility/map/router.map';
 
@@ -12,6 +13,7 @@ import { IndividualPageQueue } from '@utility/map/router.map';
 export class AppComponent implements OnInit {
   constructor(
     public router: Router,
+    public $user: UserService,
     public $overlay: OverlayService,
   ) { }
   ngOnInit(): void {

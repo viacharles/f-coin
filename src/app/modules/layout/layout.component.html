@@ -1,25 +1,22 @@
-<ng-container *ngIf="this.$user.user$ | async as user">
-  <aside>
-    <app-menu [module]="this.module" (moduleChanged)="moduleChanged($event)" [user]="user"
-      [messages]="this.messageHistory"></app-menu>
-  </aside>
-  <div class="w-100 h-100">
-    <header #tHeader [hidden]="this.module !== this.Module.User" class="w-100 fc-border-b">
-      <app-header></app-header>
-    </header>
-    <main class="d-flex flex-row align-itmes-center w-100"
-      [style.height]="'calc(100% - ' + tHeader.clientHeight + 'px)'">
-      <nav class="fc-border-r" [ngSwitch]="this.module">
-        <app-chat-list *ngSwitchCase="this.Module.User" [user]="user" [messages]="this.messageHistory"
-          (updateModule)="this.module">
-        </app-chat-list>
-        <app-coining *ngSwitchCase="this.Module.Business" [user]="user"></app-coining>
-        <app-add-friend *ngSwitchCase="this.Module.Friend" [user]="user" (updateModule)="this.module"></app-add-friend>
-        <app-post-edit *ngSwitchCase="this.Module.Social"></app-post-edit>
-      </nav>
-      <section>
-        <router-outlet></router-outlet>
-      </section>
-    </main>
-  </div>
-</ng-container>
+<aside>
+  <app-menu [module]="this.module" (moduleChanged)="moduleChanged($event)" [user]="user"
+    [messages]="this.messageHistory"></app-menu>
+</aside>
+<div class="w-100 h-100">
+  <header #tHeader [hidden]="this.module !== this.Module.User" class="w-100 fc-border-b">
+    <app-header></app-header>
+  </header>
+  <main class="d-flex flex-row align-itmes-center w-100" [style.height]="'calc(100% - ' + tHeader.clientHeight + 'px)'">
+    <nav #tSubmenu class="fc-border-r" [ngSwitch]="this.module">
+      <app-chat-list *ngSwitchCase="this.Module.User" [user]="user" [messages]="this.messageHistory"
+        (updateModule)="this.module">
+      </app-chat-list>
+      <app-coining *ngSwitchCase="this.Module.Business" [user]="user"></app-coining>
+      <app-add-friend *ngSwitchCase="this.Module.Friend" [user]="user" (updateModule)="this.module"></app-add-friend>
+      <app-post-edit *ngSwitchCase="this.Module.Social"></app-post-edit>
+    </nav>
+    <section #tPage>
+      <router-outlet></router-outlet>
+    </section>
+  </main>
+</div>

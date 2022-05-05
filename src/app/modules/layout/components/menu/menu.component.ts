@@ -33,7 +33,7 @@ export class MenuComponent extends BaseComponent {
   get unreadMessages(): IMessage[] { return this.messages.filter(({ isRead, sendTo }) => !isRead && sendTo === this.user.id); }
   get moduleType(): typeof EModule { return EModule; }
 
-  public toggleProfileDialog() {
+  public toggleProfileDialog(): void {
     this.$overlay.toggleDialog<IUserProfileDialog>(UserProfileDialogComponent, {
       config: {
         user: this.user as User
@@ -42,5 +42,15 @@ export class MenuComponent extends BaseComponent {
         backdropClose: true
       }
     });
+  }
+
+  /** 顯示聊天室 ICON 記號 */
+  public showUserMark(key: EModule): boolean {
+    return key === EModule.User && (this.unreadMessages.length as number) > 0;
+  }
+
+  /** 顯示加入好友 ICON 記號 */
+  public showFriendMark(key: EModule): boolean {
+    return key === EModule.Friend && this.user?.inviteAddFriends.length !== 0;
   }
 }

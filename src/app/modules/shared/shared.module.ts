@@ -1,3 +1,4 @@
+import { DirectiveModule } from './directive/directive.module';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -7,7 +8,7 @@ import { PipesModule } from './pipes/pipes.module';
 
 @NgModule({
   declarations: [],
-  imports: [CommonModule, FormsModule, ReactiveFormsModule, OverlayModule, InputModule, PipesModule],
-  exports: [FormsModule, ReactiveFormsModule, OverlayModule, InputModule, PipesModule],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule, OverlayModule, InputModule, PipesModule, DirectiveModule],
+  exports: [FormsModule, ReactiveFormsModule, OverlayModule, InputModule, PipesModule, DirectiveModule],
 })
 export class SharedModule { }

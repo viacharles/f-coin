@@ -1,3 +1,4 @@
+import firebase from 'firebase/app';
 import { IMessage } from '@utility/interface/messageCenter.interface';
 import {
   Component,
@@ -11,6 +12,7 @@ import { tap } from 'rxjs/operators';
 import { User } from '@user/shared/models/user.model';
 import { BaseSubMenu } from '@utility/base/base-sub-menu';
 import { EModule } from '@utility/enum/route.enum';
+
 
 @Component({
   selector: 'app-chat-list',
@@ -57,5 +59,21 @@ export class ChatListComponent extends BaseSubMenu {
     return this.messages.filter(({ sendTo, userId, isRead }) => userId === id && sendTo === this.user.id && !isRead).length;
   }
 
-  private onFriendsUpdated(friends: Friend[]): void { }
+  /**
+   * @description 依照好友id取得聊天室最後一則訊息
+   */
+  public getLastMessageByFriendId(id: string): string {
+    const FilterMessages = this.messages.filter(({ sendTo, userId }) => userId === id );
+    return FilterMessages.length === 0 ? '' : FilterMessages[FilterMessages.length - 1].message;
+  }
+
+  /**
+   * @description 依照好友id取得聊天室最後一則訊息的送出時間
+   */
+  public getLastSendTimeByFriendId(id: string): firebase.firestore.Timestamp|null {
+    const FilterMessages = this.messages.filter(({ sendTo, userId }) => userId === id);
+    return FilterMessages.length === 0 ? null : FilterMessages[FilterMessages.length - 1].sendTime;
+  }
+
+  private onFriendsUpdated(friends: Friend[]): void {}
 }
