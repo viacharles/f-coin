@@ -1,4 +1,6 @@
-<app-layout *ngIf="!this.isIndividualPage(); else tIndividual"></app-layout>
+<ng-container *ngIf="!this.isIndividualPage(); else tIndividual">
+  <app-layout *ngIf="this.$user.user$ | async as user" [user]="user"></app-layout>
+</ng-container>
 <ng-template #tIndividual>
   <router-outlet></router-outlet>
 </ng-template>

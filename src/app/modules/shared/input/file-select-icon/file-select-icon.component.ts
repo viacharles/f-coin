@@ -46,7 +46,6 @@ export class FileSelectIconComponent extends CustomForm<FileList> implements OnI
   public onFileSelected(event: Event): void {
     this.tt = (event.target as HTMLInputElement).files as FileList;
     this.uploadingFiles.emit(this.tt);
-    console.log('onFileSelected', event, (event.target as HTMLInputElement).files , this.tt);
   }
 
 }

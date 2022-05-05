@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, Subscription } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { Friend } from '@friend/shared/models/friend.model';
 import { User } from '@user/shared/models/user.model';
 import { IUser } from '@utility/interface/user.interface';
@@ -26,6 +26,10 @@ export class UserService {
 
   private user = new BehaviorSubject<User | null>(null);
   public user$ = this.user.asObservable();
+
+  public resetUser(): void {
+    this.user.next(null);
+  }
 
   /**
    * @description 生成使用者資料

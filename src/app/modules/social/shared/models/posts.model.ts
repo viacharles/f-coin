@@ -1,28 +1,35 @@
 import { IPost } from '@utility/interface/socialCenter.interface';
 import { IEvent } from '@utility/interface/common.interface';
+import { EFileType } from '@utility/enum/file.enum';
 export enum EPostEditAction {
-    FilesUpload = 0,
-    Post,
+    Post = 1,
+    FetchHistory,
+    Upload
 }
 
 export interface IPostEditEvent extends IEvent<EPostEditAction> {
-    id: string;
-    files?: FileList;
+    action: EPostEditAction;
+    uid?: string;
+    name?: string;
+    fileType?: EFileType;
+    files?: File[];
+    images?: string[];
+    article?: string;
 }
 
 
-export class Posts {
-    constructor({ createTime, images, isBigCharacterPost, textContent, likes }: IPost) {
+export class Post {
+    constructor({ createTime, images, article, posterId, likes }: IPost) {
         this.createTime = createTime.toDate();
         this.images = images;
-        this.isBigCharacterPost = isBigCharacterPost;
-        this.textContent = textContent;
+        this.article = article;
+        this.posterId = posterId;
         this.likes = likes;
     }
     public createTime: Date;
     public images: string[];
-    public isBigCharacterPost: boolean;
-    public textContent: string;
+    public article: string;
+    public posterId: string;
     public likes: number;
 }
 

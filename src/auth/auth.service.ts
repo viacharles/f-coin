@@ -9,6 +9,10 @@ import { environment } from 'src/environments/environment';
 import firebase from 'firebase/app';
 import { LoggerService } from '@shared/services/logger.service';
 import { OverlayService } from '@shared/overlay/overlay.service';
+import { ChatService } from '@user/chat/chat.service';
+import {
+  ChatAction as Action,
+} from '@user/shared/models/chat.model';
 
 /**
  * auth
@@ -21,6 +25,7 @@ export class AuthService {
     private $auth: AngularFireAuth,
     private router: Router,
     private $user: UserService,
+    private $chat: ChatService,
     private $logger: LoggerService,
     private $overlay: OverlayService,
     private $fb: FirebaseService
@@ -91,11 +96,14 @@ export class AuthService {
   }
 
   public logout(): void {
-    this.$auth
-      .signOut()
-      .then(() =>
-        this.router.navigateByUrl('landing').then(() => sessionStorage.clear())
-      );
+    this.$user.resetUser();
+    this.$chat.fireEvent({ action: Action.CloseSocket }).then(() =>
+      this.$auth
+        .signOut()
+        .then(() =>
+          this.router.navigateByUrl('landing').then(() => sessionStorage.clear())
+        )
+    );
   }
 
   /**

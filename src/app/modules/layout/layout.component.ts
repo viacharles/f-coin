@@ -27,7 +27,6 @@ export class LayoutComponent extends BaseComponent {
 
   constructor(
     public $navigation: NavigationService,
-    public $user: UserService,
     private $chat: ChatService,
     private $router: Router,
     private $window: WindowService
@@ -39,20 +38,15 @@ export class LayoutComponent extends BaseComponent {
     return EModule;
   }
   public module: EModule = this.$navigation.getModule() || EModule.User;
-  public user!: User;
   public messageHistory: IMessage[] = [];
   private subMenuObserver?: ResizeObserver;
 
   protected onInit(): void {
     this.$chat.messageHistory$.pipe(takeUntil(this.onDestroy$)).subscribe(history => this.messageHistory = history);
-    this.$user.getUser().then((user: User) => {
-      this.user = user;
-      this.$chat.fireEvent<IMessage[]>({ action: Action.CreateSocket, id: user.id });
-    });
+    this.$chat.fireEvent<IMessage[]>({ action: Action.CreateSocket, id: this.user.id });
   }
 
   protected afterViewInit(): void {
-    console.log('layout-observer', this.page, this.submenu)
     if (!this.subMenuObserver) {
       this.subMenuObserver = WindowHelper.generateResizeObserver(({ contentRect: { width }, target }) => {
         switch (target) {

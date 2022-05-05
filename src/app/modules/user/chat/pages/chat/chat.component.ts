@@ -1,3 +1,4 @@
+import { element } from 'protractor';
 import { environment } from './../../../../../../environments/environment.prod';
 import { take, map, takeUntil, filter, tap } from 'rxjs/operators';
 import { Component, ElementRef, QueryList, ViewChild, ViewChildren } from '@angular/core';
@@ -24,8 +25,7 @@ export class ChatComponent extends BaseComponent {
   @ViewChild('tMessages') tMessages?: ElementRef;
   @ViewChildren('tDateDividers') tDateDividers?: QueryList<ElementRef>;
   @ViewChild('tDateBuoy') tDateBuoy?: ElementRef;
-  @ViewChild('tFooter') tFooter?: ElementRef;
-  @ViewChild('tScrollContainer') tScrollContainer?: ElementRef;
+
   constructor(
     private $feature: ChatService,
     public $user: UserService,
@@ -47,7 +47,7 @@ export class ChatComponent extends BaseComponent {
   /**
    * @description 控制聊天室滾動條是否滾至最新訊息
    */
-  private shouldScroll = false;
+  public shouldScroll = false;
   /**
    * @description 聊天室窗滾動條觀察者
    */
@@ -55,18 +55,18 @@ export class ChatComponent extends BaseComponent {
   /**
    * @description 判斷聊天室是否已滾至最底
    */
-   public isAtBottom = true;
+  public isScrollToBottom = true;
 
   ngOnInit(): void {
-    this.$user.getUser().then(user =>  (this.userId = (user as IUser).id));
-
+    this.$user.user$
+      .pipe(take(1))
+      .subscribe((user) => this.userId = (user as IUser).id);
     combineLatest([
       this.$user.friends$.pipe(filter((friends) => friends.length > 0)),
       this.activatedRoute.params.pipe(filter(({ id }) => !!id)).pipe(tap(() => this.shouldScroll = true)),
       this.$feature.messageHistory$
     ]).pipe(
       takeUntil(this.onDestroy$),
-      tap(res => console.log(res)),
       map(([friends, { id }, messages]) => ({ friends, id, messages }))
     ).subscribe(
       ({ id, friends, messages }) => this.initial(id, friends, messages.filter(({ userId }) => userId === id))
@@ -126,7 +126,7 @@ export class ChatComponent extends BaseComponent {
   /**
    * @description 顯示聊天內容部分的scroll進行時
    */
-  public onScroll(event: Event): void {
+  public onScroll({ scrollTop, scrollHeight, clientHeight }: HTMLElement): void {
     this.isScrollStop = false;
     // == 計算 目前 dateBuoy顯示的內容
     const dateBuoyY = this.tDateBuoy?.nativeElement.getBoundingClientRect().y;
@@ -135,10 +135,7 @@ export class ChatComponent extends BaseComponent {
       .filter(num => num <= dateBuoyY) as number[];
     this.dateBuoyValue = (this.tDateDividers?.toArray()[anchors.length === 0 ? 0 : anchors.length - 1] as ElementRef)
       .nativeElement.innerText as string;
-    // == 偵測 是否卷至最底
-    const footerHeight = (this.tFooter?.nativeElement as HTMLElement).clientHeight;
-    const messagesHeight = (this.tMessages?.nativeElement as HTMLElement).clientHeight;
-    this.isAtBottom = (event.target as HTMLElement).scrollTop >= messagesHeight - footerHeight - 286;
+    this.isScrollToBottom = scrollTop + clientHeight >= scrollHeight;
   }
 
   /**
@@ -148,9 +145,8 @@ export class ChatComponent extends BaseComponent {
     this.isScrollStop = true;
   }
 
-  public scrollToBottom(): void {
-    (this.tScrollContainer as ElementRef).nativeElement.scrollTop
-      = (this.tMessages?.nativeElement as HTMLElement).clientHeight;
+  public scrollToBottom(container: HTMLElement, { clientHeight }: HTMLUListElement): void {
+    container.scrollTop = clientHeight;
   }
 
   private initial(friendId: string, friends: Friend[], histories: IMessage[]): void {
@@ -205,7 +201,7 @@ export class ChatComponent extends BaseComponent {
    * two consecutive message sender are not the same id.
    * @param compareLast compare with last or next item.
    */
-   private isDiffUser(history: IMessage[], index: number, record: IMessage, compareLast: boolean): boolean {
+  private isDiffUser(history: IMessage[], index: number, record: IMessage, compareLast: boolean): boolean {
     return (compareLast ? index === 0 : index === history.length - 1) ? true
       : (record.sendTo !== history[compareLast ? index - 1 : index + 1].sendTo);
   }
