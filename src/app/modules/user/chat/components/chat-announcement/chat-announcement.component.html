@@ -1,4 +1,4 @@
-<input type="text" class="form-control" [(ngModel)]="this.keyword" (keydown)="this.afterKeydown($event)">
+<app-search-input [(ngModel)]="this.keyword" (keydown)="this.afterKeydown($event)"></app-search-input>
 <ng-container *ngIf="this.matchMessageIds.length > 0">
   <p>{{this.current + 1}}/{{this.matchMessageIds.length}}</p>
   <nav class="d-flex flex-row align-iems-center ">

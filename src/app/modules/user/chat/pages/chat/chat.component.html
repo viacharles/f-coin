@@ -1,6 +1,6 @@
 <ng-container *ngIf="this.friend; else empty">
-  <header #tHeader class="w-100 fc-border-b">
-    <div class="d-flex flex-row align-items-center justify-content-between w-100">
+  <header #tHeader class="w-100 fc-border-b overflow-unset">
+    <div class="d-flex flex-row align-items-center justify-content-between w-100 overflow-unset">
       <nav>
         <h3>{{this.friend?.name}}</h3>
       </nav>
@@ -12,8 +12,8 @@
         <em class="material-icons">content_paste</em>
       </nav>
     </div>
-    <app-chat-announcement *ngIf="tSearch.checked" [searchElement]="tSearch" [DOMTree]="tMessages"
-      [records]="this.messageHistory">
+    <app-chat-announcement class="overflow-unset" *ngIf="tSearch.checked" [searchElement]="tSearch"
+      [DOMTree]="tMessages" [records]="this.messageHistory">
     </app-chat-announcement>
   </header>
   <section #tScrollContainer class="scroll-bar" [scrollTop]="this.scrollTop" appScrollControl

@@ -13,12 +13,8 @@ $font-level: (
 $font-weight: (
   s: 100,
   m: 400,
-  l: 600
+  l: 600,
 );
-
-// $font-color: {
-//   b: 
-// }
 
 $layout-level: (
   cover: 2,
@@ -41,3 +37,4 @@ $breakpoints: (
 );
 
 $positions: "t", "r", "b", "l";
+

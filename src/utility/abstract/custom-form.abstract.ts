@@ -13,7 +13,7 @@ export function getFormProvider(component: any) {
     }
 }
 
-export abstract class CustomForm<T> extends UnSubOnDestroy implements ControlValueAccessor {
+export abstract class CustomForm<T = any> extends UnSubOnDestroy implements ControlValueAccessor {
     constructor() {
         super();
     }
