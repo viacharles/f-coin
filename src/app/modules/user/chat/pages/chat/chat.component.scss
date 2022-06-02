@@ -12,19 +12,21 @@ nav {
 }
 
 header {
+  border-bottom: none;
+
   div {
     height: 50px;
+    padding: 0 0.8rem;
   }
-  padding: 0 0.8rem;
   h3 {
-    margin-right: 0.5rem;
+    margin: 0 0.5rem 0 0;
     font-size: map-get($font-level, "sm");
   }
 }
 
 app-chat-announcement {
   width: 100%;
-  height: 40px;
+  height: 50px;
 }
 
 .filter {
@@ -80,8 +82,6 @@ footer {
   }
 }
 
-
-
 section {
   position: relative;
   overflow-y: auto;
@@ -91,7 +91,7 @@ section {
     display: inline-block;
     z-index: map-get($layout-level, 'cover' );
     position: fixed;
-    top: calc(47px + 50px + 50px);
+    top: calc(47px + 50px + 10px);
     transform: translateX(-50%);
     padding: 6px 12px;
     font-size: 0.75rem;
@@ -100,6 +100,9 @@ section {
     border: 1px solid #e0e1e3;
     border-radius: 14px;
     opacity: 0;
+    &.top-gap {
+      top: calc(47px + 50px + 50px + 10px);
+    }
   }
   .scroll-button {
     position: fixed;

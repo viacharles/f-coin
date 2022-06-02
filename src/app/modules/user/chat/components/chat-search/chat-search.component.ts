@@ -1,13 +1,14 @@
 import { IMessage } from '@utility/interface/messageCenter.interface';
-import { Component, Input } from '@angular/core';
+import { Component, Input, ElementRef, ViewChild } from '@angular/core';
 import { BaseComponent } from '@utility/base/base-component';
 
 @Component({
   selector: 'app-chat-announcement',
-  templateUrl: './chat-announcement.component.html',
-  styleUrls: ['./chat-announcement.component.scss']
+  templateUrl: './chat-search.component.html',
+  styleUrls: ['./chat-search.component.scss']
 })
-export class ChatAnnouncementComponent extends BaseComponent {
+export class ChatSearchComponent extends BaseComponent {
+
   @Input() records: IMessage[] = [];
   @Input() DOMTree!: HTMLUListElement;
   @Input() searchElement!: HTMLInputElement;
@@ -18,16 +19,18 @@ export class ChatAnnouncementComponent extends BaseComponent {
   /**
    * @description 當前關鍵字
    */
-  public keyword: string = '';
+  public keyword = '';
   /**
    * @description 所有符合條件的聊天紀錄id
    */
   public matchMessageIds: string[] = [];
-  public current: number = 0;
+  public current = 0;
 
-  public switch(offset: number) {
-    this.current = this.current + offset;
-    this.getLiElementById(this.matchMessageIds[this.current]).scrollIntoView();
+  public switch(offset: number): void {
+    if (this.matchMessageIds.length > 0) {
+      this.current = this.current + offset;
+      this.getLiElementById(this.matchMessageIds[this.current]).scrollIntoView();
+    }
   }
 
   public afterKeydown(event: KeyboardEvent): void {
@@ -37,7 +40,7 @@ export class ChatAnnouncementComponent extends BaseComponent {
         .map(({ id }) => id)
         .reverse();
       this.records.forEach(({ id, message }) => {
-        const Element: HTMLElement = this.getLiElementById(id).getElementsByTagName('div')[1]!.getElementsByTagName('p')[0]
+        const Element: HTMLElement = this.getLiElementById(id).getElementsByTagName('div')[1].getElementsByTagName('p')[0]
         Element.innerHTML = message.replace(new RegExp(`${this.keyword}`, 'g'), `<span class="text-danger">${this.keyword}</span>`);
       });
       this.switch(0);
@@ -45,6 +48,6 @@ export class ChatAnnouncementComponent extends BaseComponent {
   }
 
   private getLiElementById(id: string): HTMLElement {
-    return this.DOMTree.getElementsByClassName('message')!.namedItem(id) as HTMLElement;
+    return this.DOMTree.getElementsByClassName('message').namedItem(id) as HTMLElement;
   }
 }

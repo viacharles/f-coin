@@ -21,7 +21,8 @@
     [style.height]="'calc('+ '100% - ' + tHeader.clientHeight + 'px - ' + tFooter.clientHeight + 'px)'">
     <!-- date buoy -->
     <div #tDateBuoy class="date-buoy" *ngIf="this.dateBuoyValue && !isScrollToBottom" [style.left]="this.dateBuoyLeft"
-      [class.fade-out]="this.isScrollStop" [class.fade-in]="!this.isScrollStop">
+      [class.fade-out]="this.isScrollStop" [class.fade-in]="!this.isScrollStop"
+      [class.top-gap]="tSearch.checked">
       {{this.dateBuoyValue}}
     </div>
 

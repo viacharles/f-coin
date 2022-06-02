@@ -1,7 +1,7 @@
 import { element } from 'protractor';
 import { environment } from './../../../../../../environments/environment.prod';
 import { take, map, takeUntil, filter, tap } from 'rxjs/operators';
-import { Component, ElementRef, QueryList, ViewChild, ViewChildren } from '@angular/core';
+import { Component, DoCheck, ElementRef, QueryList, SimpleChanges, ViewChild, ViewChildren } from '@angular/core';
 import { ChatService } from '@user/chat/chat.service';
 import { ChatAction as Action } from '@user/shared/models/chat.model';
 import { UserService } from '@user/shared/services/user.service';
@@ -25,6 +25,7 @@ export class ChatComponent extends BaseComponent {
   @ViewChild('tMessages') tMessages?: ElementRef;
   @ViewChildren('tDateDividers') tDateDividers?: QueryList<ElementRef>;
   @ViewChild('tDateBuoy') tDateBuoy?: ElementRef;
+  @ViewChild('tSearch') tSearch?: ElementRef;
 
   constructor(
     private $feature: ChatService,
@@ -41,9 +42,18 @@ export class ChatComponent extends BaseComponent {
   public messageHistory: IMessage[] = [];
   public defaultAvatar = environment.defaultAvatar;
   public scrollTop = 0;
-  public dateBuoyValue = '';                              // DateBuoy裡顯示的文字
-  public showDateBuoy = false;                            // 是否顯示DateBuoy
-  public isScrollStop?: boolean;                          // 表示scroll是否停的
+  /**
+   * @description DateBuoy裡顯示的文字
+   */
+  public dateBuoyValue = '';
+  /**
+   * @description 是否顯示DateBuoy
+   */
+  public showDateBuoy = false;
+  /**
+   * @description 表示scroll是否停的
+   */
+  public isScrollStop?: boolean;
   /**
    * @description 控制聊天室滾動條是否滾至最新訊息
    */
@@ -57,13 +67,16 @@ export class ChatComponent extends BaseComponent {
    */
   public isScrollToBottom = true;
 
-  ngOnInit(): void {
+  onInit(): void {
     this.$user.user$
       .pipe(take(1))
       .subscribe((user) => this.userId = (user as IUser).id);
     combineLatest([
       this.$user.friends$.pipe(filter((friends) => friends.length > 0)),
-      this.activatedRoute.params.pipe(filter(({ id }) => !!id)).pipe(tap(() => this.shouldScroll = true)),
+      this.activatedRoute.params.pipe(
+        filter(({ id }) => !!id),
+        tap(() => this.afterChatIdChanged())
+      ),
       this.$feature.messageHistory$
     ]).pipe(
       takeUntil(this.onDestroy$),
@@ -111,7 +124,7 @@ export class ChatComponent extends BaseComponent {
     }
   }
 
-  public autoResized(target: any) {
+  public autoResized(target: any): void {
     const Target = target as HTMLElement;
     Target.style.height = '80px';
     Target.style.height = `${Target.scrollHeight}px`;
@@ -156,6 +169,13 @@ export class ChatComponent extends BaseComponent {
 
   public scrollToBottom(container: HTMLElement, { clientHeight }: HTMLUListElement): void {
     container.scrollTop = clientHeight;
+  }
+
+  private afterChatIdChanged(): void {
+    this.shouldScroll = true;
+    if ((this.tSearch?.nativeElement as HTMLInputElement)?.checked) {
+      (this.tSearch?.nativeElement as HTMLInputElement).checked = false;
+    }
   }
 
   private initial(friendId: string, friends: Friend[], histories: IMessage[]): void {
