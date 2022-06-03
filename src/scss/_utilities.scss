@@ -1,0 +1,13 @@
+$overflow-values: auto, scroll, unset;
+
+@each $value in $overflow-values {
+  .overflow-#{$value} {
+    overflow: $value;
+  }
+}
+
+@each $key, $value in $layout-level {
+  .layer-#{$key} {
+    z-index: $value !important;
+  }
+}

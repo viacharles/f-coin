@@ -43,7 +43,9 @@ export class ChatSearchComponent extends BaseComponent {
         const Element: HTMLElement = this.getLiElementById(id).getElementsByTagName('div')[1].getElementsByTagName('p')[0]
         Element.innerHTML = message.replace(new RegExp(`${this.keyword}`, 'g'), `<span class="text-danger">${this.keyword}</span>`);
       });
-      this.switch(0);
+      if (this.matchMessageIds.length > 0) {
+        this.switch(0);
+      }
     }
   }
 
