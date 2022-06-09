@@ -5,6 +5,7 @@ import { DialogComponent } from '@shared/overlay/dialog/dialog.component';
 import { OverlayService } from '@shared/overlay/overlay.service';
 import { BaseDialog } from '@utility/base/base-dialog';
 import { IUser, IUserProfileDialog } from '@utility/interface/user.interface';
+import { FileService } from '@shared/services/file.service';
 
 @Component({
   selector: 'app-user-profile-dialog',
@@ -15,7 +16,8 @@ export class UserProfileDialogComponent extends BaseDialog<IUserProfileDialog> {
 
   constructor(
     $overlay: OverlayService, dialog: DialogComponent,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private $file: FileService
   ) {
     super($overlay, dialog);
   }
@@ -36,6 +38,8 @@ export class UserProfileDialogComponent extends BaseDialog<IUserProfileDialog> {
     });
   }
 
-
+  public uploadAvatar(target: EventTarget) {
+    this.$file.formatFileToBase64((target as HTMLInputElement).files![0]).then(avatar => console.log(avatar));
+  }
 
 }

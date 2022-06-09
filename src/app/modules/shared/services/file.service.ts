@@ -37,4 +37,21 @@ export class FileService {
     const Task = this.storage.upload(`${fileType}/${new Date().toISOString()}-${fileName}.${file.name.split('.')[1]}`, file);
     return Task;
   }
+
+  /**
+   * @description 轉換檔案為base64格式
+   */
+  public formatFileToBase64(file: File, allowTypes = ['jpg', 'jpeg', 'png', 'gif', 'svg']): Promise<string> {
+    return new Promise<string>(resolve => {
+      if (new RegExp(`.${allowTypes.join('|')}$`).test(file.name)) {
+        const Reader = new FileReader();
+        Reader.onload = () => {
+          resolve(Reader.result as string);
+        };
+        Reader.readAsDataURL(file);
+      } else {
+
+      }
+    });
+  }
 }

@@ -1,6 +1,6 @@
 <app-dialog (close)="this.close()">
   <h1 title>使用者資料</h1>
-  <img [src]="this.form.controls.avatar.value">
+  <ng-template [ngTemplateOutlet]="tAvatar"></ng-template>
   <form class="row" [formGroup]="this.form">
     <div class="col-md-6 col-12 mt-3">
       <h3>名稱</h3>
@@ -12,3 +12,11 @@
     </div>
   </form>
 </app-dialog>
+
+<ng-template #tAvatar>
+  <button class="p-0">
+    <img [src]="this.form.controls.avatar.value">
+    <input id="avatar-uploader" type="file" class="d-none" (change)="this.uploadAvatar($event.target!)">
+    <label for="avatar-uploader" class="material-icons">add_a_photo</label>
+  </button>
+</ng-template>
