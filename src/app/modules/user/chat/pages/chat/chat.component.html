@@ -12,9 +12,9 @@
         <em class="material-icons">content_paste</em>
       </nav>
     </div>
-    <app-chat-announcement class="overflow-unset" *ngIf="tSearch.checked" [searchElement]="tSearch"
-      [DOMTree]="tMessages" [records]="this.messageHistory">
-    </app-chat-announcement>
+    <app-search-input class="overflow-unset" *ngIf="tSearch.checked" [searchElement]="tSearch" 
+      [DOMTree]="tMessages" [records]="this.messageHistory" (keyDown)="null" (closed)="tSearch.checked = false">
+    </app-search-input>
   </header>
   <section #tScrollContainer class="scroll-bar" [scrollTop]="this.scrollTop" appScrollControl
     (scrolling)="onScroll(tScrollContainer)" (scrollEnd)="onScrollEnd()"

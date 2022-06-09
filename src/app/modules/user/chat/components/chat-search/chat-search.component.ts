@@ -1,5 +1,5 @@
 import { IMessage } from '@utility/interface/messageCenter.interface';
-import { Component, Input, ElementRef, ViewChild } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { BaseComponent } from '@utility/base/base-component';
 
 @Component({

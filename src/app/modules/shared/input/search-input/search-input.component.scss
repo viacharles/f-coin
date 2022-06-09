@@ -1,15 +1,46 @@
+@import 'variables';
+
 :host {
-  display: block;
+  display: flex;
+  flex-direction: row;
   position: relative;
   overflow: unset;
+  padding: .6rem;
+  background-color: #f9f9f9;
+  border-bottom: 1px solid #e6e6e6;
+}
+
+label {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  height: 30px;
+  padding: 0 .5rem;
+}
+
+input {
+  height: 30px;
+  font-size: map-get($font-level, 'xs' );
+  border: none;
 }
 
 section {
   position: absolute;
-  top: calc(100% + 5px);
-  left: 0;
-  width: 100%;
+  top: calc(100% - 10px);
+  left: 0.6rem;
+  width: calc(100% - 1.2rem - 33px);
   padding: 1rem;
   border: 1px solid black;
   background-color: white;
 }
+
+button {
+  border: none;
+  color: $secondary-text;
+  background-color: transparent;
+  &:disabled {
+    color: $caption-text;
+  }
+}
+
+

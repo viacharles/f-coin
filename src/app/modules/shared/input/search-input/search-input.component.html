@@ -1,4 +1,26 @@
-<input type="text" class="form-control" [(ngModel)]="this.value" (keydown)="this.keydown.emit($event)">
-<section class="layer-important" *ngIf="this.isShow">
+<label class="form-control" for="input">
+    <span class="material-icons">
+        search
+    </span>
+    <input type="text" class="form-control" id="input" [(ngModel)]="this.keyword" (keydown)="this.keyDown.emit($event)">
+    <ng-container *ngIf="this.matchMessageIds.length > 0">
+        <p >{{this.current + 1}}/{{this.matchMessageIds.length}}</p>
+        <button [disabled]="this.current >= this.matchMessageIds.length" (click)="switch(1)">
+            <span class="material-icons"> 
+                expand_less
+            </span>
+        </button>
+        <button [disabled]="this.current <= 0" (click)="switch(-1)">
+            <span class="material-icons"> 
+                keyboard_arrow_down
+            </span>
+        </button>
+    </ng-container>
+    <section class="layer-important" *ngIf="!!this.keyword && this.isShow">
+    
+    </section>
+</label>
+<button>
+    <span class="material-icons" (click)="this.closed.emit()">clear</span>
+</button>
 
-</section>
