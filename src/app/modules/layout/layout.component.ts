@@ -80,6 +80,5 @@ export class LayoutComponent extends BaseComponent {
         this.$router.navigateByUrl(`${EModule.User}/${UserPageMap.get(EUserPage.Chat)?.path}`);
         break;
     }
-
   }
 }

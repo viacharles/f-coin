@@ -12,7 +12,7 @@
         },
         "@schematics/angular:application": {
           "strict": true
-        }, 
+        },
         "@schematics/angular:class": {
           "skipTests": true
         },

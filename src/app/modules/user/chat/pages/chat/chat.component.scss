@@ -12,25 +12,24 @@ nav {
 }
 
 header {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-  height: 50px;
-  padding: 0 0.8rem;
-  position: relative;
+  border-bottom: none;
+
+  div {
+    height: 50px;
+    padding: 0 0.8rem;
+  }
   h3 {
-    margin-right: 0.5rem;
+    margin: 0 0.5rem 0 0;
     font-size: map-get($font-level, "sm");
+  }
+  label {
+    margin-right: 10px;
   }
 }
 
 app-chat-announcement {
   width: 100%;
-  position: absolute;
-  top: 50px;
-  left: 0;
-  height: 40px;
+  height: 50px;
 }
 
 .filter {
@@ -52,6 +51,7 @@ footer {
     max-height: 140px;
     border: none;
     resize: none;
+    overflow: hidden;
     font-size: map-get($font-level, "xs");
     &::placeholder {
       color: rgba(0, 0, 0, 0.2);
@@ -85,8 +85,6 @@ footer {
   }
 }
 
-
-
 section {
   position: relative;
   overflow-y: auto;
@@ -96,7 +94,7 @@ section {
     display: inline-block;
     z-index: map-get($layout-level, 'cover' );
     position: fixed;
-    top: calc(47px + 50px + 50px); 
+    top: calc(47px + 50px + 10px);
     transform: translateX(-50%);
     padding: 6px 12px;
     font-size: 0.75rem;
@@ -105,6 +103,9 @@ section {
     border: 1px solid #e0e1e3;
     border-radius: 14px;
     opacity: 0;
+    &.top-gap {
+      top: calc(47px + 50px + 50px + 10px);
+    }
   }
   .scroll-button {
     position: fixed;
@@ -131,7 +132,7 @@ section {
   margin: 21px 0 10px 0;
   p {
     padding: 6px 12px;
-    font-size: map-get($font-level , "xs");
+    font-size: map-get($font-level, "xs");
     color: $caption-text;
     background-color: $disable-area-background;
     border-radius: 11px;
@@ -162,7 +163,7 @@ section {
     align-items: flex-start;
     min-width: fit-content;
     padding: 0 7px;
-    font-size: map-get($font-level, 'xs');
+    font-size: map-get($font-level, "xs");
     color: $caption-text;
     white-space: nowrap;
   }
@@ -191,13 +192,13 @@ section {
         transform: rotate(73deg);
       }
     }
-    .caption { 
+    .caption {
       align-items: flex-end;
     }
     .text {
       position: relative;
       background: $self-message-background;
-    
+
     }
   }
 
@@ -233,6 +234,12 @@ section {
       }
     }
   }
+}
+
+:host::ng-deep .matched-message {
+  font-weight: map-get($font-weight, 'l' );
+  color:rgb(40, 142, 244);
+  background-color: rgb(239, 239, 89) !important;
 }
 
 .small-padding {
@@ -272,11 +279,11 @@ section {
 
 @keyframes fade-down-out {
   0% {
-   opacity: .9;
-   transform: translateY(0);
+    opacity: .9;
+    transform: translateY(0);
   } 100% {
-   opacity: .9;
-   transform: translateY(75px);
+    opacity: .9;
+    transform: translateY(75px);
   }
 }
 

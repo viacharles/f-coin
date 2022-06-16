@@ -1,0 +1,22 @@
+<label class="form-control" for="scearh-input">
+    <em class="material-icons">search</em>
+    <input type="text" [(ngModel)]="this.keyword" (keydown)="this.afterKeydown($event)" id="scearh-input">
+    <ng-container *ngIf="this.matchMessageIds.length > 0">
+        <p>{{this.current + 1}}/{{this.matchMessageIds.length}}</p>
+        <nav class="d-flex flex-row align-iems-center ">
+            <button [disabled]="(this.current + 1) >= this.matchMessageIds.length" (click)="this.switch(1)">
+                <em class="material-icons">expand_less</em>
+            </button>
+            <button [disabled]="this.current === 0" (click)="this.switch(-1)">
+                <em class="material-icons">keyboard_arrow_down</em>
+            </button>
+        </nav>
+    </ng-container>
+</label>
+<section *ngIf="this.isShow" class="layer-important d-flex flex-row " (click)="search()">
+    <p>{{this.keyword}}</p>
+    <p>&nbsp;-&nbsp;搜尋訊息</p>
+</section>
+<button (click)="this.searchElement.checked = false;">
+    <em class="material-icons">clear</em>
+</button>

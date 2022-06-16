@@ -1,9 +1,0 @@
-{
-    "version": 3,
-    "mappings": "AAAA,AAAA,KAAK,CAAC;EACJ,OAAO,EAAE,KAAK;CACf",
-    "sources": [
-        "chat-announcement.component.scss"
-    ],
-    "names": [],
-    "file": "chat-announcement.component.css"
-}

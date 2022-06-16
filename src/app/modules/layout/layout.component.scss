@@ -22,6 +22,14 @@ nav {
   min-width: 325px;
   height: 100%;
   overflow-y: auto;
+  div {
+    position: fixed;
+    right: 0;
+    top: 0;
+    width: 6px;
+    height: 100%;
+    background-color: red;
+  }
 }
 
 section {
