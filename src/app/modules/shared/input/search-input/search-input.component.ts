@@ -25,7 +25,7 @@ export class SearchInputComponent extends CustomForm<string> implements OnInit, 
   }
 
   /**
-   * @description 是否顯示 app-search-input
+   * @description 是否顯示 下拉選項
    */
   public isShow = false;
 
@@ -49,25 +49,25 @@ export class SearchInputComponent extends CustomForm<string> implements OnInit, 
     }));
   }
 
-  ngOnDestroy(): void {
-      const [ClickEvent, DoubleClickEvent] = this.eventListeners;
-      document.removeEventListener('click', ClickEvent);
-      document.removeEventListener('dblclick', DoubleClickEvent);
-  }
-
   public afterKeydown(event: KeyboardEvent): void {
     if (event.key === 'Enter' && this.keyword?.trim() !== '' && !event.isComposing) {
-      this.matchMessageIds = this.records
-        .filter(({ message }) => message.includes(this.keyword))
-        .map(({ id }) => id)
-        .reverse();
-      this.records.forEach(({ id, message }) => {
-        const Element: HTMLElement = this.getLiElementById(id).getElementsByTagName('div')[1].getElementsByTagName('p')[0]
-        Element.innerHTML = message.replace(new RegExp(`${this.keyword}`, 'g'), `<span class="text-danger">${this.keyword}</span>`);
-      });
-      if (this.matchMessageIds.length > 0) {
-        this.switch(0);
-      }
+      this.search();
+    }
+  }
+
+  public search(): void {
+    console.log('search')
+    this.isShow = false;
+    this.matchMessageIds = this.records
+    .filter(({ message }) => message.includes(this.keyword))
+    .map(({ id }) => id)
+    .reverse();
+    this.records.forEach(({ id, message }) => {
+      const Element: HTMLElement = this.getLiElementById(id).getElementsByTagName('div')[1].getElementsByTagName('p')[0]
+      Element.innerHTML = message.replace(new RegExp(`${this.keyword}`, 'g'), `<span class="matched-message">${this.keyword}</span>`);
+    });
+    if (this.matchMessageIds.length > 0) {
+      this.switch(0);
     }
   }
 
@@ -89,4 +89,10 @@ export class SearchInputComponent extends CustomForm<string> implements OnInit, 
   private isTargetInside({ target }: MouseEvent, html: HTMLElement): boolean {
     return html.contains(target as HTMLElement);
   }
+
+  ngOnDestroy(): void {
+    const [ClickEvent, DoubleClickEvent] = this.eventListeners;
+    document.removeEventListener('click', ClickEvent);
+    document.removeEventListener('dblclick', DoubleClickEvent);
+}
 }

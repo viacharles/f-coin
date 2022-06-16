@@ -41,8 +41,10 @@ label {
 
 input {
   height: 32px;
+  width: 100%;
   font-size: map-get($font-level, 'sm' );
   border: none;
+  outline: none;
 }
 
 section {
