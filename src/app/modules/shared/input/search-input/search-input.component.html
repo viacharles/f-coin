@@ -1,26 +1,28 @@
-<label class="form-control" for="input">
+<label class="form-control" for="scearh-input">
     <span class="material-icons">
-        search
+    search
     </span>
-    <input type="text" class="form-control" id="input" [(ngModel)]="this.keyword" (keydown)="this.keyDown.emit($event)">
+    <input type="text" [(ngModel)]="this.keyword" (keydown)="this.afterKeydown($event)" id="scearh-input">
     <ng-container *ngIf="this.matchMessageIds.length > 0">
-        <p >{{this.current + 1}}/{{this.matchMessageIds.length}}</p>
-        <button [disabled]="this.current >= this.matchMessageIds.length" (click)="switch(1)">
-            <span class="material-icons"> 
-                expand_less
+      <p>{{this.current + 1}}/{{this.matchMessageIds.length}}</p>
+      <nav class="d-flex flex-row align-iems-center ">
+        <button [disabled]="(this.current + 1) >= this.matchMessageIds.length" (click)="this.switch(1)">
+          <span class="material-icons">
+            expand_less
             </span>
         </button>
-        <button [disabled]="this.current <= 0" (click)="switch(-1)">
-            <span class="material-icons"> 
-                keyboard_arrow_down
+        <button [disabled]="this.current === 0" (click)="this.switch(-1)">
+          <span class="material-icons">
+            keyboard_arrow_down
             </span>
         </button>
+      </nav>
     </ng-container>
-    <section class="layer-important" *ngIf="!!this.keyword && this.isShow">
-    
+    <section *ngIf = "this.isShow" class="layer-important d-flex flex-row " >
+        <p>{{this.keyword}}</p><p>&nbsp;-&nbsp;搜尋訊息</p>
     </section>
 </label>
-<button>
-    <span class="material-icons" (click)="this.closed.emit()">clear</span>
+<button (click)="this.searchElement.checked = false;">
+  <span class="material-icons">clear</span>
 </button>
 

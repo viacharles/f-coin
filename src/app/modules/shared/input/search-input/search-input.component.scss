@@ -5,22 +5,43 @@
   flex-direction: row;
   position: relative;
   overflow: unset;
-  padding: .6rem;
+  padding: 0.6rem  0.3rem 0.6rem 0.6rem;
   background-color: #f9f9f9;
-  border-bottom: 1px solid #e6e6e6;
+  border-bottom: 1px solid $normal-border;
+  & button em {
+    font-size: map-get($font-level, 'xl' );
+    font-weight: map-get($font-weight, 's');
+  }
 }
 
 label {
   display: flex;
   flex-direction: row;
   align-items: center;
-  height: 30px;
+  height: 32px;
+  margin-right: 0.2rem;
   padding: 0 .5rem;
+  border: 1px solid $frame-border;
+  & > em {
+    color: $function-icon;
+    font-size: map-get($font-level, 'sx');
+  }
+  & > p {
+    color: $function-icon;
+    width: 30px;
+    font-size: map-get($font-level, 'sm');
+  }
+  & > button {
+    padding: 0;
+  }
+  &.optionOpen  {
+    border-radius: .25rem .25rem 0 0;
+  }
 }
 
 input {
-  height: 30px;
-  font-size: map-get($font-level, 'xs' );
+  height: 32px;
+  font-size: map-get($font-level, 'sm' );
   border: none;
 }
 
@@ -28,19 +49,38 @@ section {
   position: absolute;
   top: calc(100% - 10px);
   left: 0.6rem;
-  width: calc(100% - 1.2rem - 33px);
-  padding: 1rem;
-  border: 1px solid black;
+  width: calc(100% - 0.6rem - 0.6rem - 32.66px);
+  height: 35px;
+  padding: 0 0.6rem;
+  font-size: map-get($font-level, 'sm' );
+  border: 1px solid $frame-border;
+  border-radius: 0 0 0.25rem 0.25rem;
   background-color: white;
-}
-
-button {
-  border: none;
-  color: $secondary-text;
-  background-color: transparent;
-  &:disabled {
+  &:hover {
+    background-color: rgb(243, 243, 243);
+  }
+  &.optionOpen {
+    border-top: none;
+  }
+  p {
+    height: 35px;
+    line-height: 35px;
+  }
+  p:nth-child(2) {
     color: $caption-text;
   }
 }
 
-
+button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background-color: transparent;
+  &:disabled > em {
+    color: $caption-text;
+  }
+  & em {
+    color: $secondary-text;
+  }
+}

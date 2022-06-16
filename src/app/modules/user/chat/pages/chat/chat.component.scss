@@ -22,6 +22,9 @@ header {
     margin: 0 0.5rem 0 0;
     font-size: map-get($font-level, "sm");
   }
+  label {
+    margin-right: 10px;
+  }
 }
 
 app-chat-announcement {
@@ -233,6 +236,12 @@ section {
   }
 }
 
+.matched-message {
+  font-weight: map-get($font-weight, 'l' );
+  color:rgb(40, 142, 244);
+  background-color: rgb(239, 239, 89) !important;
+}
+
 .small-padding {
   padding: 0 0 5px 0;
 }
@@ -270,11 +279,11 @@ section {
 
 @keyframes fade-down-out {
   0% {
-   opacity: .9;
-   transform: translateY(0);
+    opacity: .9;
+    transform: translateY(0);
   } 100% {
-   opacity: .9;
-   transform: translateY(75px);
+    opacity: .9;
+    transform: translateY(75px);
   }
 }
 
