@@ -2,7 +2,6 @@ import { takeUntil } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { NavigationService } from '@shared/services/navigation.service';
-import { UserService } from '@user/shared/services/user.service';
 import { ResizeObserver } from 'resize-observer';
 
 import { EModule, ESocialPage, EUserPage } from '@utility/enum/route.enum';
@@ -14,7 +13,7 @@ import { ChatAction as Action } from '@user/shared/models/chat.model';
 import { BaseComponent } from '@utility/base/base-component';
 import { ChatService } from '@user/chat/chat.service';
 import { WindowService } from '@shared/services/window.service';
-import { User } from '@user/shared/models/user.model';
+import { IDragMove, IMove } from '@utility/interface/common.interface';
 
 @Component({
   selector: 'app-layout',
@@ -25,14 +24,11 @@ export class LayoutComponent extends BaseComponent {
   @ViewChild('tSubmenu') submenu?: ElementRef;
   @ViewChild('tPage') page?: ElementRef;
 
+  private dragLastX!: number;
+
   constructor(
-    public $navigation: NavigationService,
-    private $chat: ChatService,
-    private $router: Router,
-    private $window: WindowService
-  ) {
-    super();
-  }
+    public $navigation: NavigationService, private $chat: ChatService, private $router: Router, private $window: WindowService
+  ) { super(); }
 
   get Module(): typeof EModule {
     return EModule;
@@ -80,5 +76,26 @@ export class LayoutComponent extends BaseComponent {
         this.$router.navigateByUrl(`${EModule.User}/${UserPageMap.get(EUserPage.Chat)?.path}`);
         break;
     }
+  }
+
+  /**
+   * @description drag border to change the width of page and submenu.
+   */
+  public dragBorderMove(event: DragEvent): void {
+    if (event.clientX
+      && (this.submenu as ElementRef).nativeElement.clientWidth > 300
+      && (this.page as ElementRef).nativeElement.clientWidth > 320) {
+      (this.page as ElementRef).nativeElement.style.width = `${window.innerWidth - event.clientX}px`;
+      (this.submenu as ElementRef).nativeElement.style.width = `${event.clientX}px`;
+    }
+  }
+
+  public dragEnd(event: DragEvent): void {
+    (this.page as ElementRef).nativeElement.style.width =
+    (this.page as ElementRef).nativeElement.clientWidth < 320 ? 320
+        : `${window.innerWidth - event.clientX}px`;
+    (this.submenu as ElementRef).nativeElement.style.width =
+      (event.clientX + 68) < 300 ? 300
+        : `${event.clientX - 68}px`;
   }
 }
