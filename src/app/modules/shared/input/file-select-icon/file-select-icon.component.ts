@@ -15,6 +15,7 @@ export class FileSelectIconComponent extends CustomForm<FileList> implements OnI
   @Output() uploadingFiles = new EventEmitter<FileList>();
   @Input() isMultiple = true;
   @Input() allowType: EFileType = EFileType.Image;
+  @Input() customIconCode = '';
 
   constructor(private $overlay: OverlayService) { super(); }
 
@@ -32,13 +33,13 @@ export class FileSelectIconComponent extends CustomForm<FileList> implements OnI
   get acceptList(): string {
       switch (this.allowType) {
         case EFileType.Image:
-          this.iconCode = 'image';
+          this.iconCode = this.customIconCode || 'image';
           return 'image/jpeg,image/jpg,image/png';
         case EFileType.Pdf:
-          this.iconCode = 'picture_as_pdf';
+          this.iconCode = this.customIconCode || 'picture_as_pdf';
           return '.pdf';
         case EFileType.Excel:
-          this.iconCode = 'feed';
+          this.iconCode = this.customIconCode || 'feed';
           return '.xls';
     }
   }

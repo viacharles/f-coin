@@ -1,4 +1,4 @@
-import { Component, ElementRef, EventEmitter, Output, OnInit, Input, OnDestroy } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Output, OnInit, Input, OnDestroy, ViewChild } from '@angular/core';
 import { CustomForm, getFormProvider } from '@utility/abstract/custom-form.abstract';
 import { IMessage } from '@utility/interface/messageCenter.interface';
 
@@ -9,6 +9,7 @@ import { IMessage } from '@utility/interface/messageCenter.interface';
   providers: [getFormProvider(SearchInputComponent)]
 })
 export class SearchInputComponent extends CustomForm<string> implements OnInit, OnDestroy {
+  @ViewChild('tInput') tInput!: ElementRef;
   @Output() closed = new EventEmitter<void>();
   @Input() DOMTree!: HTMLUListElement;
   @Input() searchElement!: HTMLInputElement;
@@ -37,8 +38,13 @@ export class SearchInputComponent extends CustomForm<string> implements OnInit, 
   public matchMessageIds: string[] = [];
 
   public current = 0;
+  
+  public activeElement = document.activeElement;
 
   ngOnInit(): void {
+    this.eventListeners.push(document.addEventListener('click', event => {
+      this.isShow = this.isTargetInside(event, this.selfElem.nativeElement);
+      }));
     this.eventListeners.push(document.addEventListener('click', event => {
       this.isShow = this.isTargetInside(event, this.selfElem.nativeElement);
       }));
