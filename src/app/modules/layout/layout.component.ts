@@ -1,6 +1,7 @@
+import { IPosition } from './../../../utility/interface/common.interface';
 import { takeUntil } from 'rxjs/operators';
 import { Router } from '@angular/router';
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, Renderer2, ViewChild } from '@angular/core';
 import { NavigationService } from '@shared/services/navigation.service';
 import { ResizeObserver } from 'resize-observer';
 
@@ -13,7 +14,6 @@ import { ChatAction as Action } from '@user/shared/models/chat.model';
 import { BaseComponent } from '@utility/base/base-component';
 import { ChatService } from '@user/chat/chat.service';
 import { WindowService } from '@shared/services/window.service';
-import { IDragMove, IMove } from '@utility/interface/common.interface';
 
 @Component({
   selector: 'app-layout',
@@ -24,10 +24,13 @@ export class LayoutComponent extends BaseComponent {
   @ViewChild('tSubmenu') submenu?: ElementRef;
   @ViewChild('tPage') page?: ElementRef;
 
-  private dragLastX!: number;
 
   constructor(
-    public $navigation: NavigationService, private $chat: ChatService, private $router: Router, private $window: WindowService
+    public $navigation: NavigationService,
+    private $chat: ChatService,
+    private $router: Router,
+    private $window: WindowService,
+    private renderer: Renderer2
   ) { super(); }
 
   get Module(): typeof EModule {
@@ -78,24 +81,7 @@ export class LayoutComponent extends BaseComponent {
     }
   }
 
-  /**
-   * @description drag border to change the width of page and submenu.
-   */
-  public dragBorderMove(event: DragEvent): void {
-    if (event.clientX
-      && (this.submenu as ElementRef).nativeElement.clientWidth > 300
-      && (this.page as ElementRef).nativeElement.clientWidth > 320) {
-      (this.page as ElementRef).nativeElement.style.width = `${window.innerWidth - event.clientX}px`;
-      (this.submenu as ElementRef).nativeElement.style.width = `${event.clientX}px`;
-    }
-  }
-
-  public dragEnd(event: DragEvent): void {
-    (this.page as ElementRef).nativeElement.style.width =
-    (this.page as ElementRef).nativeElement.clientWidth < 320 ? 320
-        : `${window.innerWidth - event.clientX}px`;
-    (this.submenu as ElementRef).nativeElement.style.width =
-      (event.clientX + 68) < 300 ? 300
-        : `${event.clientX - 68}px`;
+  public resizeSubMenu(element: HTMLElement, { offsetX, x }: IPosition): void {
+    this.renderer.setStyle(element, 'width', `${element.clientWidth + (offsetX || 0)}px`);
   }
 }
