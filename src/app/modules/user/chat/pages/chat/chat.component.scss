@@ -43,6 +43,15 @@ footer {
   border-top: 1px solid $light-border;
   padding: 0.9rem 1rem 0;
   background: $white;
+  .input-area {
+    outline: none;
+    width: 100%;
+    min-height: 80px;
+    max-height: 200px;
+    font-size: map-get($font-level, "ms");
+    line-height: 1.3rem;
+    border: none;
+  }
   textarea {
     outline: none;
     display: block;

@@ -1,7 +1,7 @@
-import { element } from 'protractor';
-import { environment } from './../../../../../../environments/environment.prod';
+import { EFileType } from '@utility/enum/file.enum';
+import { environment } from 'src/environments/environment.prod';
 import { take, map, takeUntil, filter, tap } from 'rxjs/operators';
-import { Component, DoCheck, ElementRef, QueryList, SimpleChanges, ViewChild, ViewChildren } from '@angular/core';
+import { Component, ElementRef, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { ChatService } from '@user/chat/chat.service';
 import { ChatAction as Action } from '@user/shared/models/chat.model';
 import { UserService } from '@user/shared/services/user.service';
@@ -15,6 +15,7 @@ import { ResizeObserver } from 'resize-observer';
 import { ResizeObserverEntry } from 'resize-observer/lib/ResizeObserverEntry';
 import { BaseComponent } from '@utility/base/base-component';
 import { WindowService } from '@shared/services/window.service';
+import { connectableObservableDescriptor } from 'rxjs/internal/observable/ConnectableObservable';
 
 @Component({
   selector: 'app-chat',
@@ -42,6 +43,7 @@ export class ChatComponent extends BaseComponent {
   public messageHistory: IMessage[] = [];
   public defaultAvatar = environment.defaultAvatar;
   public scrollTop = 0;
+  public fileType = EFileType;
   /**
    * @description DateBuoy裡顯示的文字
    */
@@ -111,26 +113,39 @@ export class ChatComponent extends BaseComponent {
     return !(this.isDiffMin(history, index, true) || this.isDiffUser(history, index, record, true));
   }
 
-  public afterKeydown(event: KeyboardEvent): void {
+  public afterKeyup(event: KeyboardEvent, elem: HTMLDivElement): void {
+    this.message = elem.innerHTML;
     if (event.key === 'Enter' && !event.shiftKey && this.message.trim() !== '' && !event.isComposing) {
-      this.$feature
+        this.$feature
         .fireEvent({
           action: Action.SendMessage,
           id: this.userId as string,
           friendId: this.friend?.id,
           message: this.message
-        })
-        .then(() => this.message = '');
-    }
+        }).then(() => this.message = '');
+      }
   }
+
+  // public afterKeydown(event: KeyboardEvent): void {
+  //   if (event.key === 'Enter' && !event.shiftKey && this.message.trim() !== '' && !event.isComposing) {
+  //     this.$feature
+  //       .fireEvent({
+  //         action: Action.SendMessage,
+  //         id: this.userId as string,
+  //         friendId: this.friend?.id,
+  //         message: this.message
+  //       })
+  //       .then(() => this.message = '');
+  //   }
+  // }
 
   public autoResized(target: any): void {
     const Target = target as HTMLElement;
-    Target.style.height = '80px';
-    Target.style.height = `${Target.scrollHeight}px`;
-    if (Target.scrollHeight > 140) {
-      Target.classList.add('scroll-bar');
-    }
+    // Target.style.height = '80px';
+    // Target.style.height = `${Target.scrollHeight}px`;
+    // if (Target.scrollHeight > 140) {
+    //   Target.classList.add('scroll-bar');
+    // }
   }
 
   private updateMessages(histories: IMessage[]): void {
@@ -233,6 +248,14 @@ export class ChatComponent extends BaseComponent {
   private isDiffUser(history: IMessage[], index: number, record: IMessage, compareLast: boolean): boolean {
     return (compareLast ? index === 0 : index === history.length - 1) ? true
       : (record.sendTo !== history[compareLast ? index - 1 : index + 1].sendTo);
+  }
+
+  public onFileSelect(event: FileList): void {
+
+  }
+
+  public console(value: any): void {
+    console.log('console', value);
   }
 
 }
