@@ -23,6 +23,7 @@ export class FileSelectorComponent extends CustomForm<File>  {
   get acceptList(): string {
     return this.allowTypes.reduce((accept, type) => {
       switch (type) {
+        case EFileType.All: return '*';
         case EFileType.Image: return `${accept},image/jpeg,image/jpg,image/png`;
         case EFileType.Pdf: return `${accept},.pdf`;
         case EFileType.Excel: return `${accept},.xls`;

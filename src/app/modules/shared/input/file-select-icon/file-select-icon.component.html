@@ -1,7 +1,6 @@
-<input class="d-none" type="file" [multiple]="this.isMultiple" [accept]="this.acceptList" id="input"
+<input class="d-none" type="file" [multiple]="this.isMultiple" [accept]="this.accept" id="input"
 (change)="onFileSelected($event)">
 <label for="input">
-    <span class="material-icons">
-        {{iconCode}}
-        </span>
+    <span class="material-icons">{{this.iconCode || this.defaultIconCode}} </span>
 </label>
+

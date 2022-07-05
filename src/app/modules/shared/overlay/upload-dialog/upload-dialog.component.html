@@ -1,0 +1,28 @@
+<div>
+    <header>
+        <title>傳送檔案</title>
+        <button>
+            <em class="material-icons">clear</em>
+        </button>
+    </header>
+    <ul>
+        <li *ngFor="">
+            <div>
+                <span class="material-icons">drag_indicator</span>
+            </div>
+            <div>
+                <span class="material-icons">{{this.fileTypeCode}}</span>
+            </div>
+            <div>
+                <p></p>
+                <p></p>
+            </div>
+            <button>
+                <em class="material-icons">delete_outline</em>
+            </button>
+        </li>
+    </ul>
+    <footer>
+        <button class="full">傳送 {{this.count}}</button>
+    </footer>
+</div>
