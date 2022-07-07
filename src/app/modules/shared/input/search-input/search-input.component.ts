@@ -56,7 +56,6 @@ export class SearchInputComponent extends CustomForm<string> implements OnInit, 
   }
 
   public search(): void {
-    console.log('search')
     this.isShow = false;
     this.matchMessageIds = this.records
     .filter(({ message }) => message.includes(this.keyword))
