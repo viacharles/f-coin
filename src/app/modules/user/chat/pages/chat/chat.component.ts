@@ -37,7 +37,6 @@ export class ChatComponent extends BaseComponent {
     super();
   }
   get dateBuoyLeft(): string { return `calc(60px + ${this.$window.submenuWidth}px + ${this.$window.pageWidth / 2}px)`; }
-  public message = '';
   public friend?: Friend;
   public userId?: string;
   public messageHistory: IMessage[] = [];
@@ -88,6 +87,10 @@ export class ChatComponent extends BaseComponent {
     );
   }
 
+  public hideTime(history: IMessage[], index: number, record: IMessage): boolean {
+    return !this.isDiffMin(history, index, false) && !this.isDiffUser(history, index, record, false);
+  }
+
   /**
    * @description rules for show friend's avatar.
    */
@@ -113,50 +116,27 @@ export class ChatComponent extends BaseComponent {
     return !(this.isDiffMin(history, index, true) || this.isDiffUser(history, index, record, true));
   }
 
-  public afterKeyup(event: KeyboardEvent, elem: HTMLDivElement): void {
-    this.message = elem.innerHTML;
-    if (event.key === 'Enter' && !event.shiftKey && this.message.trim() !== '' && !event.isComposing) {
+  /**
+   * @description
+   */
+  public afterKeyup(event: KeyboardEvent, element: HTMLDivElement): void {
+    if (event.key === 'Enter' && !event.shiftKey && element.innerHTML.trim() !== '' && !event.isComposing) {
+      Promise.all([
+        (element.innerHTML.match(/<img.*?(?:>|\/>)/gi) as string[])?.map(message => this.$feature
+          .fireEvent({
+            action: Action.SendMessage,
+            id: this.userId as string,
+            friendId: this.friend?.id,
+            message
+          })),
         this.$feature
-        .fireEvent({
-          action: Action.SendMessage,
-          id: this.userId as string,
-          friendId: this.friend?.id,
-          message: this.message
-        }).then(() => this.message = '');
-      }
-  }
-
-  // public afterKeydown(event: KeyboardEvent): void {
-  //   if (event.key === 'Enter' && !event.shiftKey && this.message.trim() !== '' && !event.isComposing) {
-  //     this.$feature
-  //       .fireEvent({
-  //         action: Action.SendMessage,
-  //         id: this.userId as string,
-  //         friendId: this.friend?.id,
-  //         message: this.message
-  //       })
-  //       .then(() => this.message = '');
-  //   }
-  // }
-
-  public autoResized(target: any): void {
-    const Target = target as HTMLElement;
-    // Target.style.height = '80px';
-    // Target.style.height = `${Target.scrollHeight}px`;
-    // if (Target.scrollHeight > 140) {
-    //   Target.classList.add('scroll-bar');
-    // }
-  }
-
-  private updateMessages(histories: IMessage[]): void {
-    this.messageHistory = histories;
-    switch (histories[histories.length - 1]?.sendTo) {
-      case this.userId:
-        this.markMessageAsRead(histories.filter(({ sendTo }) => sendTo === this.userId).map(({ id }) => id));
-        break;
-      case this.friend?.id:
-        this.shouldScroll = true;
-        break;
+          .fireEvent({
+            action: Action.SendMessage,
+            id: this.userId as string,
+            friendId: this.friend?.id,
+            message: element.innerHTML.replace(/<img.*?(?:>|\/>)/gi, '')
+          })
+      ]).then(() => element.innerHTML = '');
     }
   }
 
@@ -190,6 +170,18 @@ export class ChatComponent extends BaseComponent {
     this.shouldScroll = true;
     if ((this.tSearch?.nativeElement as HTMLInputElement)?.checked) {
       (this.tSearch?.nativeElement as HTMLInputElement).checked = false;
+    }
+  }
+
+  private updateMessages(histories: IMessage[]): void {
+    this.messageHistory = histories;
+    switch (histories[histories.length - 1]?.sendTo) {
+      case this.userId:
+        this.markMessageAsRead(histories.filter(({ sendTo }) => sendTo === this.userId).map(({ id }) => id));
+        break;
+      case this.friend?.id:
+        this.shouldScroll = true;
+        break;
     }
   }
 
@@ -237,10 +229,6 @@ export class ChatComponent extends BaseComponent {
     }
   }
 
-  public hideTime(history: IMessage[], index: number, record: IMessage): boolean {
-    return !this.isDiffMin(history, index, false) && !this.isDiffUser(history, index, record, false);
-  }
-
   /**
    * two consecutive message sender are not the same id.
    * @param compareLast compare with last or next item.
@@ -248,14 +236,6 @@ export class ChatComponent extends BaseComponent {
   private isDiffUser(history: IMessage[], index: number, record: IMessage, compareLast: boolean): boolean {
     return (compareLast ? index === 0 : index === history.length - 1) ? true
       : (record.sendTo !== history[compareLast ? index - 1 : index + 1].sendTo);
-  }
-
-  public onFileSelect(event: FileList): void {
-
-  }
-
-  public console(value: any): void {
-    console.log('console', value);
   }
 
 }
