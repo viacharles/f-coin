@@ -1,5 +1,5 @@
 import { IMessage } from '@utility/interface/messageCenter.interface';
-import { Subscription, Observable, Subject, BehaviorSubject } from 'rxjs';
+import { Subscription, Observable, Subject, BehaviorSubject, forkJoin } from 'rxjs';
 import {
   ChatAction as Action,
   IChatEvent,

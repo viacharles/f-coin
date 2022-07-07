@@ -9,3 +9,7 @@ export interface IPosition {
   offsetX?: number;
   offsetY?: number;
 }
+
+export interface IUploadDialog {
+  files: FileList;
+}

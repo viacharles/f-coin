@@ -12,5 +12,5 @@ export interface IUser {
   totalAssets?: number;
 }
 export interface IUserProfileDialog {
-  user: User
+  user: User;
 }

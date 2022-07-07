@@ -34,12 +34,12 @@ export class PostEditService extends FeatureService<IPostEditEvent, Action>{
     });
   }
 
-  private upload(files: File[]): AngularFireUploadTask[] {
-    const Tasks: AngularFireUploadTask[] = [];
-    files.forEach(file => {
-      Tasks.push(this.$file.upload(EFileType.Image, file.name, file as File));
-    });
-    return Tasks;
+  private async upload(files: File[]) {
+    // const Tasks: AngularFireUploadTask[] = [];
+    // await Promise.all([
+    //   files.map(file => this.$file.upload(EFileType.Image, file.name, file as File))
+    // ]);
+    // return Tasks;
   }
 
   private fetchHistory(uid: string): Promise<Post> {

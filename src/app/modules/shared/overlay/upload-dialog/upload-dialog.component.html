@@ -1,28 +1,27 @@
-<div>
-    <header>
-        <title>傳送檔案</title>
-        <button>
-            <em class="material-icons">clear</em>
-        </button>
-    </header>
-    <ul>
-        <li *ngFor="">
-            <div>
-                <span class="material-icons">drag_indicator</span>
+<app-dialog (close)="this.close()">
+    <h1 title>傳送檔案</h1>
+    <ul class="scroll-bar">
+        <li class="d-flex flex-row align-items-center" *ngFor="let file of this.files; let index = index">
+            <div class="d-flex w-100 flex-row align-items-center">
+                <div *ngIf="this.files.length > 1">
+                    <em class="material-icons">drag_indicator</em>
+                </div>
+                <div class="icon d-flex align-items-center justify-content-center">
+                    <em class="material-icons">{{this.getIcon(file)}}</em>
+                </div>
+                <div class="text d-flex w-100 flex-column justify-content-between">
+                    <div class="text__name d-flex w-100 flex-row align-items-center justify-content-between">
+                        <p>{{this.getName(file)}}</p><p>{{this.getType(file)}}</p>
+                    </div>
+                    <p class="text__size">{{this.getSize(file)}}</p>
+                </div>
             </div>
-            <div>
-                <span class="material-icons">{{this.fileTypeCode}}</span>
-            </div>
-            <div>
-                <p></p>
-                <p></p>
-            </div>
-            <button>
+            <button (click)="this.delete(index)">
                 <em class="material-icons">delete_outline</em>
             </button>
         </li>
     </ul>
-    <footer>
-        <button class="full">傳送 {{this.count}}</button>
+    <footer footer>
+        <button class="full" (click)="this.confirm(this.files)">傳送 ({{this.count}})</button>
     </footer>
-</div>
+</app-dialog>

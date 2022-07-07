@@ -1,7 +1,10 @@
-import { element } from 'protractor';
-import { environment } from './../../../../../../environments/environment.prod';
+import { ESize } from '@utility/enum/common.enum';
+import { UploadDialogComponent } from './../../../../shared/overlay/upload-dialog/upload-dialog.component';
+import { OverlayService } from '@shared/overlay/overlay.service';
+import { EFileType } from '@utility/enum/file.enum';
+import { environment } from 'src/environments/environment.prod';
 import { take, map, takeUntil, filter, tap } from 'rxjs/operators';
-import { Component, DoCheck, ElementRef, QueryList, SimpleChanges, ViewChild, ViewChildren } from '@angular/core';
+import { Component, ElementRef, HostListener, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { ChatService } from '@user/chat/chat.service';
 import { ChatAction as Action } from '@user/shared/models/chat.model';
 import { UserService } from '@user/shared/services/user.service';
@@ -15,6 +18,8 @@ import { ResizeObserver } from 'resize-observer';
 import { ResizeObserverEntry } from 'resize-observer/lib/ResizeObserverEntry';
 import { BaseComponent } from '@utility/base/base-component';
 import { WindowService } from '@shared/services/window.service';
+import { connectableObservableDescriptor } from 'rxjs/internal/observable/ConnectableObservable';
+import { IUploadDialog } from '@utility/interface/common.interface';
 
 @Component({
   selector: 'app-chat',
@@ -28,10 +33,8 @@ export class ChatComponent extends BaseComponent {
   @ViewChild('tSearch') tSearch?: ElementRef;
 
   constructor(
-    private $feature: ChatService,
-    public $user: UserService,
-    private $window: WindowService,
-    private activatedRoute: ActivatedRoute
+    private $feature: ChatService, public $user: UserService, private $window: WindowService, private activatedRoute: ActivatedRoute,
+    private $overlay: OverlayService
   ) {
     super();
   }
@@ -42,6 +45,7 @@ export class ChatComponent extends BaseComponent {
   public messageHistory: IMessage[] = [];
   public defaultAvatar = environment.defaultAvatar;
   public scrollTop = 0;
+  public fileType = EFileType;
   /**
    * @description DateBuoy裡顯示的文字
    */
@@ -87,6 +91,19 @@ export class ChatComponent extends BaseComponent {
   }
 
   /**
+   * @description drop and upload files
+   */
+  @HostListener('drop', ['$event']) ondrop(event: DragEvent): void {
+    // event.preventDefault();
+    event.stopPropagation();
+    console.log('drop', event);
+    const Files = event.dataTransfer?.files;
+    if (Files) {
+      this.toggleUploadDialog(Files).then(files => this.$feature.fireEvent);
+    }
+  }
+
+  /**
    * @description rules for show friend's avatar.
    */
   public showAvatar(history: IMessage[], index: number, record: IMessage): boolean {
@@ -128,9 +145,27 @@ export class ChatComponent extends BaseComponent {
     const Target = target as HTMLElement;
     Target.style.height = '80px';
     Target.style.height = `${Target.scrollHeight}px`;
-    if (Target.scrollHeight > 140) {
-      Target.classList.add('scroll-bar');
-    }
+  }
+
+  private toggleUploadDialog(event: FileList): Promise<File[]|void> {
+    return new Promise<File[]>((resolve) => {
+      this.$overlay.toggleDialog<IUploadDialog>(UploadDialogComponent,
+        {
+          config: {
+          files: event
+        },
+        size: ESize.Small,
+        options: {
+          backdrop: false,
+          backdropTransParent: true
+        },
+        callbacks: {
+          confirm: (files: File[]) => { resolve(files); },
+          cancel: () => {},
+          backdrop: () => {}
+        }
+        });
+    })
   }
 
   private updateMessages(histories: IMessage[]): void {
@@ -234,7 +269,6 @@ export class ChatComponent extends BaseComponent {
     return (compareLast ? index === 0 : index === history.length - 1) ? true
       : (record.sendTo !== history[compareLast ? index - 1 : index + 1].sendTo);
   }
-
 }
 
 

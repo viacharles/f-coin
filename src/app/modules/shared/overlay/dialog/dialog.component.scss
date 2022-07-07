@@ -1,3 +1,4 @@
+@import "variables";
 :host {
   display: block;
   box-shadow: 0 2px 5px 0 rgba(99, 115, 129, 0.2), 0 6px 14px 0 rgba(99, 115, 129, 0.1),
@@ -8,19 +9,19 @@
   border-radius: 3px;
   header {
     user-select: none;
-    padding: 1.5rem;
+    padding: 0.8rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    font-size: 1.125rem;
+    font-size: 0.85rem;
     em {
       font-size: 1.25rem;
+      color: $caption-text
     }
   }
 
   section {
-    border-top: 1px solid #dfe3e8;
-    padding: 1.5rem;
+    // padding: 1.5rem;
   }
 
   &[hideHeader] {
