@@ -1,4 +1,4 @@
-import { Component, ElementRef, EventEmitter, Output, OnInit, Input, OnDestroy } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Output, OnInit, Input, OnDestroy, ViewChild } from '@angular/core';
 import { CustomForm, getFormProvider } from '@utility/abstract/custom-form.abstract';
 import { IMessage } from '@utility/interface/messageCenter.interface';
 
@@ -41,7 +41,7 @@ export class SearchInputComponent extends CustomForm<string> implements OnInit, 
   ngOnInit(): void {
     this.eventListeners.push(document.addEventListener('click', event => {
       this.isShow = this.isTargetInside(event, this.selfElem.nativeElement);
-      }));
+    }));
     this.eventListeners.push(document.addEventListener('dblclick', event => {
       if (!this.isTargetInside(event, this.selfElem.nativeElement)) {
         this.closed.emit();
@@ -58,11 +58,11 @@ export class SearchInputComponent extends CustomForm<string> implements OnInit, 
   public search(): void {
     this.isShow = false;
     this.matchMessageIds = this.records
-    .filter(({ message }) => message.includes(this.keyword))
-    .map(({ id }) => id)
-    .reverse();
+      .filter(({ message }) => message.includes(this.keyword) && !!this.keyword)
+      .map(({ id }) => id)
+      .reverse();
     this.records.forEach(({ id, message }) => {
-      const Element: HTMLElement = this.getLiElementById(id).getElementsByTagName('div')[1].getElementsByTagName('p')[0]
+      const Element: HTMLElement = this.getLiElementById(id).getElementsByTagName('div')[1].getElementsByTagName('p')[0];
       Element.innerHTML = message.replace(new RegExp(`${this.keyword}`, 'g'), `<span class="matched-message">${this.keyword}</span>`);
     });
     if (this.matchMessageIds.length > 0) {
@@ -70,11 +70,17 @@ export class SearchInputComponent extends CustomForm<string> implements OnInit, 
     }
   }
 
-  public switch(offset: number): void {
+  public switch(offset: number, event?: MouseEvent): void {
+    event?.stopPropagation();
     if (this.matchMessageIds.length > 0) {
       this.current = this.current + offset;
       this.getLiElementById(this.matchMessageIds[this.current]).scrollIntoView();
     }
+  }
+
+  public reset(): void {
+    this.keyword = '';
+    this.search();
   }
 
   private getLiElementById(id: string): HTMLElement {
@@ -93,5 +99,6 @@ export class SearchInputComponent extends CustomForm<string> implements OnInit, 
     const [ClickEvent, DoubleClickEvent] = this.eventListeners;
     document.removeEventListener('click', ClickEvent);
     document.removeEventListener('dblclick', DoubleClickEvent);
-}
+    this.reset();
+  }
 }
