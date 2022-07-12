@@ -1,16 +1,16 @@
 import { EAction, ESize } from "@utility/enum/common.enum";
 
 export interface IOverlayCallbacks {
-  confirm: (params?: any) => any | void,
-  cancel: (params?: any) => any | void,
-  backdrop: (dialog: IDialog<any>) => void,
-  [key: string]: (params?: any) => any | void,
+  confirm: (params?: any) => any | void;
+  cancel: (params?: any) => any | void;
+  backdrop: (dialog: IDialog<any>) => void;
+  [key: string]: (params?: any) => any | void;
 }
 
 export interface IDialog<T = any> {
-  component: any,
-  id: string,
-  params: IOverlay<T>
+  component: any;
+  id: string;
+  params: IOverlay<T>;
 }
 
 export interface IOverlay<T = any> {
@@ -20,6 +20,7 @@ export interface IOverlay<T = any> {
   options?: {
     backdrop?: boolean;
     backdropClose?: boolean;
+    backdropTransParent?: boolean;
     isAside?: boolean
   }
 }

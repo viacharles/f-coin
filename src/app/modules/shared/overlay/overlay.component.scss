@@ -44,12 +44,19 @@
   }
 
   &__container {
+    position: fixed;
+    top: 50%;
+    right: 50%;
+    transform: translate(50%, -50%);
     margin: 0 auto;
     padding: 1.75rem 0;
   }
 
   &__backdrop {
     background-color: rgba(0, 0, 0, 0.7);
+  }
+  &__backdropTransParent {
+    background-color: rgba(0, 0, 0, 0);
   }
 }
 
@@ -60,6 +67,9 @@
         width: 80%;
         max-width: 80%;
       }
+    }
+    &--sm {
+      width: 310px;
     }
   }
 }

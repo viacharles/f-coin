@@ -25,9 +25,9 @@
 
 .scroll-bar {
   overflow: auto !important;
+  scrollbar-color: #e6e6e6;
   &::-webkit-scrollbar {
     width: 0.375rem;
-    height: 0.375rem;
   }
 
   &::-webkit-scrollbar-thumb {

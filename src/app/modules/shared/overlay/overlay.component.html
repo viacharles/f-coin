@@ -1,5 +1,6 @@
 <section class="dialog" *ngFor="let dialog of this.dialogs" [class.dialog--r]="dialog.params.options?.isAside"
   [class.dialog__backdrop]="dialog.params.options?.backdrop"
+  [class.dialog__backdrop-opacity]="dialog.params.options?.backdropTransParent"
   (click)="this.onDialogBackdropClick(dialog, $event, tDialogContainer)">
   <div #tDialogContainer class="dialog__container dialog--{{dialog.params.size}}">
     <ng-template *ngComponentOutlet="dialog.component; injector: dialog.injector"></ng-template>

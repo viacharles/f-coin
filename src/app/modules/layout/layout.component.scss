@@ -1,3 +1,4 @@
+@import 'variables';
 :host {
   width: 100vw;
   height: 100vh;
@@ -6,7 +7,7 @@
 }
 
 aside {
-  width: 68px;
+  min-width: 66px;
 }
 
 header {
@@ -18,22 +19,23 @@ main {
 }
 
 nav {
-  width: 325px;
-  min-width: 325px;
+  position: relative;
+  width: 300px;
+  min-width: 300px;
   height: 100%;
   overflow-y: auto;
   div {
-    position: fixed;
+    cursor: col-resize;
+    position: absolute;
+    z-index: map-get($layout-level, 'cover' );
     right: 0;
     top: 0;
     width: 6px;
     height: 100%;
-    background-color: red;
   }
 }
 
 section {
-  width: calc(100% - 280px);
   height: 100%;
   overflow-y: auto;
 }

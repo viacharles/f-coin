@@ -62,6 +62,7 @@
     </div>
     <nav>
       <div class="d-flex flex-row align-itmes-center">
+        <app-file-select-icon [allowType]="this.fileType.All" (uploadingFiles)="null"></app-file-select-icon>
         <em rotate45 class="material-icons">attach_file</em>
         <em class="material-icons">bookmark_border</em>
       </div>

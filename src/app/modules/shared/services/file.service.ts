@@ -33,8 +33,10 @@ export class FileService {
    * @param fileType 檔案資料夾
    * @param fileName 檔名
    */
-  public upload(fileType: EFileType, fileName: string, file: File): AngularFireUploadTask {
-    const Task = this.storage.upload(`${fileType}/${new Date().toISOString()}-${fileName}.${file.name.split('.')[1]}`, file);
-    return Task;
+  public upload(fileType: EFileType, fileName: string, file: File) {
+    // return new Promise<AngularFireUploadTask>(resolve => {
+    //   const Task = this.storage.upload(`${fileType}/${new Date().toISOString()}-${fileName}.${file.name.split('.')[1]}`, file);
+    //   resolve(Task);
+    // });
   }
 }

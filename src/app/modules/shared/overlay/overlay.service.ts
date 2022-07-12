@@ -1,8 +1,8 @@
 import { LoggerService } from '@shared/services/logger.service';
-import { Injectable, Injector } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { IDialog, ILoading, IOverlay } from '@utility/interface/overlay.interface';
-import { map, reduce, scan, tap, filter } from 'rxjs/operators';
+import { scan, filter } from 'rxjs/operators';
 import { EAction, ESize } from '@utility/enum/common.enum';
 
 interface DialogEvent {
@@ -47,8 +47,8 @@ export class OverlayService {
     },
     size = ESize.Middle,
     options
-  }: IOverlay<T>) {
-    options = { ...{ backdrop: true, backdropClose: false, isAside: false }, ...options };
+  }: IOverlay<T>): void {
+    options = { ...{ backdrop: true, backdropClose: false, backdropTransParent: false, isAside: false }, ...options };
     this.dialogEvent.next({
       action: EAction.Add,
       dialog: {
@@ -67,7 +67,7 @@ export class OverlayService {
     const Config: ILoading = {
       id: new Date().toISOString(),
       action: EAction.Add
-    }
+    };
     this.loadingQueue.next(Config);
     return Config.id;
   }
@@ -77,7 +77,7 @@ export class OverlayService {
     activatedElement?.focus();
   }
 
-  public forceEndLoading() {
+  public forceEndLoading(): void {
     this.loadingQueue.next({ id: '', action: EAction.Clear });
   }
 
@@ -96,7 +96,7 @@ export class OverlayService {
     return queue;
   }
 
-  private resolveDialogAction(dialogs: Set<IDialog>, { action, dialog }: DialogEvent) {
+  private resolveDialogAction(dialogs: Set<IDialog>, { action, dialog }: DialogEvent): Set<IDialog<any>> {
     const Dialog = dialog as IDialog;
     switch (action) {
       case EAction.Add:
