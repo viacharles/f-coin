@@ -25,6 +25,10 @@ export class MessageService extends DatabaseService {
 
   protected databaseName = 'messageCenter';
 
+  /**
+   * @description  update if there is any new message or different status of isRead of previous IMessage
+   * @param userId the user id for update
+   */
   public onHistoryUpdated$(userId: string): Observable<IMessage[]> {
     return this.$fb
       .getCollection(this.databaseName)
@@ -35,7 +39,8 @@ export class MessageService extends DatabaseService {
         map(res => res as IMessage[]),
         distinctUntilChanged((previous, current) => {
           return current.filter(({ id, isRead }) =>
-            id && (!previous.find(message => message.id === id) ||
+            id &&
+            (!previous.find(message => message.id === id) ||
               previous.find(message => message.id === id)?.isRead !== isRead)
           ).length === 0;
         })
@@ -99,6 +104,11 @@ export class MessageService extends DatabaseService {
     });
   }
 
+  /**
+   * @description 將發送訊息同步至對方資料庫
+   * @param id 使用者ID
+   * @param friendId 訊息對象ID
+   */
   public sync(id: string, message: string, friendId: string, messageId: string): Promise<boolean> {
     const LoadingId = this.$overlay.startLoading();
     const ActivatedElement: HTMLElement = document.activeElement as HTMLElement;

@@ -1,8 +1,8 @@
+import { IUser } from '@utility/interface/user.interface';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { Friend } from '@friend/shared/models/friend.model';
 import { User } from '@user/shared/models/user.model';
-import { IUser } from '@utility/interface/user.interface';
 import { filter, take } from 'rxjs/operators';
 import { UserCenterService } from '@shared/services/user-center.service';
 import { LoggerService } from '@shared/services/logger.service';

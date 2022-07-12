@@ -63,8 +63,11 @@ export class ChatListComponent extends BaseSubMenu {
    * @description 依照好友id取得聊天室最後一則訊息
    */
   public getLastMessageByFriendId(id: string): string {
-    const FilterMessages = this.messages.filter(({ sendTo, userId }) => userId === id );
-    return FilterMessages.length === 0 ? '' : FilterMessages[FilterMessages.length - 1].message;
+    const FriendMessages = this.messages.filter(({ userId }) => userId === id );
+    const LastMessage = FriendMessages.length === 0 ? '' : FriendMessages[FriendMessages.length - 1].message;
+    const FormatMessage = LastMessage.replace(/<br>/g, '');
+    // console.log('aa-', FormatMessages)
+    return FormatMessage;
   }
 
   /**

@@ -15,7 +15,6 @@ import { ResizeObserver } from 'resize-observer';
 import { ResizeObserverEntry } from 'resize-observer/lib/ResizeObserverEntry';
 import { BaseComponent } from '@utility/base/base-component';
 import { WindowService } from '@shared/services/window.service';
-import { connectableObservableDescriptor } from 'rxjs/internal/observable/ConnectableObservable';
 
 @Component({
   selector: 'app-chat',
@@ -52,7 +51,7 @@ export class ChatComponent extends BaseComponent {
    */
   public showDateBuoy = false;
   /**
-   * @description 表示scroll是否停的
+   * @description 表示scroll是否處於停止狀態
    */
   public isScrollStop?: boolean;
   /**
@@ -121,8 +120,10 @@ export class ChatComponent extends BaseComponent {
    */
   public afterKeyup(event: KeyboardEvent, element: HTMLDivElement): void {
     if (event.key === 'Enter' && !event.shiftKey && element.innerHTML.trim() !== '' && !event.isComposing) {
+      element.innerHTML = element.innerHTML.replace(/<div><br><\/div>$/, '');
       Promise.all([
-        (element.innerHTML.match(/<img.*?(?:>|\/>)/gi) as string[])?.map(message => this.$feature
+        (element.innerHTML.match(/<img.*?(?:>|\/>)/gi) as string[])?.map(message =>
+          this.$feature
           .fireEvent({
             action: Action.SendMessage,
             id: this.userId as string,
@@ -204,10 +205,10 @@ export class ChatComponent extends BaseComponent {
 
   private settingObserver(): void {
     this.observer = WindowHelper.generateResizeObserver((entry: ResizeObserverEntry) => {
-      if (this.shouldScroll) {
+      // if (this.shouldScroll) {
         this.scrollTop = entry.contentRect.height;
         this.shouldScroll = false;
-      }
+      // }
     });
     this.observer.observe(this.tMessages?.nativeElement);
   }

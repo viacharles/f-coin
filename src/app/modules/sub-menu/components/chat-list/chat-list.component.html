@@ -1,7 +1,7 @@
 
   <section class="UserList" *ngIf="this.friends$ | async as friends">
     <ng-container *ngIf="friends.length > 0; else tEmpty">
-      <ul class="UserList__Container">
+      <ul class="UserList__Container scroll-bar">
         <li *ngFor="let friend of friends">
           <input class="d-none" type="radio" name="user-list" [id]="'user-list'+friend.id"
             [checked]="friend.id === this.activatedFriendId" 
@@ -11,7 +11,7 @@
             [src]="friend.avatar || 'assets/images/icons/empty-avatar.jpeg'" >
             <div class="column-left">
               <p class="UserList__name">{{friend.name}}</p>
-              <p class="summary">{{getLastMessageByFriendId(friend.id)}}</p>
+              <p class="summary" [innerHTML]="getLastMessageByFriendId(friend.id)"></p>
             </div>
             <div class="column-right">
               <p class="text-xs">{{getLastSendTimeByFriendId(friend.id)|chatListDate}}</p>

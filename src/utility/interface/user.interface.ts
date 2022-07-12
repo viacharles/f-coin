@@ -1,4 +1,5 @@
 import { User } from "@user/shared/models/user.model";
+import firebase from 'firebase';
 
 export interface IFriend extends IUser {
   isLogin: boolean;
@@ -12,5 +13,5 @@ export interface IUser {
   totalAssets?: number;
 }
 export interface IUserProfileDialog {
-  user: User
+  user: User;
 }

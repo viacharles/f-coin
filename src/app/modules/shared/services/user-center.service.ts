@@ -22,6 +22,7 @@ export class UserCenterService extends DatabaseService {
    */
   public updateUserProfile(profile: IUser, id: string): Promise<boolean> {
     return new Promise<boolean>(resolve => {
+      console.log('aa-updateUserProfile', profile, id)
       this.fetch()
         .update(profile, id)
         .then((success: boolean) => resolve(success));

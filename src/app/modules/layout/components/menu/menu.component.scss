@@ -35,12 +35,6 @@ img {
   }
 }
 
-// li {
-//   &:not(:first-of-type) {
-//     margin-top: 18px;
-//   }
-// }
-
 input:checked + label {
   opacity: 1;
 }
@@ -50,10 +44,10 @@ li  {
   height: 46px;
   & > .des {
     position: absolute;
-    top: 0;
+    top: -2px;
     right: 8px;
     display: flex;
-    padding: 4px;
+    padding: 3px 7px;
     font-size: map-get($font-level, 'xs' );
     color: $white;
     background-color: $warn;

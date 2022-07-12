@@ -1,5 +1,5 @@
 import { IUser } from '@utility/interface/user.interface';
-
+import firebase from 'firebase';
 export class User implements IUser {
   public name: string;
   public id: string;
@@ -7,7 +7,7 @@ export class User implements IUser {
   public friends: string[];
   public totalAssets: number;
   public inviteAddFriends: string[];
-  constructor({ id, avatar, friends, name, totalAssets, inviteAddFriends }: IUser) {
+  constructor({ id, avatar, friends, name, totalAssets, inviteAddFriends}: IUser) {
     this.name = name;
     this.id = id;
     this.avatar = avatar || '';
