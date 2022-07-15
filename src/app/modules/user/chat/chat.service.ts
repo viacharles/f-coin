@@ -1,5 +1,5 @@
 import { IMessage } from '@utility/interface/messageCenter.interface';
-import { Subscription, Observable, Subject, BehaviorSubject, forkJoin } from 'rxjs';
+import { Subscription,  BehaviorSubject, } from 'rxjs';
 import {
   ChatAction as Action,
   IChatEvent,
@@ -73,26 +73,6 @@ export class ChatService extends FeatureService<IChatEvent, Action> {
     this.$message.read(id, messageIds);
     this.$message.read(friendId, messageIds);
   }
-
-  /**
-   * @description 新建訊息紀錄時同步更新雙方資料
-   */
-  // private async addMessageRecord(id: string, friendId: string, message: string): Promise<boolean> {
-  //     const Texts: string = message.replace(/<img.*?(?:>|\/>)/gi, '');
-  //     const Base64: string[]|undefined
-  //           = message.match(/<img.*?(?:>|\/>)/gi)?.map(field => (field.match(/src=".*"/i) as RegExpMatchArray)[0]
-  //           .replace(/(src=")|"/g, ''));
-  //     const messageGroup =  !!Base64 && Texts !== '' ? [Texts, ...Base64] :
-  //                           !!Base64 && Texts === '' ? Base64 :
-  //                           !Base64 && Texts !== '' ? [Texts] : [];
-  //     const SendToSelf = await Promise.all(
-  //                         messageGroup.map(item => this.$message.send(id, item, friendId) )
-  //                       );
-  //     const SendToOther = await Promise.all(
-  //                         SendToSelf.map( messageId => this.$message.sync(id, message, friendId, messageId))
-  //                       );
-  //     return new Promise<boolean>(resolve => resolve(true));
-  // }
 
   /**
    * @description 新建訊息紀錄時同步更新雙方資料

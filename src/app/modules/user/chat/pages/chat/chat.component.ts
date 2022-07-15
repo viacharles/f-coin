@@ -71,6 +71,7 @@ export class ChatComponent extends BaseComponent {
   public isScrollToBottom = true;
 
   onInit(): void {
+    document.addEventListener('drop', e => console.log(e))
     this.$user.user$
       .pipe(take(1))
       .subscribe((user) => this.userId = (user as IUser).id);
@@ -93,8 +94,8 @@ export class ChatComponent extends BaseComponent {
    * @description drop and upload files
    */
   @HostListener('drop', ['$event']) ondrop(event: DragEvent): void {
-    // event.preventDefault();
     event.stopPropagation();
+    event.preventDefault();
     console.log('drop', event);
     const Files = event.dataTransfer?.files;
     if (Files) {
@@ -232,6 +233,28 @@ export class ChatComponent extends BaseComponent {
   protected onDestroy(): void {
     this.observer?.disconnect();
   }
+
+  private toggleUploadDialog(event: FileList): Promise<File[]|void> {
+    return new Promise<File[]>((resolve) => {
+      this.$overlay.toggleDialog<IUploadDialog>(UploadDialogComponent,
+        {
+          config: {
+          files: event
+        },
+        size: ESize.Small,
+        options: {
+          backdrop: false,
+          backdropTransParent: true
+        },
+        callbacks: {
+          confirm: (files: File[]) => { resolve(files); },
+          cancel: () => {},
+          backdrop: () => {}
+        }
+        });
+    });
+  }
+
 
   /**
    *  two consecutive message time points are not in the same minute.

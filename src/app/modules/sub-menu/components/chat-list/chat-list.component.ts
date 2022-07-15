@@ -64,10 +64,19 @@ export class ChatListComponent extends BaseSubMenu {
    */
   public getLastMessageByFriendId(id: string): string {
     const FriendMessages = this.messages.filter(({ userId }) => userId === id );
-    const LastMessage = FriendMessages.length === 0 ? '' : FriendMessages[FriendMessages.length - 1].message;
-    const FormatMessage = LastMessage.replace(/<br>/g, '');
-    // console.log('aa-', FormatMessages)
-    return FormatMessage;
+    const LastMessage = FriendMessages.length === 0 ? '' : FriendMessages[FriendMessages.length - 1];
+    let FormatMessage = '';
+    if (LastMessage !== '') {
+      let friendName = '';
+      this.friends$.subscribe((friends) => friendName = friends.filter((friend) => friend.id === id)[0].name);
+      if (/<img.*?(?:>|\/>)/gi.test(LastMessage.message)) {
+          FormatMessage =  LastMessage.sendTo === id ?
+                          `${friendName}傳送了圖片`
+                          : '圖片已傳送';
+      } else { FormatMessage = LastMessage.message; }
+    }
+    // console.log('aa-', FormatMessage)
+    return FormatMessage.replace(/<br>/g, '');
   }
 
   /**
