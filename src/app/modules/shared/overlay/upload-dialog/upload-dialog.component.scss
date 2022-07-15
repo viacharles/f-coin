@@ -36,6 +36,9 @@ ul {
         em {
             color: $primary-hover;
         }
+        img {
+            background-size: cover;
+        }
     }
     .text {
         height: 33px;

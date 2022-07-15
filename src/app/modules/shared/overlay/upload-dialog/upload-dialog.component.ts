@@ -25,14 +25,26 @@ export class UploadDialogComponent extends BaseDialog<IUploadDialog> implements 
    * @description get the name of the google icon by different file extension
    */
   public getIcon(file: File): string {
-    const Type = this.getType(file);
-    // if (Type.match(/[.jpeg\|.jpg\|.png\|.gif\|pic\|bmp]/gi)) { return {isImg: true, src: this.getBase64(file)}; }
-    if (Type.match(/[.doc\|.html\|.docx\|.htm\|.odt\|.txt]/gi)) { return 'description'; }
-    else if (Type.match(/[.pdf]/gi)) { return 'picture_as_pdf'; }
-    else if (Type.match(/[.xls\|.xlsx]/gi)) { return 'view_list'; }
-    else if (Type.match(/[.7z\|.zip]/gi)) { return 'folder_zip'; }
-    else if (Type.match(/[.mov\|.mp4\|.avi\|.wmv\|.avchd]/gi)) { return 'videocam'; }
-    else { return 'text_snippet'; }
+    return /\.(doc|txt)$/.test(file.name) ? 'description' :
+          /\.pdf$/.test(file.name) ? 'picture_as_pdf' :
+          /\.xls$/.test(file.name) ? 'view_list' :
+          /\.(7z|zip)$/.test(file.name) ? 'folder_zip' :
+          /\.(mov|mp4|avi)$/.test(file.name) ? 'videocam' :
+          /\.(jpeg|jpg|png|gif)$/.test(file.name) ? '' 
+          : 'text_snippet';
+  }
+
+  public formatBase64(file: File, elem: HTMLImageElement): string {
+    let base64 = ''
+    if (/\.(jpeg|jpg|png|gif)$/.test(file.name)) {
+      const Reader = new FileReader();
+      Reader.readAsDataURL(file);
+      Reader.onload = () => {
+        base64 = Reader.result as string;
+        console.log('aa-img', elem.complete)
+      };
+    }
+    return base64;
   }
 
   public delete(targetIndex: number): void {

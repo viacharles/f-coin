@@ -7,14 +7,16 @@
                     <em class="material-icons">drag_indicator</em>
                 </div>
                 <div class="icon d-flex align-items-center justify-content-center">
-                    <em class="material-icons">{{this.getIcon(file)}}</em>
+                    <em *ngIf="this.getIcon(file);else tImgTem" class="material-icons">{{this.getIcon(file)}}</em>
+                    <ng-template #tImgTem><img #tImg [src]="this.formatBase64(file, tImg)"></ng-template>
                 </div>
                 <div class="text d-flex w-100 flex-column justify-content-between">
                     <div class="text__name d-flex w-100 flex-row align-items-center justify-content-between">
-                        <p>{{this.getName(file)}}</p><p>{{this.getType(file)}}</p>
-                    </div>
+                        <p>{{this.getName(file)}}</p>
+                        <p>{{this.getType(file)}}</p>
                     <p class="text__size">{{this.getSize(file)}}</p>
                 </div>
+                    </div>
             </div>
             <button (click)="this.delete(index)">
                 <em class="material-icons">delete_outline</em>
