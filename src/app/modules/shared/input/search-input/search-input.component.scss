@@ -5,12 +5,24 @@
   flex-direction: row;
   position: relative;
   overflow: unset;
-  padding: 0.6rem  0.3rem 0.6rem 0.6rem;
+  padding: 0.6rem;
   background-color: #f9f9f9;
   border-bottom: 1px solid $normal-border;
+  &button {
+    width: 30px;
+    min-width: 30px;
+  }
   & button em {
     font-size: map-get($font-level, 'xl' );
     font-weight: map-get($font-weight, 's');
+  }
+  &em {
+    display: flex;
+    min-width: 19.2px;
+    margin-right: 0.5rem;
+  }
+  & em:not(:last-of-type) {
+    margin: 0;
   }
 }
 
@@ -18,45 +30,57 @@ label {
   display: flex;
   flex-direction: row;
   align-items: center;
+  justify-content: space-between;
   height: 32px;
-  margin-right: 0.2rem;
-  padding: 0 .5rem;
+  padding: 0 0.2rem 0 0.5rem;
+  margin-right: 0.5rem;
   border: 1px solid $frame-border;
-  & > em {
+  border-radius: 0.3rem;
+  & em {
     color: $function-icon;
     font-size: map-get($font-level, 'sx');
+    &.btn-clear {
+      padding-right: 0.3rem;
+      color: $caption-text;
+      font-size: map-get($font-level, 'sm' );
+    }
   }
-  & > p {
-    color: $function-icon;
-    width: 30px;
-    font-size: map-get($font-level, 'sm');
+  & p {
+    color: $secondary-text;
+    font-size: 0.83rem;
+    font-weight: map-get($font-weight, 's' );
+    width: 25px;
   }
   & > button {
     padding: 0;
   }
-  &.optionOpen  {
-    border-radius: .25rem .25rem 0 0;
+  &.showOption  {
+    border-radius: .3rem .3rem 0 0;
   }
 }
 
 input {
   height: 32px;
-  width: 100%;
+  width: calc(100% - 20px - 20px - 26px - 20px);
+  padding-left: 0.5rem;
   font-size: map-get($font-level, 'sm' );
   border: none;
   outline: none;
+  &::placeholder {
+    color: $frame-border;
+  }
 }
 
 section {
   position: absolute;
   top: calc(100% - 10px);
   left: 0.6rem;
-  width: calc(100% - 0.6rem - 0.6rem - 32.66px);
+  width: calc(100% - 0.6rem - 0.6rem - 28px);
   height: 35px;
   padding: 0 0.6rem;
   font-size: map-get($font-level, 'sm' );
   border: 1px solid $frame-border;
-  border-radius: 0 0 0.25rem 0.25rem;
+  border-radius: 0 0 0.3rem 0.3rem;
   background-color: white;
   &:hover {
     background-color: rgb(243, 243, 243);
@@ -77,6 +101,9 @@ button {
   display: flex;
   align-items: center;
   justify-content: center;
+  padding: 0;
+  width: 20px;
+  min-width: 20px;
   border: none;
   background-color: transparent;
   &:disabled > em {

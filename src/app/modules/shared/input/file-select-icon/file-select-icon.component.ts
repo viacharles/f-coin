@@ -16,6 +16,7 @@ export class FileSelectIconComponent extends CustomForm<FileList> implements OnI
   @Input() isMultiple = true;
   @Input() allowType: EFileType = EFileType.Image;
   @Input() iconCode = '';
+  @Input() customIconCode = '';
 
   constructor() { super(); }
 
@@ -36,13 +37,13 @@ export class FileSelectIconComponent extends CustomForm<FileList> implements OnI
           this.defaultIconCode = 'attach_file';
           return '*';
         case EFileType.Image:
-          this.defaultIconCode = 'image';
+          this.iconCode = this.customIconCode || 'image';
           return 'image/jpeg,image/jpg,image/png';
         case EFileType.Pdf:
-          this.defaultIconCode = 'picture_as_pdf';
+          this.iconCode = this.customIconCode || 'picture_as_pdf';
           return '.pdf';
         case EFileType.Excel:
-          this.defaultIconCode = 'feed';
+          this.iconCode = this.customIconCode || 'feed';
           return '.xls';
     }
   }
@@ -50,6 +51,6 @@ export class FileSelectIconComponent extends CustomForm<FileList> implements OnI
   public onFileSelected(event: Event): void {
     this.tt = (event.target as HTMLInputElement).files as FileList;
     this.uploadingFiles.emit(this.tt);
-  }
+  } 
 
 }

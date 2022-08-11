@@ -8,7 +8,7 @@
   </header>
   <main class="d-flex flex-row align-itmes-center w-100" [style.height]="'calc(100% - ' + tHeader.clientHeight + 'px)'">
     <nav #tSubmenu class="fc-border-r" [ngSwitch]="this.module">
-      <div appDragMove draggable="true" (OnDragMove)="this.resizeSubMenu(tSubmenu, $event)"></div>
+      <div appDragMove draggable="true" (OnDragMove)="this.resizeSubMenu(tSubmenu, tPage , $event)"></div>
       <app-chat-list *ngSwitchCase="this.Module.User" [user]="user" [messages]="this.messageHistory"
         (updateModule)="this.module">
       </app-chat-list>
@@ -16,7 +16,7 @@
       <app-add-friend *ngSwitchCase="this.Module.Friend" [user]="user" (updateModule)="this.module"></app-add-friend>
       <app-post-edit *ngSwitchCase="this.Module.Social"></app-post-edit>
     </nav>
-    <section [style.width]="'calc(100% - ' + tSubmenu.clientWidth + 'px)'" #tPage>
+    <section #tPage>
       <router-outlet></router-outlet>
     </section>
   </main>

@@ -81,7 +81,8 @@ export class LayoutComponent extends BaseComponent {
     }
   }
 
-  public resizeSubMenu(element: HTMLElement, { offsetX, x }: IPosition): void {
-    this.renderer.setStyle(element, 'width', `${element.clientWidth + (offsetX || 0)}px`);
+  public resizeSubMenu(subMenu: HTMLElement, page: HTMLElement, { offsetX }: IPosition): void {
+    this.renderer.setStyle(subMenu, 'width', `${subMenu.clientWidth + (offsetX || 0)}px`);
+    this.renderer.setStyle(page, 'width', `calc(100% - ${subMenu.clientWidth + (offsetX || 0)}px)`);
   }
 }
