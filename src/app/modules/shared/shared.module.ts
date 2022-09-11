@@ -3,12 +3,17 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { OverlayModule } from './overlay/overlay.module';
-import { InputModule } from './input/input.module';
-import { PipesModule } from './pipes/pipes.module';
+import {
+  CommonsModule,
+  InputModule,
+  PipesModule
+} from '@shared/index';
+import { CalendarComponent } from './calendar/calendar.component';
+
 
 @NgModule({
   declarations: [],
-  imports: [CommonModule, FormsModule, ReactiveFormsModule, OverlayModule, InputModule, PipesModule, DirectiveModule],
-  exports: [FormsModule, ReactiveFormsModule, OverlayModule, InputModule, PipesModule, DirectiveModule],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule, OverlayModule, InputModule, PipesModule, DirectiveModule, CommonsModule],
+  exports: [FormsModule, ReactiveFormsModule, OverlayModule, InputModule, PipesModule, DirectiveModule, CommonsModule],
 })
 export class SharedModule { }

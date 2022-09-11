@@ -61,7 +61,7 @@ label {
 
 input {
   height: 32px;
-  width: calc(100% - 20px - 20px - 26px - 20px);
+  width: calc(100% - 20px - 20px - 26px - 20px - 25px);
   padding-left: 0.5rem;
   font-size: map-get($font-level, 'sm' );
   border: none;
@@ -75,7 +75,7 @@ section {
   position: absolute;
   top: calc(100% - 10px);
   left: 0.6rem;
-  width: calc(100% - 0.6rem - 0.6rem - 28px);
+  width: calc(100% - 0.6rem - 0.6rem - 28px - 25px);
   height: 35px;
   padding: 0 0.6rem;
   font-size: map-get($font-level, 'sm' );
@@ -106,6 +106,9 @@ button {
   min-width: 20px;
   border: none;
   background-color: transparent;
+  &:not(:first-of-type) {
+    margin-left: 5px;
+  }
   &:disabled > em {
     color: $caption-text;
   }

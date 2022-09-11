@@ -1,8 +1,8 @@
 import { LoggerService } from '@shared/services/logger.service';
-import { Injectable, Injector } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { IDialog, ILoading, IOverlay } from '@utility/interface/overlay.interface';
-import { map, reduce, scan, tap, filter } from 'rxjs/operators';
+import { scan, filter } from 'rxjs/operators';
 import { EAction, ESize } from '@utility/enum/common.enum';
 
 interface DialogEvent {
@@ -59,7 +59,7 @@ export class OverlayService {
     });
   }
 
-  public closeDialog(dialog: IDialog) {
+  public closeDialog(dialog: IDialog): void {
     this.dialogEvent.next({ action: EAction.Delete, dialog });
   }
 

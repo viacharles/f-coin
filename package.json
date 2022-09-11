@@ -27,6 +27,7 @@
     "angularfire2": "^5.0.0-rc.12-next",
     "firebase": "^7.0 || ^8.0",
     "logger": "0.0.1",
+    "moment": "^2.29.4",
     "ng-logger": "^1.1.0",
     "resize-observer": "^1.0.4",
     "rxjs": "^6.6.7",

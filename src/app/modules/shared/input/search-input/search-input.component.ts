@@ -1,4 +1,7 @@
+import { EIndividualPage } from './../../../../../utility/enum/route.enum';
+import { OverlayService } from '@shared/overlay/overlay.service';
 import { Component, ElementRef, EventEmitter, Output, OnInit, Input, OnDestroy, ViewChild } from '@angular/core';
+import { CalendarComponent } from '@shared/calendar/calendar.component';
 import { CustomForm, getFormProvider } from '@utility/abstract/custom-form.abstract';
 import { IMessage } from '@utility/interface/messageCenter.interface';
 
@@ -15,7 +18,8 @@ export class SearchInputComponent extends CustomForm<string> implements OnInit, 
   @Input() records: IMessage[] = [];
 
   constructor(
-    private selfElem: ElementRef
+    private selfElem: ElementRef,
+    private $overlay: OverlayService
   ) { super(); }
 
   get keyword(): string { return this.model as string; }
@@ -40,7 +44,9 @@ export class SearchInputComponent extends CustomForm<string> implements OnInit, 
 
   ngOnInit(): void {
     this.eventListeners.push(document.addEventListener('click', event => {
-      this.isShow = this.isTargetInside(event, this.selfElem.nativeElement);
+      if (!/button|em/.test((event.target as HTMLElement).tagName.toLocaleLowerCase())) {
+        this.isShow = this.isTargetInside(event, this.selfElem.nativeElement);
+      }
     }));
     this.eventListeners.push(document.addEventListener('dblclick', event => {
       if (!this.isTargetInside(event, this.selfElem.nativeElement)) {
@@ -71,6 +77,7 @@ export class SearchInputComponent extends CustomForm<string> implements OnInit, 
   }
 
   public switch(offset: number, event?: MouseEvent): void {
+    console.log('switch')
     event?.stopPropagation();
     if (this.matchMessageIds.length > 0) {
       this.current = this.current + offset;

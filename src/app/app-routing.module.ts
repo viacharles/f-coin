@@ -1,3 +1,4 @@
+import { CalendarComponent } from './modules/shared/calendar/calendar.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { EIndividualPage, EModule } from '@utility/enum/route.enum';
@@ -40,6 +41,10 @@ const routes: Routes = [
   {
     path: EIndividualPage.SignOn,
     component: SignOnPageComponent,
+  },
+  {
+    path: EIndividualPage.Calendar,
+    component: CalendarComponent
   }
 ];
 

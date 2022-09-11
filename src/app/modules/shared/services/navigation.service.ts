@@ -1,7 +1,7 @@
-import { EModule } from './../../../../utility/enum/route.enum';
 import { Injectable } from '@angular/core';
 import { Event, NavigationEnd, NavigationStart, Router } from '@angular/router';
-import { filter, tap } from 'rxjs/operators';
+import { EModule } from '@utility/enum/route.enum';
+import { filter } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
