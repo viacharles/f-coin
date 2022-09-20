@@ -1,4 +1,7 @@
 @import "colors";
+table, tbody, tr, td {
+    vertical-align: bottom !important;
+}
 table {
     th div  {
         &.weekday {
@@ -20,18 +23,33 @@ table {
         font-size: 14px;
         text-align: center;
         &.hasContent {
-           
         }
     }
 }
+header {
+    margin-bottom: 10px;
+    button {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0;
+        border: none;
+        background-color: transparent;
+        em {
+            font-size: 1.7rem;
+        }
+    }
+    & > button:last-of-type {
+        width: 70px;
+        height: 25px;
+        margin: 0 25px;
+        font-size: 0.7rem;
+        border: 1px solid rgb(131, 131, 131);
+    }
+}
 
-button {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0;
-    width: 20px;
-    min-width: 20px;
-    border: none;
-    background-color: transparent;
+h3 {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 800;
 }
