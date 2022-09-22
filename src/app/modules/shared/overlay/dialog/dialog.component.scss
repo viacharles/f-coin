@@ -13,13 +13,13 @@
     justify-content: space-between;
     align-items: center;
     font-size: 1.125rem;
+    border-bottom: 1px solid #dfe3e8;
     em {
       font-size: 1.25rem;
     }
   }
 
   section {
-    border-top: 1px solid #dfe3e8;
     padding: 1.5rem;
   }
 
@@ -35,3 +35,23 @@
     }
   }
 }
+
+header.mini-window {
+    padding: 0.5rem;
+    border-bottom: none;
+    em {
+      height: 12px;
+      width: 12px;
+      border-radius: 50%;
+      font-size: xx-small;
+      color: rgb(74, 7, 7);
+      background-color: red;
+      &:hover {
+        opacity: 50%;
+      }
+  }
+}
+section.mini-window {
+  padding: 0.5rem 0.5rem 1rem 0.5rem;
+}
+  

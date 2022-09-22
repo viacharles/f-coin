@@ -53,13 +53,13 @@
   }
 }
 
-@media screen and (max-width: map-get($breakpoints, "md")) {
-  .dialog {
-    @each $key, $value in $dialog-size {
-      &--#{$key} {
-        width: 80%;
-        max-width: 80%;
-      }
-    }
-  }
-}
+// @media screen and (max-width: map-get($breakpoints, "md")) {
+//   .dialog {
+//     @each $key, $value in $dialog-size {
+//       &--#{$key} {
+//         width: 80%;
+//         max-width: 80%;
+//       }
+//     }
+//   }
+// }

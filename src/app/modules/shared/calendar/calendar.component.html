@@ -1,10 +1,10 @@
 <header class="d-flex flex-row align-items-center justify-content-between">
     <div class="d-flex flex-row align-iems-center justify-content-between w-100 p-2">
-        <button (click)="this.switch(-1)" [disabled]="false">
+        <button (click)="this.switch(-1)" [disabled]="this.isOldestMonth">
             <em class="material-icons">chevron_left</em>
         </button>
         <h3>{{this.year}}年{{this.month}}月</h3>
-        <button (click)="this.switch(1)" [disabled]="false">
+        <button (click)="this.switch(1)" [disabled]="this.isLatestMonth">
             <em class="material-icons">navigate_next</em>
         </button>
     </div>
@@ -21,10 +21,11 @@
     <tbody>
         <tr *ngFor="let days of this.monthDays">
             <td *ngFor="let day of days">
-                <input type="radio" class="d-none" [id]="day" name="day" [checked]="this.isToday(day)"
-                    (change)="this.afterDateClick.emit(day)">
+                <input type="radio" class="d-none" [id]="day" name="day" [checked]="this.focusDate === day"
+                    [disabled]="!this.isFadeDate(day)"
+                    (change)="this.focus(day)">
                 <label class="d-flex align-items-center justify-content-center"
-                [class.hasContent]="true" [for]="day">{{day | date: 'd'}}</label>
+                [for]="day">{{day | date: 'd'}}</label>
             </td>
         </tr>
     </tbody>

@@ -8,7 +8,6 @@ import {
   InputModule,
   PipesModule
 } from '@shared/index';
-import { CalendarComponent } from './calendar/calendar.component';
 
 
 @NgModule({

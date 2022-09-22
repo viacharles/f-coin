@@ -33,7 +33,7 @@ export class BaseDialog<T> extends BaseComponent {
     this.$overlay.closeDialog(this.dialog);
   }
 
-  public close() {
+  public close(): void {
     this.$overlay.closeDialog(this.dialog);
   }
 }

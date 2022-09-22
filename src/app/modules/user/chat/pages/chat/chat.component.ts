@@ -1,6 +1,4 @@
-import { CalendarComponent } from './../../../../shared/calendar/calendar.component';
 import { OverlayService } from './../../../../shared/overlay/overlay.service';
-import { element } from 'protractor';
 import { environment } from './../../../../../../environments/environment.prod';
 import { take, map, takeUntil, filter, tap } from 'rxjs/operators';
 import { Component, DoCheck, ElementRef, QueryList, SimpleChanges, ViewChild, ViewChildren } from '@angular/core';

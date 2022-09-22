@@ -16,12 +16,13 @@ export interface IDialog<T = any> {
 export interface IOverlay<T = any> {
   config?: T;
   callbacks?: IOverlayCallbacks;
-  size?: ESize.Small | ESize.Middle | ESize.Large | ESize.XL;
+  size?: ESize;
   options?: {
     backdrop?: boolean;
     backdropClose?: boolean;
-    isAside?: boolean
-  }
+    isAside?: boolean;
+    location?: {x: number, y: number};
+  };
 }
 
 export interface ILoading {

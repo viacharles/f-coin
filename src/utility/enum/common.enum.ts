@@ -5,7 +5,8 @@ export enum ESize {
   Middle = 'md',
   Large = 'lg',
   XL = 'xl',
-  XXL = 'xxl'
+  XXL = 'xxl',
+  FitContent = 'fit-content'
 }
 
 export enum EDevice {

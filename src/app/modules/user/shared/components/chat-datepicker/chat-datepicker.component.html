@@ -1,0 +1,4 @@
+<app-dialog (close)="this.close()" [isMiniWindow]="true">
+    <app-calendar [focusDate]="this.initialDate" [fadeDates]="this.fadeDates" [reverse]="true"
+    (afterDateClick)="this.toSelect($event)"></app-calendar>
+</app-dialog>

@@ -1,8 +1,6 @@
-import { CalendarComponent } from './modules/shared/calendar/calendar.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { EIndividualPage, EModule } from '@utility/enum/route.enum';
-import { map } from 'rxjs/operators';
 import { AuthGuard } from 'src/auth/auth.guard';
 import { LandingPageComponent } from './modules/layout/pages/landing-page/landing-page.component';
 import { SignOnPageComponent } from './modules/layout/pages/sign-on-page/sign-on-page.component';
@@ -41,10 +39,6 @@ const routes: Routes = [
   {
     path: EIndividualPage.SignOn,
     component: SignOnPageComponent,
-  },
-  {
-    path: EIndividualPage.Calendar,
-    component: CalendarComponent
   }
 ];
 

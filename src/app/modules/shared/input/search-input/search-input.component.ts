@@ -1,7 +1,7 @@
-import { EIndividualPage } from './../../../../../utility/enum/route.enum';
+import { ESize } from '@utility/enum/common.enum';
+import { ChatDatepickerComponent } from './../../../user/shared/components/chat-datepicker/chat-datepicker.component';
 import { OverlayService } from '@shared/overlay/overlay.service';
 import { Component, ElementRef, EventEmitter, Output, OnInit, Input, OnDestroy, ViewChild } from '@angular/core';
-import { CalendarComponent } from '@shared/calendar/calendar.component';
 import { CustomForm, getFormProvider } from '@utility/abstract/custom-form.abstract';
 import { IMessage } from '@utility/interface/messageCenter.interface';
 
@@ -77,12 +77,32 @@ export class SearchInputComponent extends CustomForm<string> implements OnInit, 
   }
 
   public switch(offset: number, event?: MouseEvent): void {
-    console.log('switch')
     event?.stopPropagation();
     if (this.matchMessageIds.length > 0) {
       this.current = this.current + offset;
       this.getLiElementById(this.matchMessageIds[this.current]).scrollIntoView();
     }
+  }
+
+  public toggleCalender(event: Event): void {
+    console.log(event);
+    this.$overlay.toggleDialog<{records: IMessage[], DOMTree: HTMLUListElement}>(
+      ChatDatepickerComponent,
+      {
+        config: {
+          records: this.records,
+          DOMTree: this.DOMTree
+        },
+        options: {
+          location: {
+            x: (event as PointerEvent).x,
+            y: (event as PointerEvent).y
+          },
+          backdrop: false
+        },
+        size: ESize.FitContent
+      }
+    );
   }
 
   public reset(): void {

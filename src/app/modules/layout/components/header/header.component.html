@@ -1,8 +1,8 @@
 <div class="Header">
-  <div class="Header__Field" *ngFor="let field of [{id:'all',name:'全部'},{id:'friends',name:'好友'},{id:'groups',name:'群組'},{id:'official',name:'官方帳號'}]">
-    <input class="d-none" type="radio" [value]="field.id" [id]="'header-'+field.id" [name]="'header'" [checked]="field.id === 'all'">
-    <label class="text" [for]="'header-'+field.id" >{{field.name}}</label>
+  <div class="Header__Field"
+    *ngFor="let field of [{id:'all',name:'全部'},{id:'friends',name:'好友'},{id:'groups',name:'群組'},{id:'official',name:'官方帳號'}]">
+    <input class="d-none" type="radio" [value]="field.id" [id]="'header-'+field.id" [name]="'header'"
+      [checked]="field.id === 'all'">
+    <label class="text" [for]="'header-'+field.id">{{field.name}}</label>
   </div>
 </div>
-
-<app-calendar></app-calendar>

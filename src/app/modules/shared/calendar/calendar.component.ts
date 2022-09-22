@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output, ɵCompiler_compileModuleSync__POST_R3__ } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { BaseComponent } from '@utility/base/base-component';
 import { TimeHelper } from '@utility/helper/time-helper';
 
@@ -9,6 +9,10 @@ import { TimeHelper } from '@utility/helper/time-helper';
 })
 export class CalendarComponent extends BaseComponent {
 
+  /**
+   * 選擇的日期 資料類型：Date
+   */
+  @Input() focusDate!: string;
   /**
    * 月曆檢視月份 資料類型：Date
    */
@@ -31,6 +35,11 @@ export class CalendarComponent extends BaseComponent {
     return TimeHelper.formatDate(this.monthDate, 'M');
   }
 
+  /** 最舊月份 */
+  isOldestMonth = false;
+  /** 最新月份 */
+  isLatestMonth = true;
+
   constructor() {
     super();
   }
@@ -40,15 +49,18 @@ export class CalendarComponent extends BaseComponent {
 
   protected onInit(): void {
     this.weekDays = this.getWeekDays();
+    this.monthDate = TimeHelper.formatBoundaryDate(this.focusDate, 0, 'month');
     this.chunkByWeek(7, this.getMonthDates()).then(days => {
-      this.monthDays = this.filterCurrentMoth(days);
+      this.monthDays = this.filterCurrentMonth(days);
     });
   }
 
   public switch(amount: number): void {
     this.monthDate = TimeHelper.formatSpecDate(this.monthDate, amount, 'month');
     this.chunkByWeek(7, this.getMonthDates()).then(days => {
-      this.monthDays = this.filterCurrentMoth(days);
+      this.monthDays = this.filterCurrentMonth(days);
+      this.isLatestMonth = TimeHelper.formatDate(this.monthDate, 'MM') === TimeHelper.formatDate(this.fadeDates[this.fadeDates.length - 1], 'MM');
+      this.isOldestMonth = TimeHelper.formatDate(this.monthDate, 'MM') === TimeHelper.formatDate(this.fadeDates[0], 'MM');
     });
   }
 
@@ -58,6 +70,15 @@ export class CalendarComponent extends BaseComponent {
 
   public isToday(date: string): boolean {
     return TimeHelper.formatDate(date) === TimeHelper.today;
+  }
+
+  public isFadeDate(day: string): boolean {
+    return this.fadeDates.some(fadeDay => this.reverse ? fadeDay === day : fadeDay !== day);
+  }
+
+  public focus(day: string): void {
+    this.afterDateClick.emit(day);
+    this.focusDate = day;
   }
 
   private getWeekDays(): string[] {
@@ -79,7 +100,7 @@ export class CalendarComponent extends BaseComponent {
     return MonthDates.map(date => TimeHelper.formatDate(date));
   }
 
-  private filterCurrentMoth(daysGroup: string[][]): string[][] {
+  private filterCurrentMonth(daysGroup: string[][]): string[][] {
     return daysGroup.map((days, index, arr) => {
       return days.map(day => {
               if ((index === 0 || index === (arr.length - 1)) && !this.isCurrentMonth(day)) { return ''; }
