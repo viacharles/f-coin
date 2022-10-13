@@ -1,3 +1,4 @@
+import { IPosition } from '@utility/interface/common.interface';
 import { EAction, ESize } from "@utility/enum/common.enum";
 
 export interface IOverlayCallbacks {
@@ -8,9 +9,9 @@ export interface IOverlayCallbacks {
 }
 
 export interface IDialog<T = any> {
-  component: any,
-  id: string,
-  params: IOverlay<T>
+  component: any;
+  id: string;
+  params: IOverlay<T>;
 }
 
 export interface IOverlay<T = any> {
@@ -21,7 +22,9 @@ export interface IOverlay<T = any> {
     backdrop?: boolean;
     backdropClose?: boolean;
     isAside?: boolean;
-    location?: {x: number, y: number};
+    draggable?: boolean;
+    location?: IPosition;
+    isMiniWindow?: boolean
   };
 }
 

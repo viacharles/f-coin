@@ -1,27 +1,43 @@
-import { EventEmitter } from '@angular/core';
+import { ElementRef, EventEmitter, OnInit } from '@angular/core';
 import { Directive, HostListener, Output } from '@angular/core';
 import { IPosition } from '@utility/interface/common.interface';
 
 @Directive({
   selector: '[appDragMove]'
 })
-export class DragMoveDirective {
+export class DragMoveDirective implements OnInit {
   @Output() OnDragStart = new EventEmitter<IPosition>();
   @Output() OnDragMove = new EventEmitter<IPosition>();
   @Output() OnDragEnd = new EventEmitter<IPosition>();
 
-  constructor() { }
+  constructor(
+    private eleRef: ElementRef
+  ) { }
 
-  @HostListener('dragstart', ['$event']) dragStart({ clientX: x, clientY: y }: DragEvent): void {
-    this.OnDragStart.emit({ x, y });
+  private efficient = false;
+
+  // @HostListener('dragstart', ['$event']) dragStart(event: DragEvent): void {
+  //   this.OnDragStart.emit(this.calculateElementPosition(event));
+  // }
+  @HostListener('drag', ['$event']) drag(event: DragEvent): void {
+    console.log(event)
+    this.OnDragMove.emit(this.calculateElementPosition(event));
   }
-  @HostListener('drag', ['$event']) drag({ clientX: x, clientY: y, offsetX, offsetY }: DragEvent): void {
-    if (x !== 0 && y !== 0) {
-      this.OnDragMove.emit({ x, y, offsetX, offsetY });
+  // @HostListener('dragend', ['$event']) dragEnd(event: DragEvent): void {
+  //   this.OnDragEnd.emit(this.calculateElementPosition(event));
+  // }
+
+  ngOnInit(): void {
+    console.log((this.eleRef.nativeElement as HTMLElement).getBoundingClientRect())
+  }
+
+  private calculateElementPosition({ offsetX, offsetY }: DragEvent): IPosition {
+    const { x, y } = (this.eleRef.nativeElement as HTMLElement).getBoundingClientRect();
+    // console.log(offsetX, offsetY)
+    return {
+      x: x + offsetX,
+      y: y + offsetY,
+      offsetX, offsetY
     }
   }
-  @HostListener('dragend', ['$event']) dragEnd({ clientX: x, clientY: y, offsetX, offsetY }: DragEvent): void {
-    this.OnDragEnd.emit({ offsetX, offsetY, x, y });
-  }
-
 }

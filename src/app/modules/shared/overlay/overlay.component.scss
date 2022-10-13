@@ -4,6 +4,29 @@
   position: relative;
 }
 
+div {
+  &.unFocus {
+    box-shadow: 0 2px 5px 0 rgba(99, 115, 129, 0.2), 0 6px 14px 0 rgba(99, 115, 129, 0.1),
+    0 24px 24px 0 rgba(99, 115, 129, 0.04);
+    &::ng-deep app-dialog header > em {
+      background-color: $disable-area-text !important;
+      color: $disable-area-text !important;
+    }
+  }
+  &.focus {
+    box-shadow: 0 8px 12px 0 rgba(99, 115, 129, 0.7), 0 18px 26px 0 rgba(99, 115, 129, 0.4),
+    0 34px 34px 0 rgba(129, 106, 99, 0.08);
+  }
+}
+
+.drag-area {
+  cursor: pointer;
+  position: absolute;
+  pointer-events: none;
+  background-color: red;
+  opacity:  0.5;
+}
+
 .dialog {
   z-index: map-get($layout-level, "overlay");
   height: 100vh;

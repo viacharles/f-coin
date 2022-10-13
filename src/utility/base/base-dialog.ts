@@ -26,11 +26,13 @@ export class BaseDialog<T> extends BaseComponent {
     this.$overlay.closeDialog(this.dialog);
   }
 
-  public confirm(parms?: any) {
+  public confirm(parms?: any, close = true) {
     if (this.params?.callbacks?.confirm) {
       this.params?.callbacks?.confirm(parms);
     }
-    this.$overlay.closeDialog(this.dialog);
+    if (close) {
+      this.$overlay.closeDialog(this.dialog);
+    }
   }
 
   public close(): void {

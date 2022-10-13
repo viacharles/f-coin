@@ -1,7 +1,5 @@
 :host {
   display: block;
-  box-shadow: 0 2px 5px 0 rgba(99, 115, 129, 0.2), 0 6px 14px 0 rgba(99, 115, 129, 0.1),
-    0 24px 24px 0 rgba(99, 115, 129, 0.04);
   border: 1px solid rgba(99, 115, 129, 10%);
   background-color: white;
   width: 100%;
@@ -44,9 +42,10 @@ header.mini-window {
       width: 12px;
       border-radius: 50%;
       font-size: xx-small;
-      color: rgb(74, 7, 7);
+      color: red;
       background-color: red;
       &:hover {
+        color: rgb(74, 7, 7);
         opacity: 50%;
       }
   }

@@ -1,5 +1,6 @@
+import { IPosition } from '@utility/interface/common.interface';
 import { Dialog } from '@shared/overlay/overlay.model';
-import { Component, Injector, OnInit, Renderer2, ElementRef, HostListener } from '@angular/core';
+import { Component, Injector, OnInit, Renderer2, ElementRef,  HostListener, ViewChild } from '@angular/core';
 import { OverlayService } from '@shared/overlay/overlay.service';
 import { IDialog } from '@utility/interface/overlay.interface';
 
@@ -9,15 +10,48 @@ import { IDialog } from '@utility/interface/overlay.interface';
   styleUrls: ['./overlay.component.scss'],
 })
 export class OverlayComponent implements OnInit {
+  @ViewChild('tDialogContainer') tDialogContainer?: ElementRef;
+
   constructor(
     public $overlay: OverlayService,
     private injector: Injector,
+    private renderer: Renderer2
   ) { }
 
   public dialogs: Dialog[] = [];
 
   ngOnInit(): void {
     this.$overlay.dialogQueue$.subscribe(dialogs => this.afterDialogsChanged(dialogs));
+  }
+
+  /** 被點擊的 dialog 會有 focus 樣式，點在 dialog 外面則取消 focus 樣式 */
+  @HostListener('click', ['$event']) screenClick(event: Event) {
+    const ElementInFocus = event.target as HTMLElement;
+    const ElementPerform = this.tDialogContainer?.nativeElement as HTMLElement;
+    this.renderer.addClass(ElementPerform, ElementPerform.contains(ElementInFocus) ? 'focus' : 'unFocus');
+    this.renderer.removeClass(ElementPerform, ElementPerform.contains(ElementInFocus) ? 'unFocus' : 'focus');
+  }
+
+  public setDialogPosition(event: IPosition, target: HTMLElement): void {
+    // console.log('aa-Target', event, target.getBoundingClientRect())
+    this.renderer.setStyle(target, 'left', `${target.getBoundingClientRect().x - (event.x as number)}px`);
+    this.renderer.setStyle(target, 'top', `${target.getBoundingClientRect().y + (event.y as number)}px`);
+    // console.log(x, y, Target);
+  }
+
+  /**  */
+  public getPositionOffset(offset?: number, reverse = false): number | null {
+    return typeof offset === 'number' ? !reverse ?
+      offset >= 0 ? offset : null :
+      offset < 0 ? Math.abs(offset) : null : null;
+  }
+
+  /** 取得 target 的尺寸 */
+  public getSize(target: HTMLElement): {} {
+    return {
+      'width': target?.getBoundingClientRect().width + 'px',
+      'height': target?.getBoundingClientRect().height + 'px'
+    }
   }
 
   /**
@@ -32,14 +66,6 @@ export class OverlayComponent implements OnInit {
         this.$overlay.closeDialog(dialog);
       }
     }
-  }
-
-  public getDisplayStyle(location?: {x: number, y: number}): string { return location ? 'fixed' : ''; }
-
-  public getTopDiff(y?: number): string { return y ? y + 'px' : 'unset'; }
-
-  public getRightDiff(x?: number ): string {
-    return x ? (window.innerWidth - x + 20) + 'px' : 'unset';
   }
 
   /**
