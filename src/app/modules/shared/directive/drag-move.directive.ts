@@ -1,42 +1,51 @@
-import { ElementRef, EventEmitter, OnInit } from '@angular/core';
+import { ElementRef, EventEmitter } from '@angular/core';
 import { Directive, HostListener, Output } from '@angular/core';
 import { IPosition } from '@utility/interface/common.interface';
 
 @Directive({
   selector: '[appDragMove]'
 })
-export class DragMoveDirective implements OnInit {
+export class DragMoveDirective {
   @Output() OnDragStart = new EventEmitter<IPosition>();
   @Output() OnDragMove = new EventEmitter<IPosition>();
   @Output() OnDragEnd = new EventEmitter<IPosition>();
+
+  get elementRect(): DOMRect {
+    return (this.eleRef.nativeElement as HTMLElement).getBoundingClientRect();
+  }
 
   constructor(
     private eleRef: ElementRef
   ) { }
 
-  private efficient = false;
+  private offsetPosition?: IPosition;
 
-  // @HostListener('dragstart', ['$event']) dragStart(event: DragEvent): void {
-  //   this.OnDragStart.emit(this.calculateElementPosition(event));
-  // }
-  @HostListener('drag', ['$event']) drag(event: DragEvent): void {
-    console.log(event)
-    this.OnDragMove.emit(this.calculateElementPosition(event));
+  @HostListener('mousedown', ['$event']) onClick({ x, y }: MouseEvent): void {
+    this.offsetPosition = {
+      x: x - this.elementRect.x,
+      y: y - this.elementRect.y
+    };
   }
-  // @HostListener('dragend', ['$event']) dragEnd(event: DragEvent): void {
-  //   this.OnDragEnd.emit(this.calculateElementPosition(event));
-  // }
 
-  ngOnInit(): void {
-    console.log((this.eleRef.nativeElement as HTMLElement).getBoundingClientRect())
+  @HostListener('dragstart', ['$event']) dragStart(event: DragEvent): void {
+    this.OnDragStart.emit(this.calculateElementPosition(event));
+  }
+
+  @HostListener('drag', ['$event']) drag(event: DragEvent): void {
+    if (event.clientX !== 0 || event.clientY !== 0) {
+      this.OnDragMove.emit(this.calculateElementPosition(event));
+    }
+  }
+
+  @HostListener('dragend', ['$event']) dragEnd(event: DragEvent): void {
+    this.OnDragEnd.emit(this.calculateElementPosition(event));
   }
 
   private calculateElementPosition({ offsetX, offsetY }: DragEvent): IPosition {
-    const { x, y } = (this.eleRef.nativeElement as HTMLElement).getBoundingClientRect();
-    // console.log(offsetX, offsetY)
+    const { x, y } = this.elementRect;
     return {
-      x: x + offsetX,
-      y: y + offsetY,
+      x: x + offsetX - (this.offsetPosition?.x || 0),
+      y: y + offsetY - (this.offsetPosition?.y || 0),
       offsetX, offsetY
     }
   }

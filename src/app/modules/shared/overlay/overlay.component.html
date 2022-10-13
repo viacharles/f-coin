@@ -1,23 +1,19 @@
-<section #tDialogGroup class="dialog" *ngFor="let dialog of this.dialogs"
-[ngClass]="{
+<section class="dialog" *ngFor="let dialog of this.dialogs" [ngClass]="{
   'dialog--r': dialog.params.options?.isAside,
   'dialog__backdrop': dialog.params.options?.backdrop}"
-(click)="this.onDialogBackdropClick(dialog, $event, tDialogContainer)"
->
-  <div #tDialogContainer class="container focus" [id]="'container' + dialog.id" appDragMove [draggable]="dialog.params.options?.draggable"
-  (OnDragMove)="this.setDialogPosition($event, tDialogGroup)"
-  class="dialog__container dialog--{{dialog.params.size}}" 
-  [class.py-0]="dialog.params.options?.location"
-  [ngStyle]="{
+  (click)="this.onDialogBackdropClick(dialog, $event, tDialogContainer)">
+  <div #tDialogContainer class="container focus" [id]="'container' + dialog.id"
+    class="dialog__container dialog--{{dialog.params.size}}" [class.py-0]="dialog.params.options?.location" [ngStyle]="{
     'border-radius': dialog.params.options?.isMiniWindow ? '15px' : '3px',
     'top': this.getPositionOffset(dialog.params.options?.location?.y) + 'px',
     'bottom': this.getPositionOffset(dialog.params.options?.location?.y, true) + 'px',
     'left': this.getPositionOffset(dialog.params.options?.location?.x) + 'px',
     'right': this.getPositionOffset(dialog.params.options?.location?.x, true) + 'px',
     'position': dialog.params.options?.location ? 'fixed': 'unset'
-  }"
-  >
-    <div #tDragArea class="drag-area" [id]="'drag' + dialog.id" [ngStyle]=" this.getSize(tDialogContainer)"></div>
+  }">
+    <div *ngIf="dialog.params.options?.draggable" #tDragArea appDragMove
+      (OnDragMove)="this.setDialogPosition($event, tDialogContainer)" class="drag-area w-100 h-100" draggable="true">
+    </div>
     <ng-template *ngComponentOutlet="dialog.component; injector: dialog.injector"></ng-template>
   </div>
 </section>

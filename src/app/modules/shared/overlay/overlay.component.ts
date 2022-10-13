@@ -1,6 +1,6 @@
 import { IPosition } from '@utility/interface/common.interface';
 import { Dialog } from '@shared/overlay/overlay.model';
-import { Component, Injector, OnInit, Renderer2, ElementRef,  HostListener, ViewChild } from '@angular/core';
+import { Component, Injector, OnInit, Renderer2, ElementRef, HostListener, ViewChild } from '@angular/core';
 import { OverlayService } from '@shared/overlay/overlay.service';
 import { IDialog } from '@utility/interface/overlay.interface';
 
@@ -33,10 +33,10 @@ export class OverlayComponent implements OnInit {
   }
 
   public setDialogPosition(event: IPosition, target: HTMLElement): void {
-    // console.log('aa-Target', event, target.getBoundingClientRect())
-    this.renderer.setStyle(target, 'left', `${target.getBoundingClientRect().x - (event.x as number)}px`);
-    this.renderer.setStyle(target, 'top', `${target.getBoundingClientRect().y + (event.y as number)}px`);
-    // console.log(x, y, Target);
+    this.renderer.removeStyle(target, 'left');
+    this.renderer.removeStyle(target, 'right');
+    this.renderer.setStyle(target, 'left', `${event.x}px`);
+    this.renderer.setStyle(target, 'top', `${event.y}px`);
   }
 
   /**  */
@@ -44,14 +44,6 @@ export class OverlayComponent implements OnInit {
     return typeof offset === 'number' ? !reverse ?
       offset >= 0 ? offset : null :
       offset < 0 ? Math.abs(offset) : null : null;
-  }
-
-  /** 取得 target 的尺寸 */
-  public getSize(target: HTMLElement): {} {
-    return {
-      'width': target?.getBoundingClientRect().width + 'px',
-      'height': target?.getBoundingClientRect().height + 'px'
-    }
   }
 
   /**
