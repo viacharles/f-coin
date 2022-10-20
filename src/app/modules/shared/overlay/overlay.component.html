@@ -2,8 +2,8 @@
   'dialog--r': dialog.params.options?.isAside,
   'dialog__backdrop': dialog.params.options?.backdrop}"
   (click)="this.onDialogBackdropClick(dialog, $event, tDialogContainer)">
-  <div #tDialogContainer class="container focus" [id]="'container' + dialog.id"
-    class="dialog__container dialog--{{dialog.params.size}}" [class.py-0]="dialog.params.options?.location" [ngStyle]="{
+  <div #tDialogContainer class="dialog__container bg-white focus dialog--{{dialog.params.size}}"
+    [class.py-0]="dialog.params.options?.location" [ngStyle]="{
     'border-radius': dialog.params.options?.isMiniWindow ? '15px' : '3px',
     'top': this.getPositionOffset(dialog.params.options?.location?.y) + 'px',
     'bottom': this.getPositionOffset(dialog.params.options?.location?.y, true) + 'px',
@@ -12,9 +12,12 @@
     'position': dialog.params.options?.location ? 'fixed': 'unset'
   }">
     <div *ngIf="dialog.params.options?.draggable" #tDragArea appDragMove
-      (OnDragMove)="this.setDialogPosition($event, tDialogContainer)" class="drag-area w-100 h-100" draggable="true">
+      (OnDragMove)="this.setDialogPosition($event, tDialogContainer)" class="dialog__drag-area w-100 h-100"
+      draggable="true">
     </div>
-    <ng-template *ngComponentOutlet="dialog.component; injector: dialog.injector"></ng-template>
+    <section class="position-relative" [class.m-2]="dialog.params.options?.draggable">
+      <ng-template *ngComponentOutlet="dialog.component; injector: dialog.injector"></ng-template>
+    </section>
   </div>
 </section>
 

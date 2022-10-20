@@ -19,12 +19,6 @@ div {
   }
 }
 
-.drag-area {
-  cursor: pointer;
-  position: absolute;
-  opacity: 0;
-}
-
 .dialog {
   z-index: map-get($layout-level, "overlay");
   height: 100vh;
@@ -67,10 +61,21 @@ div {
   &__container {
     margin: 0 auto;
     padding: 1.75rem 0;
+    z-index: map-get($layout-level, "important");
   }
 
   &__backdrop {
     background-color: rgba(0, 0, 0, 0.7);
+  }
+
+  &__drag-area {
+    cursor: pointer;
+    position: absolute;
+    opacity: 0;
+    z-index: map-get($layout-level, "cover");
+    & + section {
+      z-index: map-get($layout-level, "important");
+    }
   }
 }
 

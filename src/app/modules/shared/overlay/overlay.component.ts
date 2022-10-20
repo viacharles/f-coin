@@ -60,6 +60,10 @@ export class OverlayComponent implements OnInit {
     }
   }
 
+  public test() {
+    console.log('in')
+  }
+
   /**
    * @description 更新彈窗
    */
