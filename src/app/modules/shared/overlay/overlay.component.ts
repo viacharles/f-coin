@@ -35,6 +35,9 @@ export class OverlayComponent implements OnInit {
   public setDialogPosition(event: IPosition, target: HTMLElement): void {
     this.renderer.removeStyle(target, 'left');
     this.renderer.removeStyle(target, 'right');
+    this.renderer.removeStyle(target, 'top');
+    this.renderer.removeStyle(target, 'bottom');
+    // this.renderer.setStyle(target, 'transform', `translate(${event.x}px, ${event.y}px)`);
     this.renderer.setStyle(target, 'left', `${event.x}px`);
     this.renderer.setStyle(target, 'top', `${event.y}px`);
   }
@@ -58,10 +61,6 @@ export class OverlayComponent implements OnInit {
         this.$overlay.closeDialog(dialog);
       }
     }
-  }
-
-  public test() {
-    console.log('in')
   }
 
   /**
