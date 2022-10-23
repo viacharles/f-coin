@@ -11,7 +11,7 @@ import { IDialog } from '@utility/interface/overlay.interface';
 })
 export class OverlayComponent implements OnInit {
   @ViewChild('tDialogContainer') tDialogContainer?: ElementRef;
-
+  @ViewChild('tOverlay') tOverlay?: ElementRef;
   constructor(
     public $overlay: OverlayService,
     private injector: Injector,
@@ -61,6 +61,10 @@ export class OverlayComponent implements OnInit {
         this.$overlay.closeDialog(dialog);
       }
     }
+  }
+
+  public getCustomClasses(classes?: string[]): string {
+    return classes ? classes.join(' ') : '';
   }
 
   /**

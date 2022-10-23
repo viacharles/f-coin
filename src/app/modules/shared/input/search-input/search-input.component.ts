@@ -1,4 +1,4 @@
-import { IOverlayCallbacks } from './../../../../../utility/interface/overlay.interface';
+import { EOverlayTemplate, IOverlayCallbacks } from './../../../../../utility/interface/overlay.interface';
 import { ESize } from '@utility/enum/common.enum';
 import { ChatDatepickerComponent } from './../../../user/shared/components/chat-datepicker/chat-datepicker.component';
 import { OverlayService } from '@shared/overlay/overlay.service';
@@ -96,13 +96,13 @@ export class SearchInputComponent extends CustomForm<string> implements OnInit, 
           records: this.records,
         },
         options: {
+          template: EOverlayTemplate.IsMiniWindow,
           location: {
             x: -(document.body.clientWidth - left + 8),
             y: top + height + 10
           },
           draggable: true,
           backdrop: false,
-          isMiniWindow: true
         },
         callbacks: {
           confirm: date => {

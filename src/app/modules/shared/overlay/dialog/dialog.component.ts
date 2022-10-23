@@ -8,15 +8,11 @@ import { IDialog } from '@utility/interface/overlay.interface';
 })
 export class DialogComponent implements IDialog, OnInit {
   @Output() close = new EventEmitter<void>();
-  @Input() isMiniWindow = false;
   public id: any;
   public params: any;
   public component: any;
   constructor(private selfElem: ElementRef, private renderer: Renderer2) { }
 
   ngOnInit(): void {
-    if (this.isMiniWindow) {
-      this.renderer.setStyle(this.selfElem.nativeElement, 'border-radius', '15px');
-    }
   }
 }

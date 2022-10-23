@@ -1,10 +1,10 @@
-<header [class.mini-window]="this.isMiniWindow">
+<header>
   <ng-content select="[title]"></ng-content>
   <em (click)="this.close.emit()" class="material-icons">
     clear
   </em>
 </header>
-<section [class.mini-window]="this.isMiniWindow">
+<section>
   <ng-content></ng-content>
 </section>
 <ng-content select="[footer]"></ng-content>

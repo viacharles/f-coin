@@ -1,10 +1,13 @@
-<section class="dialog" *ngFor="let dialog of this.dialogs" [ngClass]="{
-  'dialog--r': dialog.params.options?.isAside,
-  'dialog__backdrop': dialog.params.options?.backdrop}"
-  (click)="this.onDialogBackdropClick(dialog, $event, tDialogContainer)">
+<section #tOverlay *ngFor="let dialog of this.dialogs" 
+class="
+dialog  
+{{ dialog.params.options?.isAside ? 'dialog--r' : ''}} 
+{{ dialog.params.options?.backdrop ? 'dialog__backdrop' : ''}} 
+{{ this.getCustomClasses(dialog.params.options?.classes) }}
+{{ 'dialog__' + dialog.params.options?.template||'' }}"
+(click)="this.onDialogBackdropClick(dialog, $event, tDialogContainer)">
   <div #tDialogContainer class="dialog__container bg-white focus dialog--{{dialog.params.size}}"
     [class.py-0]="dialog.params.options?.location" [ngStyle]="{
-    'border-radius': dialog.params.options?.isMiniWindow ? '15px' : '3px',
     'top': this.getPositionOffset(dialog.params.options?.location?.y) + 'px',
     'bottom': this.getPositionOffset(dialog.params.options?.location?.y, true) + 'px',
     'left': this.getPositionOffset(dialog.params.options?.location?.x) + 'px',

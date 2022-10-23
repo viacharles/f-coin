@@ -26,6 +26,7 @@ div {
   position: fixed;
   top: 0;
   left: 0;
+  border-radius: 3px;
 
   @each $key, $value in $dialog-size {
     &--#{$key} {
@@ -75,6 +76,33 @@ div {
     z-index: map-get($layout-level, "cover");
     & + section {
       z-index: map-get($layout-level, "important");
+    }
+  }
+
+  &__isMiniWindow::ng-deep {
+    & > .dialog__container {
+      border-radius: 15px;
+    }
+    & app-dialog {
+      & > header {
+        padding: 0.5rem;
+        border-bottom: none;
+        em {
+          height: 12px;
+          width: 12px;
+          border-radius: 50%;
+          font-size: xx-small;
+          color: red;
+          background-color: red;
+          &:hover {
+            color: rgb(74, 7, 7);
+            opacity: 50%;
+          }
+      }
+    }
+      & > section {
+        padding: 0.5rem 0.5rem 1rem 0.5rem;
+      }
     }
   }
 }

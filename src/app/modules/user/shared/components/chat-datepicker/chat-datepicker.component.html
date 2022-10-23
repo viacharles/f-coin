@@ -1,4 +1,4 @@
-<app-dialog (close)="this.close()" [isMiniWindow]="!!this.params.options?.isMiniWindow">
+<app-dialog (close)="this.close()">
     <app-calendar [focusDate]="this.initialDate" [fadeDates]="this.fadeDates" [reverse]="true"
         (afterDateClick)="this.confirm($event, false)"></app-calendar>
 </app-dialog>
