@@ -39,7 +39,7 @@ app-chat-announcement {
 
 footer {
   position: relative;
-  z-index: map-get($layout-level, 'cover');
+  z-index: map-get($layout-level, "cover");
   border-top: 1px solid $light-border;
   padding: 0.9rem 1rem 0;
   background: $white;
@@ -92,7 +92,7 @@ section {
   padding: 12px;
   .date-buoy {
     display: inline-block;
-    z-index: map-get($layout-level, 'cover' );
+    z-index: map-get($layout-level, "cover");
     position: fixed;
     top: calc(47px + 50px + 10px);
     transform: translateX(-50%);
@@ -120,7 +120,7 @@ section {
     border: 1px solid rgb(231, 226, 226);
     border-radius: 50%;
     box-shadow: 0 0 5px 1px rgba(0, 0, 0, 0.05);
-    animation: fade-in .2s ease-in forwards;
+    animation: fade-in 0.2s ease-in forwards;
     opacity: 0;
   }
 }
@@ -143,7 +143,7 @@ section {
   display: flex;
   flex-direction: row;
   align-items: center;
-  font-size: map-get($font-level, 'sm');
+  font-size: map-get($font-level, "sm");
   .content {
     position: relative;
     display: flex;
@@ -198,7 +198,6 @@ section {
     .text {
       position: relative;
       background: $self-message-background;
-
     }
   }
 
@@ -237,8 +236,8 @@ section {
 }
 
 :host::ng-deep .matched-message {
-  font-weight: map-get($font-weight, 'l' );
-  color:rgb(40, 142, 244);
+  font-weight: map-get($font-weight, "l");
+  color: rgb(40, 142, 244);
   background-color: rgb(239, 239, 89) !important;
 }
 
@@ -254,24 +253,30 @@ section {
   animation: fade-out 1s ease-in forwards;
 }
 .fade-in {
-  animation: fade-in .2s ease-in forwards;
+  animation: fade-in 0.2s ease-in forwards;
+}
+
+.shake {
+  animation: shake 2s ease-out;
 }
 
 @keyframes fade-in {
   0% {
     opacity: 0;
     color: $white;
-  } 100% {
-    opacity: .9;
+  }
+  100% {
+    opacity: 0.9;
     color: $Black;
   }
 }
 
 @keyframes fade-out {
   0% {
-    opacity: .8;
+    opacity: 0.8;
     color: $Black;
-  } 100% {
+  }
+  100% {
     opacity: 0;
     color: $white;
   }
@@ -279,12 +284,44 @@ section {
 
 @keyframes fade-down-out {
   0% {
-    opacity: .9;
+    opacity: 0.9;
     transform: translateY(0);
-  } 100% {
-    opacity: .9;
+  }
+  100% {
+    opacity: 0.9;
     transform: translateY(75px);
   }
 }
 
-
+@keyframes shake {
+  10% {
+    transform: translateX(-50px);
+  }
+  20% {
+    transform: translateX(0);
+  }
+  30% {
+    transform: translateX(-25px);
+  }
+  40% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(-8px);
+  }
+  60% {
+    transform: translateX(0);
+  }
+  70% {
+    transform: translateX(-3px);
+  }
+  80% {
+    transform: translateX(0);
+  }
+  90% {
+    transform: translateX(-1px);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}

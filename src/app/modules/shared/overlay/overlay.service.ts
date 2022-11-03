@@ -77,7 +77,7 @@ export class OverlayService {
     activatedElement?.focus();
   }
 
-  public forceEndLoading() {
+  public forceEndLoading(): void {
     this.loadingQueue.next({ id: '', action: EAction.Clear });
   }
 
@@ -96,7 +96,7 @@ export class OverlayService {
     return queue;
   }
 
-  private resolveDialogAction(dialogs: Set<IDialog>, { action, dialog }: DialogEvent) {
+  private resolveDialogAction(dialogs: Set<IDialog>, { action, dialog }: DialogEvent): Set<IDialog<any>> {
     const Dialog = dialog as IDialog;
     switch (action) {
       case EAction.Add:

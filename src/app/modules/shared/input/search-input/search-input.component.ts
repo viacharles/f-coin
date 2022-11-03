@@ -1,9 +1,11 @@
-import { EIndividualPage } from './../../../../../utility/enum/route.enum';
+import { EOverlayTemplate, IOverlayCallbacks } from './../../../../../utility/interface/overlay.interface';
+import { ESize } from '@utility/enum/common.enum';
+import { ChatDatepickerComponent } from './../../../user/shared/components/chat-datepicker/chat-datepicker.component';
 import { OverlayService } from '@shared/overlay/overlay.service';
-import { Component, ElementRef, EventEmitter, Output, OnInit, Input, OnDestroy, ViewChild } from '@angular/core';
-import { CalendarComponent } from '@shared/calendar/calendar.component';
+import { Component, ElementRef, EventEmitter, Output, OnInit, Input, OnDestroy, ViewChild, Renderer2 } from '@angular/core';
 import { CustomForm, getFormProvider } from '@utility/abstract/custom-form.abstract';
 import { IMessage } from '@utility/interface/messageCenter.interface';
+import { TimeHelper } from '@utility/helper/time-helper';
 
 @Component({
   selector: 'app-search-input',
@@ -19,7 +21,8 @@ export class SearchInputComponent extends CustomForm<string> implements OnInit, 
 
   constructor(
     private selfElem: ElementRef,
-    private $overlay: OverlayService
+    private $overlay: OverlayService,
+    private renderer: Renderer2
   ) { super(); }
 
   get keyword(): string { return this.model as string; }
@@ -77,7 +80,6 @@ export class SearchInputComponent extends CustomForm<string> implements OnInit, 
   }
 
   public switch(offset: number, event?: MouseEvent): void {
-    console.log('switch')
     event?.stopPropagation();
     if (this.matchMessageIds.length > 0) {
       this.current = this.current + offset;
@@ -85,9 +87,49 @@ export class SearchInputComponent extends CustomForm<string> implements OnInit, 
     }
   }
 
+  public toggleCalender(element: HTMLElement): void {
+    const { top, height, left } = element.getBoundingClientRect();
+    this.$overlay.toggleDialog<{ records: IMessage[] }>(
+      ChatDatepickerComponent,
+      {
+        config: {
+          records: this.records,
+        },
+        options: {
+          template: EOverlayTemplate.IsMiniWindow,
+          location: {
+            x: -(document.body.clientWidth - left + 8),
+            y: top + height + 10
+          },
+          draggable: true,
+          backdrop: false,
+        },
+        callbacks: {
+          confirm: date => {
+            this.toSelect(date);
+          }
+        } as IOverlayCallbacks,
+        size: ESize.FitContent
+      }
+    );
+  }
+
   public reset(): void {
     this.keyword = '';
     this.search();
+  }
+
+  /**
+   * @description 畫面跳到選取的日期的最早的訊息上
+   * @param event 格式：YYYY-MM-DD
+   */
+  private toSelect(event: string): void {
+    const Id = this.records.find(message =>
+      TimeHelper.formatDate(message.sendTime.toDate(), 'YYYY-MM-DD') === event
+      )?.id as string;
+    const SelectElement = this.getLiElementById(Id);
+    SelectElement.scrollIntoView();
+    this.shake(SelectElement);
   }
 
   private getLiElementById(id: string): HTMLElement {
@@ -100,6 +142,13 @@ export class SearchInputComponent extends CustomForm<string> implements OnInit, 
    */
   private isTargetInside({ target }: MouseEvent, html: HTMLElement): boolean {
     return html.contains(target as HTMLElement);
+  }
+
+  private shake(element: HTMLElement): void {
+    this.renderer.addClass(element, 'shake');
+    setTimeout(() => {
+      this.renderer.removeClass(element, 'shake');
+    }, 2000);
   }
 
   ngOnDestroy(): void {

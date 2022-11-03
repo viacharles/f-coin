@@ -4,6 +4,21 @@
   position: relative;
 }
 
+div {
+  &.unFocus {
+    box-shadow: 0 2px 5px 0 rgba(99, 115, 129, 0.2), 0 6px 14px 0 rgba(99, 115, 129, 0.1),
+      0 24px 24px 0 rgba(99, 115, 129, 0.04);
+    &::ng-deep app-dialog header > em {
+      background-color: $disable-area-text !important;
+      color: $disable-area-text !important;
+    }
+  }
+  &.focus {
+    box-shadow: 0 8px 12px 0 rgba(99, 115, 129, 0.7), 0 18px 26px 0 rgba(99, 115, 129, 0.4),
+      0 34px 34px 0 rgba(129, 106, 99, 0.08);
+  }
+}
+
 .dialog {
   z-index: map-get($layout-level, "overlay");
   height: 100vh;
@@ -11,6 +26,7 @@
   position: fixed;
   top: 0;
   left: 0;
+  border-radius: 3px;
 
   @each $key, $value in $dialog-size {
     &--#{$key} {
@@ -46,20 +62,51 @@
   &__container {
     margin: 0 auto;
     padding: 1.75rem 0;
+    z-index: map-get($layout-level, "important");
+    & > section {
+      pointer-events: none;
+    }
   }
 
   &__backdrop {
     background-color: rgba(0, 0, 0, 0.7);
   }
-}
 
-@media screen and (max-width: map-get($breakpoints, "md")) {
-  .dialog {
-    @each $key, $value in $dialog-size {
-      &--#{$key} {
-        width: 80%;
-        max-width: 80%;
+  &__isMiniWindow::ng-deep {
+    & > .dialog__container {
+      border-radius: 15px;
+    }
+    & app-dialog {
+      & > header {
+        padding: 0.5rem;
+        border-bottom: none;
+        em {
+          height: 12px;
+          width: 12px;
+          border-radius: 50%;
+          font-size: xx-small;
+          color: red;
+          background-color: red;
+          &:hover {
+            color: rgb(74, 7, 7);
+            opacity: 50%;
+          }
+      }
+    }
+      & > section {
+        padding: 0.5rem 0.5rem 1rem 0.5rem;
       }
     }
   }
 }
+
+// @media screen and (max-width: map-get($breakpoints, "md")) {
+//   .dialog {
+//     @each $key, $value in $dialog-size {
+//       &--#{$key} {
+//         width: 80%;
+//         max-width: 80%;
+//       }
+//     }
+//   }
+// }

@@ -6,6 +6,8 @@ export interface IEvent<T> {
 export interface IPosition {
   x?: number;
   y?: number;
+  clientX?: number;
+  clientY?: number;
   offsetX?: number;
   offsetY?: number;
 }

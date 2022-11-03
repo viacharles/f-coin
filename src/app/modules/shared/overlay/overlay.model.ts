@@ -21,7 +21,7 @@ export class Dialog<T = any> implements IDialog<T> {
         useValue: dialog
       }],
       parent: injector
-    })
+    });
   }
 
 }

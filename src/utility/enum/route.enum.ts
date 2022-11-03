@@ -24,6 +24,5 @@ export enum ESocialPage {
 export enum EIndividualPage {
   Landing = 'landing',
   SignOn = 'sign-on',
-  Calendar = 'calendar'
 }
 

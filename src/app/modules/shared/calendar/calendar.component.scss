@@ -3,7 +3,9 @@ table, tbody, tr, td {
     vertical-align: bottom !important;
 }
 table {
+    width: 100%;
     th div  {
+        width: 100%;
         &.weekday {
             margin-bottom: 15px;
             color: $function-icon;
@@ -15,6 +17,16 @@ table {
         border-radius: 50%;
         background-color: $primary;
     }
+    td input:disabled ~ label {
+        cursor: default;
+        color: $caption-text;
+    }
+    td input[name="month"] ~ label {
+        margin: 5px 25px;
+        font-size: 15px;
+        height: 42px;
+        width: 42px;
+    }
     td label {
         cursor: pointer;
         width: 32px;
@@ -22,10 +34,11 @@ table {
         margin: 5px;
         font-size: 14px;
         text-align: center;
-        &.hasContent {
-        }
+        color: black;
+        font-weight: 800;
     }
 }
+
 header {
     margin-bottom: 10px;
     button {
@@ -37,6 +50,9 @@ header {
         background-color: transparent;
         em {
             font-size: 1.7rem;
+        }
+        &:disabled > em {
+            color: $caption-text;
         }
     }
     & > button:last-of-type {
@@ -50,6 +66,7 @@ header {
 
 h3 {
     margin: 0;
+    line-height: 25px;
     font-size: 1rem;
     font-weight: 800;
 }

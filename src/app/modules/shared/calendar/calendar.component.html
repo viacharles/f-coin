@@ -1,31 +1,66 @@
-<header class="d-flex flex-row align-items-center justify-content-between">
-    <div class="d-flex flex-row align-iems-center justify-content-between w-100 p-2">
-        <button (click)="this.switch(-1)" [disabled]="false">
-            <em class="material-icons">chevron_left</em>
-        </button>
-        <h3>{{this.year}}年{{this.month}}月</h3>
-        <button (click)="this.switch(1)" [disabled]="false">
-            <em class="material-icons">navigate_next</em>
-        </button>
-    </div>
-    <button>最新</button>
-</header>
-<table>
-    <thead>
-        <tr>
-            <th *ngFor="let day of this.weekDays">
-                <div class="weekday d-flex align-items-center justify-content-center">{{day}}</div>
-            </th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr *ngFor="let days of this.monthDays">
-            <td *ngFor="let day of days">
-                <input type="radio" class="d-none" [id]="day" name="day" [checked]="this.isToday(day)"
-                    (change)="this.afterDateClick.emit(day)">
-                <label class="d-flex align-items-center justify-content-center"
-                [class.hasContent]="true" [for]="day">{{day | date: 'd'}}</label>
-            </td>
-        </tr>
-    </tbody>
-</table>
+<!-- 日模式 -->
+<ng-container *ngIf="this.isDateType; else tMonthType">
+    <header class="d-flex flex-row align-items-center justify-content-between">
+        <div class="d-flex flex-row align-iems-center justify-content-between w-100 p-2">
+            <button (click)="this.switch(-1)" [disabled]="this.isOldest">
+                <em class="material-icons">chevron_left</em>
+            </button>
+            <h3 (click)="this.switchType()">{{this.year}}年{{this.month}}月</h3>
+            <button (click)="this.switch(1)" [disabled]="this.isLatest">
+                <em class="material-icons">navigate_next</em>
+            </button>
+        </div>
+        <button (click)="this.toLatest()">最新</button>
+    </header>
+    <table>
+        <thead>
+            <tr>
+                <th *ngFor="let day of this.weekDays">
+                    <div class="weekday d-flex align-items-center justify-content-center">{{day}}</div>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let days of this.monthDays">
+                <td *ngFor="let day of days">
+                    <input type="radio" class="d-none" [id]="day" name="day" [checked]="this.focusDate === day"
+                        [disabled]="!this.isFadeDate(day)"
+                        (change)="this.focus(day)">
+                    <label class="d-flex align-items-center justify-content-center"
+                    [for]="day">{{day | date: 'd'}}</label>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</ng-container>
+<!-- 月模式 -->
+<ng-template #tMonthType>
+    <header class="d-flex flex-row align-items-center justify-content-between">
+        <div class="d-flex flex-row align-iems-center justify-content-between w-100 p-2">
+            <button (click)="this.switch(-1)" [disabled]="this.isOldest">
+                <em class="material-icons">chevron_left</em>
+            </button>
+            <h3 (click)="this.isDateType = !this.isDateType">{{this.year}}年</h3>
+            <button (click)="this.switch(1)" [disabled]="this.isLatest">
+                <em class="material-icons">navigate_next</em>
+            </button>
+        </div>
+        <button (click)="this.toLatest()">最新</button>
+    </header>
+    <table>
+        <tbody>
+            <tr *ngFor="let months of this.yearMonths">
+                <td *ngFor="let month of months">
+                    <input type="radio" class="d-none" [id]="month" name="month" 
+                    [checked]=" this.isSelectMonth(month)"
+                    [disabled]="!this.isFadeMonth(month)"
+                    (click)="this.focus(month)">
+                    <label class="d-flex align-items-center justify-content-center"
+                    [for]="month">{{month}}月</label>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</ng-template>
+
+
