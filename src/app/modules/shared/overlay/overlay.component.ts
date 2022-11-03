@@ -37,9 +37,9 @@ export class OverlayComponent implements OnInit {
     this.renderer.removeStyle(target, 'right');
     this.renderer.removeStyle(target, 'top');
     this.renderer.removeStyle(target, 'bottom');
-    // this.renderer.setStyle(target, 'transform', `translate(${event.x}px, ${event.y}px)`);
-    this.renderer.setStyle(target, 'left', `${event.x}px`);
-    this.renderer.setStyle(target, 'top', `${event.y}px`);
+    this.renderer.setStyle(target, 'transform', `translate(${event.x}px, ${event.y}px)`);
+    // this.renderer.setStyle(target, 'left', `${event.x}px`);
+    // this.renderer.setStyle(target, 'top', `${event.y}px`);
   }
 
   /**  */

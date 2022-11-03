@@ -1,4 +1,5 @@
-import { ElementRef, EventEmitter } from '@angular/core';
+import { ThrowStmt } from '@angular/compiler';
+import { ElementRef, EventEmitter, ViewChild, Renderer2 } from '@angular/core';
 import { Directive, HostListener, Output } from '@angular/core';
 import { IPosition } from '@utility/interface/common.interface';
 
@@ -13,35 +14,42 @@ export class DragMoveDirective {
   get elementRect(): DOMRect {
     return (this.eleRef.nativeElement as HTMLElement).getBoundingClientRect();
   }
+  private isDragging = false;
 
   constructor(
-    private eleRef: ElementRef
+    private eleRef: ElementRef,
   ) { }
 
   private offsetPosition?: IPosition;
 
-  @HostListener('mousedown', ['$event']) onClick({ x, y }: MouseEvent): void {
-    this.offsetPosition = {
-      x: x - this.elementRect.x,
-      y: y - this.elementRect.y
-    };
-  }
-
-  @HostListener('dragstart', ['$event']) dragStart(event: DragEvent): void {
-    this.OnDragStart.emit(this.calculateElementPosition(event));
-  }
-
-  @HostListener('drag', ['$event']) drag(event: DragEvent): void {
-    if (event.clientX !== 0 || event.clientY !== 0) {
-      this.OnDragMove.emit(this.calculateElementPosition(event));
+  @HostListener('pointerdown', ['$event']) onClick(event: PointerEvent): void {
+    if (event.button === 0 
+      && (event.target as HTMLElement)?.className.includes('dialog__container')
+      ) {
+      this.isDragging = true;
+      this.eleRef.nativeElement.setPointerCapture(event.pointerId); 
+      this.offsetPosition = {
+        x: event.offsetX,
+        y: event.offsetY,
+      }
     }
   }
 
-  @HostListener('dragend', ['$event']) dragEnd(event: DragEvent): void {
-    this.OnDragEnd.emit(this.calculateElementPosition(event));
+  @HostListener('pointerup', ['$event']) onMouseUp(event: PointerEvent): void {
+    if (this.isDragging === true) {
+      this.OnDragMove.emit(this.calculateElementPosition(event));
+      this.isDragging = false;
+      this.eleRef.nativeElement.releasePointerCapture(event.pointerId);
+    }
   }
 
-  private calculateElementPosition({ offsetX, offsetY }: DragEvent): IPosition {
+  @HostListener('pointermove', ['$event']) onMouseMove(event: PointerEvent): void {
+    if (this.isDragging === true && (event.clientX !== 0 || event.clientY !== 0)) {
+          this.OnDragMove.emit(this.calculateElementPosition(event));
+    }
+  }
+
+  private calculateElementPosition({ offsetX, offsetY }: PointerEvent): IPosition {
     const { x, y } = this.elementRect;
     return {
       x: x + offsetX - (this.offsetPosition?.x || 0),

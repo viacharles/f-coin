@@ -63,20 +63,13 @@ div {
     margin: 0 auto;
     padding: 1.75rem 0;
     z-index: map-get($layout-level, "important");
+    & > section {
+      pointer-events: none;
+    }
   }
 
   &__backdrop {
     background-color: rgba(0, 0, 0, 0.7);
-  }
-
-  &__drag-area {
-    cursor: pointer;
-    position: absolute;
-    opacity: 0;
-    z-index: map-get($layout-level, "cover");
-    & + section {
-      z-index: map-get($layout-level, "important");
-    }
   }
 
   &__isMiniWindow::ng-deep {
