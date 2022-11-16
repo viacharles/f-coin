@@ -7,7 +7,7 @@ dialog
 {{ 'dialog__' + dialog.params.options?.template||'' }}"
 (click)="this.onDialogBackdropClick(dialog, $event, tDialogContainer)"
 >
-  <div #tDialogContainer class="dialog__container bg-white focus dialog--{{dialog.params.size}}"
+  <div #tDialogContainer class="dialog__container bg-white focus dialog--{{dialog.params.size}} p-1"
   appDragMove (OnDragMove)="this.setDialogPosition($event, tDialogContainer)"
   [class.py-0]="dialog.params.options?.location"
   [ngStyle]="{
@@ -17,6 +17,7 @@ dialog
   'right': this.getPositionOffset(dialog.params.options?.location?.x, true) + 'px',
   'position': dialog.params.options?.location ? 'fixed': 'unset'
   }">
+  <div class="poi"></div>
     <section class="position-relative" [class.m-2]="dialog.params.options?.draggable">
       <ng-template *ngComponentOutlet="dialog.component; injector: dialog.injector"></ng-template>
     </section>
