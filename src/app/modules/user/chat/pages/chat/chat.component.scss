@@ -1,4 +1,5 @@
 @import "variables";
+@import "animation";
 
 :host {
   display: block;
@@ -12,18 +13,11 @@ nav {
 }
 
 header {
-  border-bottom: none;
-
   div {
     height: 50px;
-    padding: 0 0.8rem;
   }
   h3 {
-    margin: 0 0.5rem 0 0;
     font-size: map-get($font-level, "sm");
-  }
-  label {
-    margin-right: 10px;
   }
 }
 
@@ -32,26 +26,16 @@ app-chat-announcement {
   height: 50px;
 }
 
-.filter {
-  width: 100%;
-  background: red;
-}
-
 footer {
   position: relative;
   z-index: map-get($layout-level, "cover");
   border-top: 1px solid $light-border;
-  padding: 0.9rem 1rem 0;
   background: $white;
   textarea {
     outline: none;
-    display: block;
-    width: 100%;
     min-height: 80px;
     max-height: 140px;
-    border: none;
     resize: none;
-    overflow: hidden;
     font-size: map-get($font-level, "xs");
     &::placeholder {
       color: rgba(0, 0, 0, 0.2);
@@ -60,21 +44,10 @@ footer {
   }
   nav {
     height: 50px;
-    padding: 0 0 5px 0;
-    display: flex;
-    flex-direction: row;
-    width: 100%;
-    justify-content: space-between;
   }
 }
 .content-empty {
   user-select: none;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  height: 100%;
   color: $disable-area-text;
   background: $disable-area-background;
   .material-icons {
@@ -219,7 +192,6 @@ section {
       }
     }
     .text {
-      display: flex;
       background: $friend-message-background;
     }
     .avatar {
@@ -260,68 +232,3 @@ section {
   animation: shake 2s ease-out;
 }
 
-@keyframes fade-in {
-  0% {
-    opacity: 0;
-    color: $white;
-  }
-  100% {
-    opacity: 0.9;
-    color: $Black;
-  }
-}
-
-@keyframes fade-out {
-  0% {
-    opacity: 0.8;
-    color: $Black;
-  }
-  100% {
-    opacity: 0;
-    color: $white;
-  }
-}
-
-@keyframes fade-down-out {
-  0% {
-    opacity: 0.9;
-    transform: translateY(0);
-  }
-  100% {
-    opacity: 0.9;
-    transform: translateY(75px);
-  }
-}
-
-@keyframes shake {
-  10% {
-    transform: translateX(-50px);
-  }
-  20% {
-    transform: translateX(0);
-  }
-  30% {
-    transform: translateX(-25px);
-  }
-  40% {
-    transform: translateX(0);
-  }
-  50% {
-    transform: translateX(-8px);
-  }
-  60% {
-    transform: translateX(0);
-  }
-  70% {
-    transform: translateX(-3px);
-  }
-  80% {
-    transform: translateX(0);
-  }
-  90% {
-    transform: translateX(-1px);
-  }
-  100% {
-    transform: translateX(0);
-  }
-}

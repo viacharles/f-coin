@@ -1,18 +1,18 @@
 <ng-container *ngIf="this.friend; else empty">
-  <header #tHeader class="w-100 fc-border-b overflow-unset">
-    <div class="d-flex flex-row align-items-center justify-content-between w-100 overflow-unset">
+  <header #tHeader class="w-100 fc-border-b overflow-unset border-bottom-0">
+    <div class="d-flex flex-row align-items-center justify-content-between w-100 overflow-unset px-3">
       <nav>
-        <h3>{{this.friend?.name}}</h3>
+        <h3 class="me-2 my-0">{{this.friend?.name}}</h3>
       </nav>
       <nav>
         <input #tSearch type="checkbox" [disabled]="tSearch.checked" class="d-none" id="chat-search">
-        <label for="chat-search">
+        <label for="chat-search" class="me-2">
           <em class="material-icons">search</em>
         </label>
         <em class="material-icons">content_paste</em>
       </nav>
     </div>
-    <app-search-input class="overflow-unset" *ngIf="tSearch.checked" [searchElement]="tSearch" 
+    <app-search-input class="overflow-unset" *ngIf="tSearch.checked" [searchElement]="tSearch"
       [DOMTree]="tMessages" [records]="this.messageHistory" (keyDown)="null" (closed)="tSearch.checked = false">
     </app-search-input>
   </header>
@@ -31,7 +31,8 @@
         <li class="date-divider" *ngIf="this.showDateDivider(this.messageHistory, index, record)">
           <p #tDateDividers>{{record.sendTime|chatDate}}</p>
         </li>
-        <li class="message" [id]="record.id" [class.message__myself]="record.sendTo !== this.userId"
+        <li class="message" [id]="record.id"
+          [class.message__myself]="record.sendTo !== this.userId"
           [class.message__friend]="record.sendTo === this.userId"
           [class.subMessage]="isAppendage(this.messageHistory, index, record)">
           <div class="avatar">
@@ -39,7 +40,7 @@
               [src]="this.friend.avatar || this.defaultAvatar" alt="">
           </div>
           <div class="content">
-            <p class="text">{{record.message}}</p>
+            <p class="text d-flex">{{record.message}}</p>
             <div class="caption">
               <p *ngIf="this.record.isRead && this.record.sendTo !== this.userId">已讀</p>
               <p class="time">{{this.hideTime(this.messageHistory, index, record) ? '' : record.sendTime|chatTime}}</p>
@@ -58,10 +59,10 @@
       </span>
     </button>
   </section>
-  <footer #tFooter>
+  <footer #tFooter class="p-3 pb-0">
     <textarea [(ngModel)]="this.message" (keydown)="this.afterKeydown($event)" (input)="this.autoResized($event.target)"
-      class="p-0" placeholder="請輸入訊息"></textarea>
-    <nav>
+      class="d-block w-100 p-0 border-0 overflow-hidden" placeholder="請輸入訊息"></textarea>
+    <nav class="d-flex flex-row justify-content-between w-100 pt-2">
       <div class="d-flex flex-row align-itmes-center">
         <em rotate45 class="material-icons">attach_file</em>
         <em class="material-icons">bookmark_border</em>
@@ -72,7 +73,7 @@
 
 
 <ng-template #empty>
-  <section class="content-empty">
+  <section class="content-empty justify-content-center align-items-center d-flex flex-column w-100 h-100 ">
     <span class="material-icons ">
       question_answer
     </span>
