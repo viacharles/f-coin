@@ -1,5 +1,5 @@
 import { ThrowStmt } from '@angular/compiler';
-import { ElementRef, EventEmitter, ViewChild, Renderer2 } from '@angular/core';
+import { ElementRef, EventEmitter, ViewChild, Renderer2, Input } from '@angular/core';
 import { Directive, HostListener, Output } from '@angular/core';
 import { IPosition } from '@utility/interface/common.interface';
 
@@ -7,27 +7,24 @@ import { IPosition } from '@utility/interface/common.interface';
   selector: '[appDragMove]'
 })
 export class DragMoveDirective {
-  @Output() OnDragStart = new EventEmitter<IPosition>();
+  @Input() targetElem!: HTMLDivElement;
   @Output() OnDragMove = new EventEmitter<IPosition>();
-  @Output() OnDragEnd = new EventEmitter<IPosition>();
 
   get elementRect(): DOMRect {
     return (this.eleRef.nativeElement as HTMLElement).getBoundingClientRect();
   }
+
   private isDragging = false;
+  private offsetPosition?: IPosition;
 
   constructor(
     private eleRef: ElementRef,
   ) { }
 
-  private offsetPosition?: IPosition;
-
   @HostListener('pointerdown', ['$event']) onClick(event: PointerEvent): void {
-    if (event.button === 0 
-      && (event.target as HTMLElement)?.className.includes('dialog__container')
-      ) {
+    if (event.button === 0 &&  event.target === this.targetElem) {
       this.isDragging = true;
-      this.eleRef.nativeElement.setPointerCapture(event.pointerId); 
+      this.eleRef.nativeElement.setPointerCapture(event.pointerId);
       this.offsetPosition = {
         x: event.offsetX,
         y: event.offsetY,
@@ -36,7 +33,7 @@ export class DragMoveDirective {
   }
 
   @HostListener('pointerup', ['$event']) onMouseUp(event: PointerEvent): void {
-    if (this.isDragging === true) {
+    if (this.isDragging) {
       this.OnDragMove.emit(this.calculateElementPosition(event));
       this.isDragging = false;
       this.eleRef.nativeElement.releasePointerCapture(event.pointerId);
@@ -44,7 +41,7 @@ export class DragMoveDirective {
   }
 
   @HostListener('pointermove', ['$event']) onMouseMove(event: PointerEvent): void {
-    if (this.isDragging === true && (event.clientX !== 0 || event.clientY !== 0)) {
+    if (this.isDragging && (event.clientX !== 0 || event.clientY !== 0)) {
           this.OnDragMove.emit(this.calculateElementPosition(event));
     }
   }

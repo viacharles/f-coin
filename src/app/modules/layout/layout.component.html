@@ -8,7 +8,7 @@
   </header>
   <main class="d-flex flex-row align-itmes-center w-100" [style.height]="'calc(100% - ' + tHeader.clientHeight + 'px)'">
     <nav #tSubmenu class="fc-border-r" [ngSwitch]="this.module">
-      <div appDragMove draggable="true" (OnDragMove)="this.resizeSubMenu(tSubmenu, tPage, $event)"></div>
+      <div #tBar appDragMove [targetElem]="tBar" (OnDragMove)="this.resizeSubMenu(tSubmenu, tPage, $event)"></div>
       <app-chat-list *ngSwitchCase="this.Module.User" [user]="user" [messages]="this.messageHistory"
         (updateModule)="this.module">
       </app-chat-list>
