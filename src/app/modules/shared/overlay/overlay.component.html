@@ -8,7 +8,7 @@ dialog
 (click)="this.onDialogBackdropClick(dialog, $event, tDialogContainer)"
 >
   <div #tDialogContainer class="dialog__container bg-white focus dialog--{{dialog.params.size}}"
-  appDragMove (OnDragMove)="this.setDialogPosition($event, tDialogContainer)"
+  appDragMove [targetElem]="tDialogContainer" (OnDragMove)="this.setDialogPosition($event, tDialogContainer)"
   [class.py-0]="dialog.params.options?.location"
   [ngStyle]="{
   'top': this.getPositionOffset(dialog.params.options?.location?.y) + 'px',

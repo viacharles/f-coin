@@ -60,11 +60,12 @@ div {
   }
 
   &__container {
+    cursor: move;
     margin: 0 auto;
     padding: 1.75rem 0;
     z-index: map-get($layout-level, "important");
     & > section {
-      pointer-events: none;
+      cursor: auto;
     }
   }
 
